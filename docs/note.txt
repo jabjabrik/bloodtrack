@@ -1,0 +1,17 @@
+Wb, prc, plasma, trombosit, ffp (frozen fresh plasma)
+
+Wb bisa menjadi jenis darah
+Wb bisa menjadi prc tapi tidak sebaliknya
+
+Crossmatch = uji silang serasi, menguji kecocokan darah kepada pasien (coptibel, incopetible)
+
+A prc 5 kantong
+A wb 5 kantong
+
+Kebutuhan tranfusi dokter yg menentukan
+
+Mayor(+ sampai ), mino, auto control 
+
+A = kuning, B = merah, O = Biru, Ab = putih
+
+Tgl Aftap = tgl pengambilan ketika donor, tanggal produksi
