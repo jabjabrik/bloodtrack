@@ -3,99 +3,53 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Darah extends CI_Controller
 {
+
+	private $service_name;
+
 	public function __construct()
 	{
 		parent::__construct();
+		$this->service_name = "darah";
+		$this->load->model('base_model');
 		is_logged_in();
 		authorize();
-		$this->load->model('darah_model');
 	}
 
 	public function index()
 	{
-		$result = $this->darah_model->get_all_darah();
-
-		if (!$result['status']) {
-			set_toasts($result['message'], 'danger');
-		}
-
-		$data['title']  = 'Kelola Darah';
-		$data['darah'] = $result['data'] ?? [];
-
-		$this->load->view('darah/index', $data);
+		$result_model = $this->base_model->get_all($this->service_name, TRUE);
+		$this->_show(TRUE, $result_model);
 	}
-	public function insert()
+
+	private function _show(bool $is_active, array $result_model)
 	{
-		if ($this->input->server('REQUEST_METHOD') !== 'POST') {
-			redirect('darah');
-			return;
-		}
+		$data['title']        	= "Kelola " . ucfirst($this->service_name);
+		$data['page_title']   	= "halaman manajemen $this->service_name";
+		$data['service_name'] 	= $this->service_name;
+		$data['is_active_page'] = $is_active;
+		$data['kode_darah']    = mt_rand(100000, 999999) . '-KDDRH';
+		$data['data_result']    = $result_model;
 
-		$data = [
-			'rekam_medis' => trim($this->input->post('rekam_medis')),
-			'nik' => trim($this->input->post('nik')),
-			'nama_darah' => trim($this->input->post('nama_darah')),
-			'jenis_kelamin' => $this->input->post('jenis_kelamin'),
-			'tanggal_lahir' => $this->input->post('tanggal_lahir'),
-			'no_telepon' => trim($this->input->post('no_telepon')),
-			'alamat' => str_replace("\n", "\\n", trim($this->input->post('alamat'))),
-		];
-
-		$result = $this->darah_model->insert_darah($data);
-
-		if ($result['status']) {
-			set_toasts($result['message'], 'success');
-		} else {
-			set_toasts($result['message'], 'danger');
-		}
-
-		redirect("darah", 'refresh');
+		$this->load->view("darah/index", $data);
 	}
 
 	public function edit()
 	{
 		if ($this->input->server('REQUEST_METHOD') !== 'POST') {
-			redirect('pemilihan');
-			return;
+			redirect($this->service_name, 'refresh');
 		}
 
-		$id_darah = $this->input->post('id_darah');
+		$id = $this->input->post('id_darah');
 
 		$data = [
-			'rekam_medis' => trim($this->input->post('rekam_medis')),
-			'nik' => trim($this->input->post('nik')),
-			'nama_darah' => trim($this->input->post('nama_darah')),
-			'jenis_kelamin' => $this->input->post('jenis_kelamin'),
-			'tanggal_lahir' => $this->input->post('tanggal_lahir'),
-			'no_telepon' => trim($this->input->post('no_telepon')),
-			'alamat' => str_replace("\n", "\\n", trim($this->input->post('alamat'))),
+			'stok_maksimal' => trim($this->input->post('stok_maksimal')),
+			'stok_minimal' => $this->input->post('stok_minimal'),
+			'harga_beli' => $this->input->post('harga_beli'),
+			'harga_jual' => trim($this->input->post('harga_jual')),
 		];
 
-		$result = $this->darah_model->update_darah($id_darah, $data);
-
-		if ($result['status']) {
-			set_toasts($result['message'], 'success');
-		} else {
-			set_toasts($result['message'], 'danger');
-		}
-
-		redirect("darah", 'refresh');
-	}
-
-	public function delete($id_darah = null)
-	{
-		if (is_null($id_darah)) {
-			show_404();
-		}
-
-		$result = $this->darah_model->delete_darah($id_darah);
-
-		if ($result['status']) {
-			set_toasts($result['message'], 'success');
-		} else {
-			set_toasts($result['message'], 'danger');
-		}
-
-		redirect("darah", 'refresh');
+		$this->base_model->update($this->service_name, $data, $id);
+		set_toasts("Data $this->service_name berhasil diedit.", 'success');
+		redirect($this->service_name, 'refresh');
 	}
 }

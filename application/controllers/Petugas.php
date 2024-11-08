@@ -68,7 +68,7 @@ class Petugas extends CI_Controller
 			'jabatan' => $this->input->post('jabatan'),
 		];
 
-		$is_exist_username = $this->base_model->get_data_by($this->service_name, 'username', $username)['data']->num_rows() > 0;
+		$is_exist_username = count($this->base_model->get_data_by($this->service_name, 'username', $username))  > 0;
 
 		if ($is_exist_username) {
 			set_toasts("Username dengan nilai ($username) telah digunakan.", 'danger');
@@ -111,8 +111,8 @@ class Petugas extends CI_Controller
 			$data['password'] = password_hash($password, PASSWORD_DEFAULT);
 		}
 
-		$is_exist_username = $this->base_model->get_data_by($this->service_name, 'username', $username)['data']->num_rows() > 0;
-		$is_current_username = $this->base_model->get_data_by($this->service_name, "id_$this->service_name", $id)['data']->row('username') == $username;
+		$is_exist_username = count($this->base_model->get_data_by($this->service_name, 'username', $username)) > 0;
+		$is_current_username = $this->base_model->get_data_by($this->service_name, "id_$this->service_name", $id)[0]->username == $username;
 
 		if ($is_exist_username && !$is_current_username) {
 			set_toasts("Username dengan nilai ($username) telah digunakan.", 'danger');

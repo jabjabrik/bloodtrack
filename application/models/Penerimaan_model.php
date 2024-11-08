@@ -1,17 +1,22 @@
 <?php
 
-class Base_model extends CI_Model
+class Penerimaan_model extends CI_Model
 {
-    public function get_all(string $table_name, bool $is_active): array
+    public function get_all(string $table_name): array
     {
         $this->db->trans_begin();
-        $query = "SELECT * FROM $table_name WHERE 1=1";
 
-        if ($is_active) {
-            $query .= " AND is_active = '1'";
-        } else {
-            $query .= " AND is_active = '0'";
-        }
+        $query = "SELECT penerimaan.*, 
+        darah.id_darah, darah.kode_darah, darah.jenis_darah, darah.golongan_darah, darah.rhesus, 
+        pmi.id_pmi, pmi.kode_pmi, pmi.nama_pmi, 
+        kurir.id_kurir, kurir.kode_kurir, kurir.nama_kurir, 
+        penerima.id_penerima, penerima.kode_penerima, penerima.nama_penerima 
+        FROM penerimaan
+        JOIN darah ON penerimaan.id_darah = darah.id_darah
+        JOIN pmi ON penerimaan.id_pmi = pmi.id_pmi
+        JOIN kurir ON penerimaan.id_kurir = kurir.id_kurir
+        JOIN penerima ON penerimaan.id_penerima = penerima.id_penerima
+        ORDER BY penerimaan.id_penerimaan";
 
         $result = $this->db->query($query);
 
@@ -96,7 +101,7 @@ class Base_model extends CI_Model
             die();
         } else {
             $this->db->trans_commit();
-            return $result->result();
+            return ['status' => TRUE, "data" => $result];
         }
     }
 }

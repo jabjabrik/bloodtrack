@@ -67,6 +67,12 @@
                     element.value = title === 'tambah' ? '<?= $kode_ruangan ?? '' ?>' : data[i];
                 }
             }
+            if (service_name == 'darah') {
+                if (e == 'kode_darah' || e == 'jenis_darah' || e == 'golongan_darah' || e == 'rhesus') {
+                    element.setAttribute('disabled', '');
+                    element.value = title === 'tambah' ? '<?= $kode_ruangan ?? '' ?>' : data[i];
+                }
+            }
         })
 
         btn_submit.removeAttribute('hidden');

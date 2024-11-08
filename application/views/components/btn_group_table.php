@@ -9,10 +9,12 @@
             <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal_form" onclick="setForm('edit', <?= $params ?>)">
                 <i class="bi bi-pencil-square" data-bs-toggle="tooltip" data-bs-title="Edit data <?= $service_name ?>"></i>
             </button>
-            <!-- NONACTIVE -->
-            <button id="btn_delete_nonactive" type="button" class="btn btn-outline-danger btn-sm" data-id="<?= $id ?>" data-bs-toggle="modal" data-bs-target="#confirm_modal">
-                <i class="bi bi-x-square" data-bs-toggle="tooltip" data-bs-title="Nonaktifkan <?= $service_name ?>"></i>
-            </button>
+            <?php if ($service_name != 'darah'): ?>
+                <!-- NONACTIVE -->
+                <button id="btn_delete_nonactive" type="button" class="btn btn-outline-danger btn-sm" data-id="<?= $id ?>" data-bs-toggle="modal" data-bs-target="#confirm_modal">
+                    <i class="bi bi-x-square" data-bs-toggle="tooltip" data-bs-title="Nonaktifkan <?= $service_name ?>"></i>
+                </button>
+            <?php endif; ?>
         <?php endif; ?>
         <?php if (!$is_active_page): ?>
             <!-- ACTIVE -->
@@ -22,12 +24,14 @@
         <?php endif; ?>
     <?php else: ?>
         <!-- EDIT -->
-        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal_form" onclick="setForm('edit', <?= $params ?>)">
-            <i class="bi bi-pencil-square" data-bs-toggle="tooltip" data-bs-title="Edit data <?= $service_name ?>"></i>
-        </button>
+        <?php if ($service_name != 'penerimaan'): ?>
+            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal_form" onclick="setForm('edit', <?= $params ?>)">
+                <i class="bi bi-pencil-square" data-bs-toggle="tooltip" data-bs-title="Edit data <?= $service_name ?>"></i>
+            </button>
+        <?php endif; ?>
         <!-- DELETE -->
         <button id="btn_delete_nonactive" type="button" class="btn btn-outline-danger btn-sm" data-id="<?= $id ?>" data-bs-toggle="modal" data-bs-target="#confirm_modal">
-            <i class="bi bi-trash" data-bs-toggle="tooltip" data-bs-title="Nonaktifkan data data <?= $service_name ?>"></i>
+            <i class="bi bi-trash" data-bs-toggle="tooltip" data-bs-title="Hapus data <?= $service_name ?>"></i>
         </button>
     <?php endif; ?>
 

@@ -56,9 +56,14 @@
             <li class="sidebar-header">
                 Transaksi
             </li>
-            <li class="sidebar-item <?= $title == 'Penerimaan' ? 'active' : '' ?>">
+            <li class="sidebar-item <?= $title == 'Penerimaan Darah' ? 'active' : '' ?>">
                 <a class="sidebar-link" href="<?= base_url('penerimaan'); ?>">
                     <i class="bi bi-backpack2"></i> <span class="align-middle">Penerimaan</span>
+                </a>
+            </li>
+            <li class="sidebar-item <?= $title == 'Bank Darah' ? 'active' : '' ?>">
+                <a class="sidebar-link" href="<?= base_url('bankdarah'); ?>">
+                    <i class="bi bi-clipboard-pulse"></i> <span class="align-middle">Bank Darah</span>
                 </a>
             </li>
             <li class="sidebar-item <?= $title == 'Pelayanan' ? 'active' : '' ?>">

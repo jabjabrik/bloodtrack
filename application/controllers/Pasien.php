@@ -58,7 +58,7 @@ class Pasien extends CI_Controller
 			'alamat' => str_replace("\n", "\\n", trim($this->input->post('alamat'))),
 		];
 
-		$is_exist_nik = $this->base_model->get_data_by($this->service_name, 'nik', $nik)['data']->num_rows() > 0;
+		$is_exist_nik = count($this->base_model->get_data_by($this->service_name, 'nik', $nik)) > 0;
 
 		if ($is_exist_nik) {
 			set_toasts("NIK dengan nilai ($nik) telah digunakan.", 'danger');
@@ -90,8 +90,8 @@ class Pasien extends CI_Controller
 			'alamat' => str_replace("\n", "\\n", trim($this->input->post('alamat'))),
 		];
 
-		$is_exist_nik = $this->base_model->get_data_by($this->service_name, 'nik', $nik)['data']->num_rows() > 0;
-		$is_current_nik = $this->base_model->get_data_by($this->service_name, "id_$this->service_name", $id)['data']->row('nik') == $nik;
+		$is_exist_nik = count($this->base_model->get_data_by($this->service_name, 'nik', $nik)) > 0;
+		$is_current_nik = $this->base_model->get_data_by($this->service_name, "id_$this->service_name", $id)[0]->nik == $nik;
 
 		if ($is_exist_nik && !$is_current_nik) {
 			set_toasts("NIK dengan nilai ($nik) telah digunakan.", 'danger');
