@@ -11,11 +11,11 @@
                 </button>
 
                 <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
-                    <span class="text-dark text-capitalize"><?= $this->session->userdata('nama'); ?> | <?= $this->session->userdata('role'); ?></span>
+                    <span class="text-dark text-capitalize"><?= $this->session->userdata('nama_petugas'); ?> | <?= $this->session->userdata('jabatan'); ?></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
-                    <button class="dropdown-item" type="button"><i class="align-middle me-1" data-feather="user"></i> Profile</button>
-                    <div class="dropdown-divider"></div>
+                    <!-- <button class="dropdown-item" type="button"><i class="align-middle me-1" data-feather="user"></i> Profile</button> -->
+                    <!-- <div class="dropdown-divider"></div> -->
                     <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logout_modal">
                         <i class="align-middle me-1" data-feather="log-in"></i> Log out
                     </button>

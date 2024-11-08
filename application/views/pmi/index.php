@@ -32,13 +32,10 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Rekam Medis</th>
-                                                <th class="no-sort">NIK</th>
-                                                <th>Nama Pasien</th>
-                                                <th>Jenis Kelamin</th>
-                                                <th>Tanggal Lahir</th>
-                                                <th>Umur</th>
-                                                <!-- <th class="no-sort">Telepon</th> -->
+                                                <th class="no-sort">Kode PMI</th>
+                                                <th>Nama PMI</th>
+                                                <th class="no-sort">Contact Person</th>
+                                                <th class="no-sort">Alamat</th>
                                                 <th class="no-sort">Aksi</th>
                                             </tr>
                                         </thead>
@@ -47,16 +44,14 @@
                                             <?php foreach ($data_result as $item) : ?>
                                                 <tr>
                                                     <td><?= $no ?></td>
-                                                    <td><?= $item->rekam_medis ?></td>
-                                                    <td><?= $item->nik ?></td>
-                                                    <td><?= $item->nama_pasien ?></td>
-                                                    <td><?= $item->jenis_kelamin ?></td>
-                                                    <td><?= date('d-m-Y', strtotime($item->tanggal_lahir)) ?></td>
-                                                    <td><?= calculateAge($item->tanggal_lahir) ?> Tahun</td>
+                                                    <td><?= $item->kode_pmi ?></td>
+                                                    <td><?= $item->nama_pmi ?></td>
+                                                    <td><?= $item->contact_person ?></td>
+                                                    <td><?= $item->alamat ?></td>
                                                     <td>
-                                                        <?php $params = "[`$item->id_pasien`, `$item->rekam_medis`, `$item->nik`, `$item->nama_pasien`, `$item->jenis_kelamin`, `$item->tanggal_lahir`, `$item->no_telepon`, `$item->alamat`]"; ?>
+                                                        <?php $params = "[`$item->id_pmi`, `$item->kode_pmi`, `$item->nama_pmi`, `$item->contact_person`, `$item->alamat`, ]"; ?>
                                                         <!-- BTN GROUP TABLE -->
-                                                        <?php $this->view('components/btn_group_table', ['id' => $item->id_pasien, 'params' => $params]); ?>
+                                                        <?php $this->view('components/btn_group_table', ['id' => $item->id_pmi, 'params' => $params]); ?>
                                                         <!-- End BTN GROUP TABLE -->
                                                     </td>
                                                 </tr>
@@ -88,36 +83,20 @@
                 <form method="POST" autocomplete="off" enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="row g-3">
-                            <input name="id_pasien" id="id_pasien" hidden>
+                            <input name="id_pmi" id="id_pmi" hidden>
                             <div class="form-group col-6">
-                                <label for="rekam_medis" class="form-label">Rekam Medis</label>
-                                <input type="text" name="rekam_medis" id="rekam_medis" class="form-control" readonly>
+                                <label for="kode_pmi" class="form-label">Kode PMI</label>
+                                <input type="text" name="kode_pmi" id="kode_pmi" class="form-control" readonly>
                             </div>
                             <div class="form-group col-6">
-                                <label for="nik" class="form-label">NIK</label>
-                                <input type="number" name="nik" id="nik" class="form-control" required>
+                                <label for="nama_pmi" class="form-label">Nama PMI</label>
+                                <input type="text" name="nama_pmi" id="nama_pmi" class="form-control" required>
                             </div>
                             <div class="form-group col-6">
-                                <label for="nama_pasien" class="form-label">Nama Pasien</label>
-                                <input type="text" name="nama_pasien" id="nama_pasien" class="form-control" required>
+                                <label for="contact_person" class="form-label">Contact Person</label>
+                                <input type="number" name="contact_person" id="contact_person" class="form-control" required>
                             </div>
                             <div class="form-group col-6">
-                                <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
-                                <select class="form-select" name="jenis_kelamin" id="jenis_kelamin" required>
-                                    <option selected>-</option>
-                                    <option value="laki-laki">Laki-Laki</option>
-                                    <option value="perempuan">Perempuan</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-6">
-                                <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                                <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control" required>
-                            </div>
-                            <div class="form-group col-6">
-                                <label for="no_telepon" class="form-label">Nomor Telepon</label>
-                                <input type="number" name="no_telepon" id="no_telepon" class="form-control" required>
-                            </div>
-                            <div class="form-group col-12">
                                 <label for="alamat" class="form-label">Alamat</label>
                                 <textarea class="form-control" id="alamat" name="alamat" required rows="3"></textarea>
                             </div>
@@ -134,7 +113,7 @@
     <!-- End Modal Form -->
 
     <!-- Script Form -->
-    <?php $fields = ['id_pasien', 'rekam_medis', 'nik', 'nama_pasien', 'jenis_kelamin', 'tanggal_lahir', 'no_telepon', 'alamat']; ?>
+    <?php $fields = ['id_pmi', 'kode_pmi', 'nama_pmi', 'contact_person', 'alamat']; ?>
     <?php $this->view('components/script_form', ['fields' => $fields, 'service_name' => $service_name]); ?>
     <!-- End Script Form -->
 
@@ -142,11 +121,11 @@
     <?php $this->view('templates/script'); ?>
     <!-- End Script -->
 
-    <!-- Delete Nonactive Modal -->
+    <!-- Confirm Modal -->
     <?php $type = !isset($is_active_page) ? 'delete' : ($is_active_page == 'active' ?  'active' : 'nonactive'); ?>
     <?php $url = "$service_name/action_remove/" . (!isset($is_active_page) ? "delete" : ($is_active_page == 'active' ? "nonactive" : "active")) ?>
     <?php $this->view('components/confirm_modal', ['type' => $type, 'url' => $url]); ?>
-    <!-- End Delete Nonactive Modal -->
+    <!-- End Confirm Modal -->
 
     <!-- Toast Modal  -->
     <?php $this->view('templates/toasts'); ?>

@@ -10,8 +10,25 @@ A wb 5 kantong
 
 Kebutuhan tranfusi dokter yg menentukan
 
-Mayor(+ sampai ), mino, auto control 
+Mayor(+ sampai ), mino, auto control      
 
 A = kuning, B = merah, O = Biru, Ab = putih
 
 Tgl Aftap = tgl pengambilan ketika donor, tanggal produksi
+
+
+buat pasien tidak dapat dihapus, buat nonaktif
+nomor RM di generate ketika pembuatan pasien OR setelah tranfusi darah
+
+[darah]
+master darah | informasi dasar tentang data darat (master)
+penerimaan   | [jumlah_kantong, dll]
+bank darah   | (relasi penerimaan) [stok (nilai awal diisi dengan jumlah_kantong), dll]
+darah masuk  | insert pada tabel 'penerimaan' -> insert pada tabel 'bank darah', set status = '1'
+darah keluar | pada tabel 'darah' set status = '0' -> insert pada tabel pelayanan
+
+pada halaman tranfusi, terdapt dia aksi (tranfusi, retur) status ('tranfusi selesai', 'darah di retur')
+
+pada navigasi pelayanan terdapat daftar pasien dan terdapat tombol 'periksa', maka diarahkan ke halaman yg terdapat subnav (pelayanan, diagnosa, crossmatch/permintaan, tranfusi)
+terdpat tombol 'lihat data pasien' mengarah pada halaman pasien dengan url id pasien
+buat navigasi (pelayanan, diagnosa, crossmatch/permintaan, tranfusi) mengarah ke navigasi kanan dengan menggunakan id

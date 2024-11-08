@@ -32,25 +32,31 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
+                                                <th>Nama PMI</th>
+                                                <th>Contact Person</th>
+                                                <th>Alamat</th>
                                                 <th class="no-sort">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php $no = 1 ?>
-                                            <?php foreach ($darah as $item) : ?>
+                                            <?php foreach ($pmi as $item) : ?>
                                                 <tr>
                                                     <td><?= $no ?></td>
+                                                    <td><?= $item->nama_pmi ?></td>
+                                                    <td><?= $item->contact_person ?></td>
+                                                    <td><?= $item->alamat ?></td>
                                                     <td>
-                                                        <?php $params = "[`$item->id_darah`]"; ?>
+                                                        <?php $params = "[`$item->id_pmi`, `$item->nama_pmi`, `$item->contact_person`, `$item->alamat`, ]"; ?>
                                                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
                                                             <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal_form" onclick="setForm('detail', <?= $params ?>)">
-                                                                <i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-title="Detail data darah"></i>
+                                                                <i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-title="Detail data pmi"></i>
                                                             </button>
                                                             <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal_form" onclick="setForm('edit', <?= $params ?>)">
-                                                                <i class="bi bi-pencil-square" data-bs-toggle="tooltip" data-bs-title="Edit data darah"></i>
+                                                                <i class="bi bi-pencil-square" data-bs-toggle="tooltip" data-bs-title="Edit data pmi"></i>
                                                             </button>
-                                                            <button id="delete-btn" type="button" class="btn btn-outline-danger btn-sm" data-id="<?= $item->id_darah; ?>" data-bs-toggle="modal" data-bs-target="#modal_delete">
-                                                                <span data-bs-toggle="tooltip" data-bs-title="Hapus data darah">
+                                                            <button id="delete-btn" type="button" class="btn btn-outline-danger btn-sm" data-id="<?= $item->id_pmi; ?>" data-bs-toggle="modal" data-bs-target="#modal_delete">
+                                                                <span data-bs-toggle="tooltip" data-bs-title="Hapus data pmi">
                                                                     <i class="bi bi-trash"></i>
                                                                 </span>
                                                             </button>
@@ -79,40 +85,20 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5 text-capitalize" id="title_form">Tambah data darah</h1>
+                    <h1 class="modal-title fs-5 text-capitalize" id="title_form"></h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method="POST" autocomplete="off" enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="row g-3">
-                            <input name="id_darah" id="id_darah" hidden>
+                            <input name="id_pmi" id="id_pmi" hidden>
                             <div class="form-group col-6">
-                                <label for="rekam_medis" class="form-label">Rekam Medis</label>
-                                <input type="text" name="rekam_medis" id="rekam_medis" placeholder="RMxxx-2024" class="form-control" required>
+                                <label for="nama_pmi" class="form-label">Nama PMI</label>
+                                <input type="text" name="nama_pmi" id="nama_pmi" class="form-control" required>
                             </div>
                             <div class="form-group col-6">
-                                <label for="nik" class="form-label">NIK</label>
-                                <input type="number" name="nik" id="nik" class="form-control" required>
-                            </div>
-                            <div class="form-group col-6">
-                                <label for="nama_darah" class="form-label">Nama Pasien</label>
-                                <input type="text" name="nama_darah" id="nama_darah" class="form-control" required>
-                            </div>
-                            <div class="form-group col-6">
-                                <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
-                                <select class="form-select" name="jenis_kelamin" id="jenis_kelamin" required>
-                                    <option selected>-</option>
-                                    <option value="laki-laki">Laki-Laki</option>
-                                    <option value="perempuan">Perempuan</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-6">
-                                <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                                <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control" required>
-                            </div>
-                            <div class="form-group col-6">
-                                <label for="no_telepon" class="form-label">Nomor Telepon</label>
-                                <input type="number" name="no_telepon" id="no_telepon" class="form-control" required>
+                                <label for="contact_person" class="form-label">Contact Person</label>
+                                <input type="number" name="contact_person" id="contact_person" class="form-control" required>
                             </div>
                             <div class="form-group col-12">
                                 <label for="alamat" class="form-label">Alamat</label>
@@ -136,9 +122,9 @@
         const btn_submit = modal_form.querySelector('#btn_submit');
 
         const setForm = (title, data) => {
-            modal_form.querySelector('#title_form').innerHTML = `${title} data darah`
+            modal_form.querySelector('#title_form').innerHTML = `${title} data PMI`
 
-            const field = ['id_darah', 'rekam_medis', 'nik', 'nama_darah', 'jenis_kelamin', 'tanggal_lahir', 'no_telepon', 'alamat'];
+            const field = ['id_pmi', 'nama_pmi', 'contact_person', 'alamat'];
             field.forEach((e, i) => {
                 const element = modal_form.querySelector(`#${field[i]}`);
 
@@ -148,7 +134,7 @@
                     element.removeAttribute('disabled', '');
                 }
 
-                if (element.tagName == 'INPUT' || element.tagName == 'SELECT') {
+                if (element.tagName == 'INPUT') {
                     element.value = title === 'tambah' ? '' : data[i];
                 } else {
                     element.innerHTML = title === 'tambah' ? '' : data[i];
@@ -162,12 +148,12 @@
             }
 
             if (title === 'tambah') {
-                modal_form.querySelector('form').setAttribute('action', '<?= base_url('darah/insert') ?>');
+                modal_form.querySelector('form').setAttribute('action', '<?= base_url('pmi/insert') ?>');
                 btn_submit.innerHTML = 'Simpan';
             }
 
             if (title === 'edit') {
-                modal_form.querySelector('form').setAttribute('action', '<?= base_url('darah/edit') ?>');
+                modal_form.querySelector('form').setAttribute('action', '<?= base_url('pmi/edit') ?>');
                 btn_submit.innerHTML = 'Edit';
             }
         }
@@ -179,7 +165,7 @@
     <!-- End Script -->
 
     <!-- Delete Modal -->
-    <?php $this->view('templates/delete_modal', ['url' => "darah/delete"]); ?>
+    <?php $this->view('templates/delete_modal', ['url' => "pmi/delete"]); ?>
     <!-- End Delete Modal -->
 
     <!-- Toast Modal  -->

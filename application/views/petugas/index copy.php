@@ -14,7 +14,7 @@
             <!-- TopBar -->
             <?php $this->view('templates/topbar'); ?>
             <!-- End TopBar -->
-            <main class="content">
+            <main class="content p-4">
                 <div class="container-fluid p-0">
                     <h1 class="h3 mb-3"><i class="align-middle" data-feather="users"></i> Halaman Manajemen User</h1>
                     <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal_form" onclick="setForm('tambah')">
@@ -24,7 +24,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h5 class="card-title mb-0">Daftar Data User</h5>
+                                    <h5 class="card-title mb-0">Daftar Data Petugas</h5>
                                 </div>
                                 <div class="card-body">
                                     <table id="datatables" class="table table-striped table-bordered text-capitalize" style="white-space: nowrap; font-size: 1em;">
@@ -34,26 +34,26 @@
                                                 <th>Nama</th>
                                                 <th>Username</th>
                                                 <th class="no-sort">Password</th>
-                                                <th>Role</th>
+                                                <th>Jabatan</th>
                                                 <th class="no-sort">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php $no = 1 ?>
-                                            <?php foreach ($user as $item) : ?>
+                                            <?php foreach ($petugas as $item) : ?>
                                                 <tr>
                                                     <td><?= $no ?></td>
-                                                    <td><?= $item->nama ?></td>
+                                                    <td><?= $item->nama_petugas ?></td>
                                                     <td class="text-lowercase"><?= $item->username ?></td>
                                                     <td>...</td>
-                                                    <td><?= $item->role ?></td>
+                                                    <td><?= $item->jabatan ?></td>
                                                     <td>
-                                                        <?php $params = "$item->id_user,$item->nama,$item->username" ?>
+                                                        <?php $params = "[`$item->id_petugas`,`$item->nama_petugas`,`$item->username`, `$item->jabatan`]" ?>
                                                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
-                                                            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal_form" onclick="setForm('edit','<?= $params ?>')">
+                                                            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modal_form" onclick="setForm('edit',<?= $params ?>)">
                                                                 <i class="bi bi-pencil-square"></i> Edit
                                                             </button>
-                                                            <button type="button" id="delete-btn" <?= $item->role === 'admin' ? 'disabled' : '' ?> class="btn btn-outline-danger btn-sm" data-id="<?= $item->id_user; ?>" data-bs-toggle="modal" data-bs-target="#modal_delete">
+                                                            <button type="button" id="delete-btn" <?= $item->jabatan === 'admin' ? 'disabled' : '' ?> class="btn btn-outline-danger btn-sm" data-id="<?= $item->id_petugas; ?>" data-bs-toggle="modal" data-bs-target="#modal_delete">
                                                                 <i class="bi bi-trash"></i> Delete
                                                             </button>
                                                         </div>
@@ -86,10 +86,10 @@
                 <form id="modal-form" method="POST" autocomplete="off">
                     <div class="modal-body">
                         <div class="row g-3">
-                            <input type="text" name="id_user" id="id_user" hidden>
+                            <input type="text" name="id_petugas" id="id_petugas" hidden>
                             <div class="form-group col-md-6 col-12">
-                                <label for="nama" class="form-label">Nama Lengkap</label>
-                                <input type="text" name="nama" id="nama" class="form-control" required>
+                                <label for="nama_petugas" class="form-label">Nama Lengkap</label>
+                                <input type="text" name="nama_petugas" id="nama_petugas" class="form-control" required>
                             </div>
                             <div class="form-group col-md-6 col-12">
                                 <label for="username" class="form-label">Username</label>
@@ -105,11 +105,20 @@
                                 </div>
                                 <div id="passwordHelpBlock" class="form-text"></div>
                             </div>
+                            <div class="form-group col-6">
+                                <label for="jabatan" class="form-label">Jabatan Petugas</label>
+                                <select class="form-select" name="jabatan" id="jabatan" required>
+                                    <option selected>-</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="analis">Analis</option>
+                                    <option value="bidan">Bidan</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button id="btn_submit" type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
             </div>
@@ -117,44 +126,51 @@
     </div>
     <!-- End Modal Form -->
 
-
-
-
     <!-- Script Modal Form -->
     <script>
-        const title_form = document.querySelector('#title_form')
-        const modal_form = document.querySelector('#modal-form')
-
-        const id_user = document.querySelector('#id_user')
-        const nama = document.querySelector('#nama')
-        const username = document.querySelector('#username')
-        const password = document.querySelector('#password')
-        const passwordHelpBlock = document.querySelector('#passwordHelpBlock')
-
-        const clearForm = () => {
-            id_user.value = '';
-            nama.value = '';
-            username.value = '';
-            password.setAttribute('required', '')
-            passwordHelpBlock.innerHTML = 'Panjang Passowrd Minimal 8 Karakter'
-        }
+        const modal_form = document.querySelector('#modal_form');
+        const btn_submit = modal_form.querySelector('#btn_submit');
+        const passwordHelpBlock = modal_form.querySelector('#passwordHelpBlock')
 
         const setForm = (title, data) => {
-            clearForm();
-            title_form.innerHTML = `${title} Data User`
+            console.log(data);
 
-            if (title === 'tambah') {
-                modal_form.setAttribute('action', '<?= base_url('user/create') ?>')
+            modal_form.querySelector('#title_form').innerHTML = `${title} data petugas`
+
+            const field = ['id_petugas', 'nama_petugas', 'username', 'jabatan'];
+            field.forEach((e, i) => {
+                const element = modal_form.querySelector(`#${field[i]}`);
+
+                if (title === 'detail') {
+                    element.setAttribute('disabled', '');
+                } else {
+                    element.removeAttribute('disabled', '');
+                }
+
+                if (element.tagName == 'INPUT' || element.tagName == 'SELECT') {
+                    element.value = title === 'tambah' ? '' : data[i];
+                } else {
+                    element.innerHTML = title === 'tambah' ? '' : data[i];
+                }
+            })
+
+            btn_submit.removeAttribute('hidden');
+
+            if (title === 'detail') {
+                btn_submit.setAttribute('hidden', '')
             }
 
+            if (title === 'tambah') {
+                modal_form.querySelector('form').setAttribute('action', '<?= base_url('pasien/insert') ?>');
+                btn_submit.innerHTML = 'Simpan';
+            }
+
+            passwordHelpBlock.innerHTML = 'Panjang Passowrd Minimal 8 Karakter'
+
             if (title === 'edit') {
-                modal_form.setAttribute('action', '<?= base_url('user/edit') ?>')
-                const user = data.split(',')
-                id_user.value = user[0]
-                nama.value = user[1]
-                username.value = user[2]
-                password.removeAttribute('required');
                 passwordHelpBlock.innerHTML = 'Biarkan Input Password Kosong, Bila Tidak Ingin Merubah Password'
+                modal_form.querySelector('form').setAttribute('action', '<?= base_url('pasien/edit') ?>');
+                btn_submit.innerHTML = 'Edit';
             }
         }
     </script>
@@ -165,16 +181,16 @@
     <!-- Eye Icon Password -->
 
     <!-- Delete Modal -->
-    <?php $this->view('templates/delete_modal', ['name' => 'user/delete']); ?>
+    <?php $this->view('templates/delete_modal', ['url' => 'user/delete']); ?>
     <!-- End Delete Modal -->
 
     <!-- Script -->
     <?php $this->view('templates/script'); ?>
     <!-- End Script -->
 
-    <!-- Logout Modal  -->
+    <!-- Toast Modal  -->
     <?php $this->view('templates/toasts'); ?>
-    <!-- End Logout Modal  -->
+    <!-- End Toast Modal  -->
 
     <!-- Logout Modal  -->
     <?php $this->view('templates/logout_modal'); ?>

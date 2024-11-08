@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Pasien extends CI_Controller
+class Kurir extends CI_Controller
 {
 
 	private $service_name;
@@ -9,9 +9,8 @@ class Pasien extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->service_name = "pasien";
+		$this->service_name = "kurir";
 		$this->load->model('base_model');
-		// $this->load->model('pasien_model');
 		is_logged_in();
 		authorize();
 	}
@@ -34,10 +33,10 @@ class Pasien extends CI_Controller
 		$data['page_title']   	= $is_active ? "halaman manajemen $this->service_name Aktif" : "halaman $this->service_name tidak aktif";
 		$data['service_name'] 	= $this->service_name;
 		$data['is_active_page'] = $is_active;
-		$data['rekam_medis']    = mt_rand(100000, 999999) . '-RM';
+		$data['kode_kurir']     = mt_rand(100000, 999999) . '-KDKRR';
 		$data['data_result']    = $result_model;
 
-		$this->load->view("pasien/index", $data);
+		$this->load->view("kurir/index", $data);
 	}
 
 	public function insert()
@@ -46,24 +45,10 @@ class Pasien extends CI_Controller
 			redirect($this->service_name, 'refresh');
 		}
 
-		$nik = trim($this->input->post('nik'));
-
 		$data = [
-			'rekam_medis' => trim($this->input->post('rekam_medis')),
-			'nik' => $nik,
-			'nama_pasien' => trim($this->input->post('nama_pasien')),
-			'jenis_kelamin' => trim($this->input->post('jenis_kelamin')),
-			'tanggal_lahir' => trim($this->input->post('tanggal_lahir')),
-			'no_telepon' => trim($this->input->post('no_telepon')),
-			'alamat' => str_replace("\n", "\\n", trim($this->input->post('alamat'))),
+			'kode_kurir' => trim($this->input->post('kode_kurir')),
+			'nama_kurir' => trim($this->input->post('nama_kurir')),
 		];
-
-		$is_exist_nik = $this->base_model->get_data_by($this->service_name, 'nik', $nik)['data']->num_rows() > 0;
-
-		if ($is_exist_nik) {
-			set_toasts("NIK dengan nilai ($nik) telah digunakan.", 'danger');
-			redirect($this->service_name, 'refresh');
-		}
 
 		$this->base_model->insert($this->service_name, $data);
 		set_toasts("Data $this->service_name berhasil disimpan.", 'success');
@@ -77,26 +62,13 @@ class Pasien extends CI_Controller
 			redirect($this->service_name, 'refresh');
 		}
 
-		$id = $this->input->post('id_pasien');
+		$id = $this->input->post('id_kurir');
 		$nik = trim($this->input->post('nik'));
 
 		$data = [
-			'rekam_medis' => trim($this->input->post('rekam_medis')),
-			'nik' => $nik,
-			'nama_pasien' => trim($this->input->post('nama_pasien')),
-			'jenis_kelamin' => $this->input->post('jenis_kelamin'),
-			'tanggal_lahir' => $this->input->post('tanggal_lahir'),
-			'no_telepon' => trim($this->input->post('no_telepon')),
-			'alamat' => str_replace("\n", "\\n", trim($this->input->post('alamat'))),
+			'kode_kurir' => trim($this->input->post('kode_kurir')),
+			'nama_kurir' => trim($this->input->post('nama_kurir')),
 		];
-
-		$is_exist_nik = $this->base_model->get_data_by($this->service_name, 'nik', $nik)['data']->num_rows() > 0;
-		$is_current_nik = $this->base_model->get_data_by($this->service_name, "id_$this->service_name", $id)['data']->row('nik') == $nik;
-
-		if ($is_exist_nik && !$is_current_nik) {
-			set_toasts("NIK dengan nilai ($nik) telah digunakan.", 'danger');
-			redirect($this->service_name, 'refresh');
-		}
 
 		$this->base_model->update($this->service_name, $data, $id);
 		set_toasts("Data $this->service_name berhasil diedit.", 'success');

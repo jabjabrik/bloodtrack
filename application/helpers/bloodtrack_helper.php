@@ -8,11 +8,11 @@ function is_logged_in()
     }
 }
 
-function authorize($_role = 'admin')
+function authorize($_role = 'administrator')
 {
     $CI = &get_instance();
-    $role = $CI->session->userdata('role');
-    if ($role !=  $_role  && !($role == 'admin')) redirect('dashboard');
+    $jabatan = $CI->session->userdata('jabatan');
+    if ($jabatan !=  $jabatan  && !($jabatan == 'admin')) redirect('dashboard');
 }
 
 function dd($data)
@@ -40,3 +40,17 @@ function set_toasts($message, $color)
     );
     $CI->session->set_flashdata('toasts', $params);
 }
+
+function calculateAge($birthDate)
+{
+
+    $birthDate = new DateTime($birthDate);
+    $currentDate = new DateTime();
+    return $currentDate->diff($birthDate)->y;
+}
+
+// // Contoh penggunaan
+// $birthDate = "1990-09-25";
+// $age = calculateAge($birthDate);
+// echo "Umur: {$age['years']} tahun, {$age['months']} bulan, {$age['days']} hari";
+// // Output: Umur: xx tahun, xx bulan, xx hari (bergantung pada tanggal hari ini)

@@ -1,20 +1,23 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class User extends CI_Controller
+class Petugas extends CI_Controller
 {
 	public function __construct()
 	{
 		parent::__construct();
 		is_logged_in();
 		authorize();
+		$this->load->model('base_model');
 	}
 
 	public function index()
 	{
-		$data['user'] = $this->db->get('user')->result();
-		$data['title'] = 'User';
-		$this->load->view('user/index', $data);
+		$data['petugas'] = $this->base_model->get_all('petugas');
+		dd($data);
+		$data['title'] = 'Kelola Petugas';
+		// dd($data);
+		$this->load->view('petugas/index', $data);
 	}
 
 	public function delete($id_user)
@@ -80,8 +83,8 @@ class User extends CI_Controller
 
 	public function edit()
 	{
-		$id_user = $this->input->post('id_user');
-		$nama = $this->input->post('nama');
+		$id_petugas = $this->input->post('id_petugas');
+		$nama_petugas = $this->input->post('nama_petugas');
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
 

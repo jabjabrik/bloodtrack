@@ -18,6 +18,9 @@
 <!-- ICON -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+<!-- DataTables CSS -->
+<link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+
 <!-- CSS -->
 <link href="<?= base_url('assets/css/bootstrap.min.css'); ?>" rel="stylesheet">
 <link href="<?= base_url('assets/css/app.css'); ?>" rel="stylesheet">

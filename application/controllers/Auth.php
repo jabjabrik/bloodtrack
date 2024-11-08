@@ -33,10 +33,9 @@ class Auth extends CI_Controller
 			return FALSE;
 		}
 
-		$this->db->where('username', $username);
-		$query = $this->db->get('user');
+		$petugas = $this->db->get_where('petugas', ['username' => $username]);
 
-		if ($query->num_rows() === 0) {
+		if ($petugas->num_rows() === 0) {
 			$this->form_validation->set_message('validate_username', 'Username tidak ditemukan');
 			return FALSE;
 		}
@@ -51,17 +50,14 @@ class Auth extends CI_Controller
 		}
 
 		$username = $this->input->post('username');
-		$this->db->where('username', $username);
-		$query = $this->db->get('user');
+		$petugas = $this->db->get_where('petugas', ['username' => $username]);
 
-		if ($query->num_rows() == 0) {
+		if ($petugas->num_rows() == 0) {
 			$this->form_validation->set_message('validate_password', '');
 			return FALSE;
 		}
 
-		$user = $query->row();
-
-		if (password_verify($password, $user->password)) {
+		if (password_verify($password, $petugas->row('password'))) {
 			return TRUE;
 		} else {
 			$this->form_validation->set_message('validate_password', 'Password salah');
@@ -71,14 +67,14 @@ class Auth extends CI_Controller
 
 	private function _login($username)
 	{
-		$user = $this->db->get_where('user', ["username" => $username])->row();
+		$petugas = $this->db->get_where('petugas', ["username" => $username])->row();
 
 		$data = [
-			'is_login'  => TRUE,
-			'username'  => $user->username,
-			'id_user'   => $user->id_user,
-			'role'      => $user->role,
-			'nama'      => $user->nama,
+			'is_login'     => TRUE,
+			'username'     => $petugas->username,
+			'id_petugas'   => $petugas->id_petugas,
+			'jabatan'      => $petugas->jabatan,
+			'nama_petugas' => $petugas->nama_petugas,
 		];
 
 		$this->session->set_userdata($data);

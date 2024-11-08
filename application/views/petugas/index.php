@@ -32,13 +32,11 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Rekam Medis</th>
-                                                <th class="no-sort">NIK</th>
-                                                <th>Nama Pasien</th>
-                                                <th>Jenis Kelamin</th>
-                                                <th>Tanggal Lahir</th>
-                                                <th>Umur</th>
-                                                <!-- <th class="no-sort">Telepon</th> -->
+                                                <th>Kode Petugas</th>
+                                                <th>Nama</th>
+                                                <th>Username</th>
+                                                <th class="no-sort">Password</th>
+                                                <th>Jabatan</th>
                                                 <th class="no-sort">Aksi</th>
                                             </tr>
                                         </thead>
@@ -47,16 +45,15 @@
                                             <?php foreach ($data_result as $item) : ?>
                                                 <tr>
                                                     <td><?= $no ?></td>
-                                                    <td><?= $item->rekam_medis ?></td>
-                                                    <td><?= $item->nik ?></td>
-                                                    <td><?= $item->nama_pasien ?></td>
-                                                    <td><?= $item->jenis_kelamin ?></td>
-                                                    <td><?= date('d-m-Y', strtotime($item->tanggal_lahir)) ?></td>
-                                                    <td><?= calculateAge($item->tanggal_lahir) ?> Tahun</td>
+                                                    <td><?= $item->kode_petugas ?></td>
+                                                    <td><?= $item->nama_petugas ?></td>
+                                                    <td class="text-lowercase"><?= $item->username ?></td>
+                                                    <td>...</td>
+                                                    <td><?= $item->jabatan ?></td>
                                                     <td>
-                                                        <?php $params = "[`$item->id_pasien`, `$item->rekam_medis`, `$item->nik`, `$item->nama_pasien`, `$item->jenis_kelamin`, `$item->tanggal_lahir`, `$item->no_telepon`, `$item->alamat`]"; ?>
+                                                        <?php $params = "[`$item->id_petugas`, `$item->kode_petugas`, `$item->nama_petugas`,`$item->username`, `$item->jabatan`]" ?>
                                                         <!-- BTN GROUP TABLE -->
-                                                        <?php $this->view('components/btn_group_table', ['id' => $item->id_pasien, 'params' => $params]); ?>
+                                                        <?php $this->view('components/btn_group_table', ['id' => $item->id_petugas, 'params' => $params]); ?>
                                                         <!-- End BTN GROUP TABLE -->
                                                     </td>
                                                 </tr>
@@ -88,38 +85,37 @@
                 <form method="POST" autocomplete="off" enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="row g-3">
-                            <input name="id_pasien" id="id_pasien" hidden>
+                            <input type="text" name="id_petugas" id="id_petugas" hidden>
                             <div class="form-group col-6">
-                                <label for="rekam_medis" class="form-label">Rekam Medis</label>
-                                <input type="text" name="rekam_medis" id="rekam_medis" class="form-control" readonly>
+                                <label for="kode_petugas" class="form-label">Kode Petugas</label>
+                                <input type="text" name="kode_petugas" id="kode_petugas" class="form-control" readonly>
+                            </div>
+                            <div class="form-group col-md-6 col-12">
+                                <label for="nama_petugas" class="form-label">Nama Lengkap</label>
+                                <input type="text" name="nama_petugas" id="nama_petugas" class="form-control" required>
+                            </div>
+                            <div class="form-group col-md-6 col-12">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" name="username" id="username" class="form-control" required>
+                                <div class="form-text">Panjang Username Minimal 8 Karakter</div>
+                            </div>
+                            <div class="form-group col-md-6 col-12">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" name="password" id="password" class="form-control" required>
+                                <div style="position: relative;">
+                                    <i id="eye" hidden class="bi bi-eye" style="position: absolute; right: 10px; top: -30px; cursor: pointer;"></i>
+                                    <i id="eye" class="bi bi-eye-slash" style="position: absolute; right: 10px; top: -30px; cursor: pointer;"></i>
+                                </div>
+                                <div id="passwordHelpBlock" class="form-text"></div>
                             </div>
                             <div class="form-group col-6">
-                                <label for="nik" class="form-label">NIK</label>
-                                <input type="number" name="nik" id="nik" class="form-control" required>
-                            </div>
-                            <div class="form-group col-6">
-                                <label for="nama_pasien" class="form-label">Nama Pasien</label>
-                                <input type="text" name="nama_pasien" id="nama_pasien" class="form-control" required>
-                            </div>
-                            <div class="form-group col-6">
-                                <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
-                                <select class="form-select" name="jenis_kelamin" id="jenis_kelamin" required>
+                                <label for="jabatan" class="form-label">Jabatan Petugas</label>
+                                <select class="form-select" name="jabatan" id="jabatan" required>
                                     <option selected>-</option>
-                                    <option value="laki-laki">Laki-Laki</option>
-                                    <option value="perempuan">Perempuan</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="analis">Analis</option>
+                                    <option value="bidan">Bidan</option>
                                 </select>
-                            </div>
-                            <div class="form-group col-6">
-                                <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                                <input type="date" name="tanggal_lahir" id="tanggal_lahir" class="form-control" required>
-                            </div>
-                            <div class="form-group col-6">
-                                <label for="no_telepon" class="form-label">Nomor Telepon</label>
-                                <input type="number" name="no_telepon" id="no_telepon" class="form-control" required>
-                            </div>
-                            <div class="form-group col-12">
-                                <label for="alamat" class="form-label">Alamat</label>
-                                <textarea class="form-control" id="alamat" name="alamat" required rows="3"></textarea>
                             </div>
                         </div>
                     </div>
@@ -134,7 +130,7 @@
     <!-- End Modal Form -->
 
     <!-- Script Form -->
-    <?php $fields = ['id_pasien', 'rekam_medis', 'nik', 'nama_pasien', 'jenis_kelamin', 'tanggal_lahir', 'no_telepon', 'alamat']; ?>
+    <?php $fields = ['id_petugas', 'kode_petugas', 'nama_petugas', 'username', 'jabatan']; ?>
     <?php $this->view('components/script_form', ['fields' => $fields, 'service_name' => $service_name]); ?>
     <!-- End Script Form -->
 
