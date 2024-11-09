@@ -7,7 +7,7 @@
         <ul class="sidebar-nav">
             <li class="sidebar-item <?= $title == 'Dashboard' ? 'active' : '' ?>">
                 <a class="sidebar-link" href="<?= base_url(); ?>">
-                    <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Kelola Dashboard</span>
+                    <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
                 </a>
             </li>
             <li class="sidebar-header">
@@ -61,14 +61,14 @@
                     <i class="bi bi-backpack2"></i> <span class="align-middle">Penerimaan</span>
                 </a>
             </li>
-            <li class="sidebar-item <?= $title == 'Bank Darah' ? 'active' : '' ?>">
+            <li class="sidebar-item <?= $title == 'Informasi Bank Darah' ? 'active' : '' ?>">
                 <a class="sidebar-link" href="<?= base_url('bankdarah'); ?>">
                     <i class="bi bi-clipboard-pulse"></i> <span class="align-middle">Bank Darah</span>
                 </a>
             </li>
             <li class="sidebar-item <?= $title == 'Pelayanan' ? 'active' : '' ?>">
                 <a class="sidebar-link" href="<?= base_url('pelayanan'); ?>">
-                    <i class="bi bi-person-badge"></i> <span class="align-middle">pelayanan</span>
+                    <i class="bi bi-person-badge"></i> <span class="align-middle">Pelayanan</span>
                 </a>
             </li>
             <li class="sidebar-item <?= $title == 'Histori Aktivitas' ? 'active' : '' ?>">

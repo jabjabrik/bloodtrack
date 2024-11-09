@@ -22,12 +22,6 @@ class Penerimaan extends CI_Controller
 		$this->_show($result_model);
 	}
 
-	// public function nonactive()
-	// {
-	// 	$result_model = $this->base_model->get_all($this->service_name, FALSE);
-	// 	$this->_show(FALSE, $result_model);
-	// }
-
 	private function _show(array $result_model)
 	{
 		$data['title']        	= "Penerimaan Darah";
@@ -51,25 +45,44 @@ class Penerimaan extends CI_Controller
 		$kode_kurir = trim($this->input->post('kode_kurir'));
 		$kode_penerima = trim($this->input->post('kode_penerima'));
 
-		$id_darah = $this->base_model->get_data_by('darah', 'kode_darah', $kode_darah)[0]->id_darah;
-		$id_pmi = $this->base_model->get_data_by('pmi', 'kode_pmi', $kode_pmi)[0]->id_pmi;
-		$id_kurir = $this->base_model->get_data_by('kurir', 'kode_kurir', $kode_kurir)[0]->id_kurir;
-		$id_penerima = $this->base_model->get_data_by('penerima', 'kode_penerima', $kode_penerima)[0]->id_penerima;
+		$id_darah = $this->base_model->get_data_by('darah', 'kode_darah', $kode_darah);
+		$id_pmi = $this->base_model->get_data_by('pmi', 'kode_pmi', $kode_pmi);
+		$id_kurir = $this->base_model->get_data_by('kurir', 'kode_kurir', $kode_kurir);
+		$id_penerima = $this->base_model->get_data_by('penerima', 'kode_penerima', $kode_penerima);
+
+		if (empty($id_darah)) {
+			set_toasts("Kode Darah ($kode_darah) tidak ditemukan", 'danger');
+			redirect($this->service_name, 'refresh');
+		}
+		if (empty($id_pmi)) {
+			set_toasts("Kode PMI ($kode_pmi) tidak ditemukan", 'danger');
+			redirect($this->service_name, 'refresh');
+		}
+		if (empty($id_kurir)) {
+			set_toasts("Kode kurir ($kode_kurir) tidak ditemukan", 'danger');
+			redirect($this->service_name, 'refresh');
+		}
+		if (empty($id_penerima)) {
+			set_toasts("Kode penerima ($kode_penerima) tidak ditemukan", 'danger');
+			redirect($this->service_name, 'refresh');
+		}
+
+		$jumlah_kantong = trim($this->input->post('jumlah_kantong'));
 
 		$data = [
 			'kode_penerimaan' => trim($this->input->post('kode_penerimaan')),
 			'no_kantong' => trim($this->input->post('no_kantong')),
-			'jumlah_kantong' => trim($this->input->post('jumlah_kantong')),
+			'jumlah_kantong' => $jumlah_kantong,
 			'tanggal_terima' => trim($this->input->post('tanggal_terima')),
 			'tanggal_aftap' => trim($this->input->post('tanggal_aftap')),
 			'tanggal_kadaluarsa' => trim($this->input->post('tanggal_kadaluarsa')),
-			'id_darah' => $id_darah,
-			'id_pmi' => $id_pmi,
-			'id_kurir' => $id_kurir,
-			'id_penerima' => $id_penerima,
+			'id_darah' => $id_darah[0]->id_darah,
+			'id_pmi' => $id_pmi[0]->id_pmi,
+			'id_kurir' => $id_kurir[0]->id_kurir,
+			'id_penerima' => $id_penerima[0]->id_penerima,
 		];
 
-		$this->base_model->insert($this->service_name, $data);
+		$this->penerimaan_model->insert($this->service_name, $data, $jumlah_kantong);
 		set_toasts("Data $this->service_name berhasil disimpan.", 'success');
 
 		redirect($this->service_name, 'refresh');

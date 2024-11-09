@@ -1,22 +1,18 @@
 <?php
 
-class Penerimaan_model extends CI_Model
+class Pelayanan_model extends CI_Model
 {
     public function get_all(string $table_name): array
     {
         $this->db->trans_begin();
 
-        $query = "SELECT penerimaan.*, 
-        darah.id_darah, darah.kode_darah, darah.jenis_darah, darah.golongan_darah, darah.rhesus, 
-        pmi.id_pmi, pmi.kode_pmi, pmi.nama_pmi, 
-        kurir.id_kurir, kurir.kode_kurir, kurir.nama_kurir, 
-        penerima.id_penerima, penerima.kode_penerima, penerima.nama_penerima 
-        FROM penerimaan
-        JOIN darah ON penerimaan.id_darah = darah.id_darah
-        JOIN pmi ON penerimaan.id_pmi = pmi.id_pmi
-        JOIN kurir ON penerimaan.id_kurir = kurir.id_kurir
-        JOIN penerima ON penerimaan.id_penerima = penerima.id_penerima
-        ORDER BY penerimaan.id_penerimaan";
+        $query = "SELECT pelayanan.id_pelayanan, pelayanan.kode_pelayanan, pelayanan.tanggal_pelayanan, pasien.rekam_medis, 
+        pasien.nama_pasien, dokter.nama_dokter, ruangan.nama_ruangan
+        FROM pelayanan
+        JOIN pasien ON pelayanan.id_pasien = pasien.id_pasien
+        JOIN dokter ON pelayanan.id_dokter = dokter.id_dokter
+        JOIN ruangan On pelayanan.id_ruangan = ruangan.id_ruangan
+        ORDER BY pelayanan.id_pelayanan";
 
         $result = $this->db->query($query);
 
@@ -30,6 +26,70 @@ class Penerimaan_model extends CI_Model
             return $result->result();
         }
     }
+
+    public function get_permintaan(string $table_name): array
+    {
+        $this->db->trans_begin();
+
+        $query = "SELECT permintaan.id_permintaan, permintaan.kode_permintaan, pasien.rekam_medis, 
+        pasien.nama_pasien, pasien.jenis_kelamin, darah.jenis_darah, darah.golongan_darah, darah.rhesus
+        FROM permintaan
+        JOIN pelayanan ON permintaan.id_pelayanan = pelayanan.id_pelayanan
+        JOIN pasien ON pelayanan.id_pasien = pasien.id_pasien
+        JOIN bank_darah ON permintaan.id_bank_darah = bank_darah.id_bank_darah
+        JOIN penerimaan ON bank_darah.id_penerimaan = penerimaan.id_penerimaan
+        JOIN darah ON penerimaan.id_darah = darah.id_darah
+        ORDER BY permintaan.id_permintaan";
+
+        $result = $this->db->query($query);
+
+        if ($this->db->trans_status() === FALSE) {
+            $error = $this->db->error();
+            print_r('Database Transaction Error: ' . $error['message'] . ' | Code: ' . $error['code']);
+            $this->db->trans_rollback();
+            die();
+        } else {
+            $this->db->trans_commit();
+            return $result->result();
+        }
+    }
+
+    public function get_crossmatch($id_permintaan): array
+    {
+        $this->db->trans_begin();
+
+        $query = "SELECT crossmatch.* FROM crossmatch WHERE crossmatch.id_permintaan = '$id_permintaan' ORDER BY crossmatch.id_crossmatch";
+
+        $result = $this->db->query($query);
+
+        if ($this->db->trans_status() === FALSE) {
+            $error = $this->db->error();
+            print_r('Database Transaction Error: ' . $error['message'] . ' | Code: ' . $error['code']);
+            $this->db->trans_rollback();
+            die();
+        } else {
+            $this->db->trans_commit();
+            return $result->result();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function insert(string $table_name, array $data, string $jumlah_kantong): void
     {
