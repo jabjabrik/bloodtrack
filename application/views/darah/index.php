@@ -31,7 +31,7 @@
                                                 <th>No</th>
                                                 <th class="no-sort">Kode Darah</th>
                                                 <th>Jenis Darah</th>
-                                                <th>Golda <i class="bi bi-question-circle" data-bs-toggle="tooltip" data-bs-title="Golongan darah & rhesus" style="cursor: pointer;"></i></th>
+                                                <th>Golda</th>
                                                 <th>Stok Min</th>
                                                 <th>Stok Maks</th>
                                                 <th>Harga beli</th>
@@ -46,13 +46,13 @@
                                                     <td><?= $no ?></td>
                                                     <td><?= $item->kode_darah ?></td>
                                                     <td><?= $item->jenis_darah ?></td>
-                                                    <td><?= "$item->golongan_darah $item->rhesus" ?></td>
+                                                    <td><?= $item->golongan_darah ?></td>
                                                     <td><?= $item->stok_minimal ?></td>
                                                     <td><?= $item->stok_maksimal ?></td>
                                                     <td>Rp.<?= number_format($item->harga_beli, 0, ',', '.'); ?></td>
                                                     <td>Rp.<?= number_format($item->harga_jual, 0, ',', '.'); ?></td>
                                                     <td>
-                                                        <?php $params = "[`$item->id_darah`, `$item->kode_darah`, `$item->jenis_darah`, `$item->golongan_darah`, `$item->rhesus`, `$item->stok_minimal`, `$item->stok_maksimal`, `$item->harga_beli`, `$item->harga_jual`]"; ?>
+                                                        <?php $params = "[`$item->id_darah`, `$item->kode_darah`, `$item->jenis_darah`, `$item->golongan_darah`, `$item->stok_minimal`, `$item->stok_maksimal`, `$item->harga_beli`, `$item->harga_jual`]"; ?>
                                                         <!-- BTN GROUP TABLE -->
                                                         <?php $this->view('components/btn_group_table', ['id' => $item->id_darah, 'params' => $params]); ?>
                                                         <!-- End BTN GROUP TABLE -->
@@ -95,27 +95,23 @@
                                 <label for="jenis_darah" class="form-label">Jenis Darah</label>
                                 <input type="text" name="jenis_darah" id="jenis_darah" class="form-control">
                             </div>
-                            <div class="form-group col-4">
+                            <div class="form-group col-2">
                                 <label for="golongan_darah" class="form-label">Golongan Darah</label>
                                 <input type="text" name="golongan_darah" id="golongan_darah" class="form-control">
                             </div>
-                            <div class="form-group col-4">
-                                <label for="rhesus" class="form-label">Rhesus</label>
-                                <input type="text" name="rhesus" id="rhesus" class="form-control">
-                            </div>
-                            <div class="form-group col-4">
+                            <div class="form-group col-2">
                                 <label for="stok_minimal" class="form-label">Stok Minimal</label>
                                 <input type="number" name="stok_minimal" id="stok_minimal" class="form-control" required>
                             </div>
-                            <div class="form-group col-4">
+                            <div class="form-group col-2">
                                 <label for="stok_maksimal" class="form-label">Stok Maksimal</label>
                                 <input type="number" name="stok_maksimal" id="stok_maksimal" class="form-control" required>
                             </div>
-                            <div class="form-group col-4">
+                            <div class="form-group col-3">
                                 <label for="harga_beli" class="form-label">Harga Beli</label>
                                 <input type="number" name="harga_beli" id="harga_beli" class="form-control" required>
                             </div>
-                            <div class="form-group col-4">
+                            <div class="form-group col-3">
                                 <label for="harga_jual" class="form-label">Harga Jual</label>
                                 <input type="number" name="harga_jual" id="harga_jual" class="form-control" required>
                             </div>
@@ -132,7 +128,7 @@
     <!-- End Modal Form -->
 
     <!-- Script Form -->
-    <?php $fields = ['id_darah', 'kode_darah', 'jenis_darah', 'golongan_darah', 'rhesus', 'stok_minimal', 'stok_maksimal', 'harga_beli', 'harga_jual']; ?>
+    <?php $fields = ['id_darah', 'kode_darah', 'jenis_darah', 'golongan_darah', 'stok_minimal', 'stok_maksimal', 'harga_beli', 'harga_jual']; ?>
     <?php $this->view('components/script_form', ['fields' => $fields, 'service_name' => $service_name]); ?>
     <!-- End Script Form -->
 

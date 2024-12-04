@@ -42,10 +42,10 @@ class Darah extends CI_Controller
 		$id = $this->input->post('id_darah');
 
 		$data = [
-			'stok_maksimal' => trim($this->input->post('stok_maksimal')),
-			'stok_minimal' => $this->input->post('stok_minimal'),
-			'harga_beli' => $this->input->post('harga_beli'),
-			'harga_jual' => trim($this->input->post('harga_jual')),
+			'stok_minimal' => trim($this->input->post('stok_minimal', true)),
+			'stok_maksimal' => trim($this->input->post('stok_maksimal', true)),
+			'harga_beli' => trim($this->input->post('harga_beli', true)),
+			'harga_jual' => trim($this->input->post('harga_jual', true)),
 		];
 
 		$this->base_model->update($this->service_name, $data, $id);

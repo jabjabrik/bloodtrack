@@ -17,12 +17,15 @@
             <!-- End TopBar -->
             <main class="content p-4 pb-0">
                 <div class="container-fluid p-0">
-                    <h1 class="h3 mb-3"><i class="bi bi-person-vcard"></i> <span class="align-middle">Halaman Pelayanan Pasien</h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item active" aria-current="page">Daftar Pasien</li>
-                        </ol>
-                    </nav>
+                    <h1 class="h3 mb-3"><i class="bi bi-person-vcard"></i> <span class="align-middle text-capitalize"><?= $page_title; ?></h1>
+                    <button type="button" class="btn btn-sm btn-info me-3" data-bs-toggle="modal" data-bs-target="#modal_form">
+                        <i class="bi bi-plus-circle"></i> Tambah
+                    </button>
+                    <div class="btn-group btn-group-sm">
+                        <a href="<?= base_url('pelayanan'); ?>" class="me-1 btn btn-primary" aria-current="page">Pelayanan Pasien</a>
+                        <a href="<?= base_url("pelayanan/permintaan/1"); ?>" class="me-1 btn btn-primary">Permintaan Darah</a>
+                        <a href="<?= base_url("pelayanan/crossmatch/$id_permintaan"); ?>" class="me-1 btn btn-primary active">CrossMatch</a>
+                    </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
@@ -30,17 +33,16 @@
                                     <h5 class="card-title mb-0">Daftar Data Pasien</h5>
                                 </div>
                                 <div class="card-body">
-                                    <table id="datatables" class="table table-striped table-bordered text-capitalize" style="white-space: nowrap; font-size: 1em;">
+                                    <table id="datatables" class="table table-striped table-bordered text-capitalize" style="white-space: nowrap; font-size: .9em;">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Kode Pasien</th>
-                                                <th class="no-sort">NIK</th>
-                                                <th>Nama Pasien</th>
-                                                <th>Jenis Kelamin</th>
-                                                <th>Tanggal Lahir</th>
-                                                <th>Umur</th>
-                                                <th>Aksi</th>
+                                                <th>kode_crossmatch</th>
+                                                <th>mayor</th>
+                                                <th>minor</th>
+                                                <th>autocontrol</th>
+                                                <th>hasil</th>
+                                                <th>tanggal_uji</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -48,18 +50,12 @@
                                             <?php foreach ($data_result as $item) : ?>
                                                 <tr>
                                                     <td><?= $no ?></td>
-                                                    <td><?= $item->kode_pasien ?></td>
-                                                    <td><?= $item->nik ?></td>
-                                                    <td><?= $item->nama_pasien ?></td>
-                                                    <td><?= $item->jenis_kelamin ?></td>
-                                                    <td><?= date('d-m-Y', strtotime($item->tanggal_lahir)) ?></td>
-                                                    <td><?= calculateAge($item->tanggal_lahir) ?> Tahun</td>
-                                                    <td>
-                                                        <a href="<?= base_url("pelayanan/pelayanan/$item->id_pasien"); ?>" class="btn btn-sm btn-primary">
-                                                            Lihat RM
-                                                            <i class="bi bi-arrow-right-circle"></i>
-                                                        </a>
-                                                    </td>
+                                                    <td><?= $item->kode_crossmatch ?></td>
+                                                    <td><?= $item->mayor ?></td>
+                                                    <td><?= $item->minor ?></td>
+                                                    <td><?= $item->autocontrol ?></td>
+                                                    <td><?= $item->hasil ?></td>
+                                                    <td><?= $item->tanggal_uji ?></td>
                                                 </tr>
                                                 <?php $no++ ?>
                                             <?php endforeach; ?>

@@ -34,7 +34,7 @@ class Pasien extends CI_Controller
 		$data['page_title']   	= $is_active ? "halaman manajemen $this->service_name Aktif" : "halaman $this->service_name tidak aktif";
 		$data['service_name'] 	= $this->service_name;
 		$data['is_active_page'] = $is_active;
-		$data['rekam_medis']    = mt_rand(100000, 999999) . '-RM';
+		$data['kode_pasien']    = mt_rand(100000, 999999) . '-KDPSN';
 		$data['data_result']    = $result_model;
 
 		$this->load->view("pasien/index", $data);
@@ -49,9 +49,10 @@ class Pasien extends CI_Controller
 		$nik = trim($this->input->post('nik'));
 
 		$data = [
-			'rekam_medis' => trim($this->input->post('rekam_medis')),
+			'kode_pasien' => trim($this->input->post('kode_pasien')),
 			'nik' => $nik,
 			'nama_pasien' => trim($this->input->post('nama_pasien')),
+			'golongan_darah' => trim($this->input->post('golongan_darah')),
 			'jenis_kelamin' => trim($this->input->post('jenis_kelamin')),
 			'tanggal_lahir' => trim($this->input->post('tanggal_lahir')),
 			'no_telepon' => trim($this->input->post('no_telepon')),
@@ -81,9 +82,10 @@ class Pasien extends CI_Controller
 		$nik = trim($this->input->post('nik'));
 
 		$data = [
-			'rekam_medis' => trim($this->input->post('rekam_medis')),
+			'kode_pasien' => trim($this->input->post('kode_pasien')),
 			'nik' => $nik,
 			'nama_pasien' => trim($this->input->post('nama_pasien')),
+			'golongan_darah' => trim($this->input->post('golongan_darah')),
 			'jenis_kelamin' => $this->input->post('jenis_kelamin'),
 			'tanggal_lahir' => $this->input->post('tanggal_lahir'),
 			'no_telepon' => trim($this->input->post('no_telepon')),

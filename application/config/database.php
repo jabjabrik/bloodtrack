@@ -12,7 +12,7 @@ $db['default'] = array(
 	'database' => 'bloodtrack',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
-	// 'pconnect' => FALSE,
+	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
 	'db_debug' => FALSE,
 	'cache_on' => FALSE,

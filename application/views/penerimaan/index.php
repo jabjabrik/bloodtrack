@@ -18,7 +18,7 @@
             <main class="content p-4 pb-0">
                 <div class="container-fluid p-0">
                     <h1 class="h3 mb-3"><i class="bi bi-person-vcard"></i> <span class="align-middle text-capitalize"><?= $page_title; ?></h1>
-                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_form_insert"">
+                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_form_insert">
                         <i class=" bi bi-plus-circle"></i> Tambah
                     </button>
                     <div class="row">
@@ -28,7 +28,7 @@
                                     <h5 class="card-title mb-0">Daftar Data Transaksi <?= $service_name ?> Darah PMI</h5>
                                 </div>
                                 <div class="card-body">
-                                    <table id="datatables" class="table table-striped table-bordered text-capitalize" style="white-space: nowrap; font-size: .9em;">
+                                    <table id="datatables" class="table table-striped table-bordered text-capitalize" style="white-space: nowrap; font-size: 1em;">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
@@ -47,11 +47,11 @@
                                                     <td><?= $no ?></td>
                                                     <td><?= $item->kode_penerimaan ?></td>
                                                     <td><?= $item->no_kantong ?></td>
-                                                    <td><?= "$item->jenis_darah | $item->golongan_darah$item->rhesus" ?></td>
+                                                    <td><?= "$item->jenis_darah | $item->golongan_darah" ?></td>
                                                     <td><?= $item->nama_pmi ?></td>
                                                     <td><?= $item->tanggal_terima ?></td>
                                                     <td>
-                                                        <?php $params = "[`$item->kode_penerimaan`,`$item->no_kantong`,`$item->jumlah_kantong`,`$item->tanggal_terima`,`$item->tanggal_aftap`,`$item->tanggal_kadaluarsa`,`$item->kode_darah`,`$item->jenis_darah | $item->golongan_darah$item->rhesus`,`$item->kode_pmi`,`$item->nama_pmi`,`$item->kode_kurir`,`$item->nama_kurir`,`$item->kode_penerima`,`$item->nama_penerima`]"; ?>
+                                                        <?php $params = "[`$item->kode_penerimaan`,`$item->no_kantong`, `$item->tanggal_terima`,`$item->tanggal_aftap`,`$item->tanggal_kadaluarsa`,`$item->kode_darah`,`$item->jenis_darah | $item->golongan_darah`,`$item->kode_pmi`,`$item->nama_pmi`,`$item->kode_kurir`,`$item->nama_kurir`,`$item->kode_penerima`,`$item->nama_penerima`]"; ?>
                                                         <div class="btn-group btn-group-sm" role="group">
                                                             <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal_form_detail" onclick="setFormDetail(<?= $params ?>)">
                                                                 <i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-title="Detail data Penerimaan"></i>
@@ -90,6 +90,42 @@
                 <form method="POST" autocomplete="off" action="<?= base_url('penerimaan/insert'); ?>">
                     <div class="modal-body">
                         <div class="row g-3">
+                            <div class="form-group col-6">
+                                <label for="id_darah" class="form-label">Informasi Darah</label>
+                                <select class="form-select" name="id_darah" id="id_darah" required>
+                                    <option selected value="">-</option>
+                                    <?php foreach ($darah as $item): ?>
+                                        <option value="<?= $item->id_darah ?>"><?= "$item->jenis_darah | $item->golongan_darah"  ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="id_pmi" class="form-label">Informasi PMI</label>
+                                <select class="form-select" name="id_pmi" id="id_pmi" required>
+                                    <option selected value="">-</option>
+                                    <?php foreach ($pmi as $item): ?>
+                                        <option value="<?= $item->id_pmi ?>"><?= "$item->nama_pmi"  ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="id_pmi" class="form-label">Informasi Kurir</label>
+                                <select class="form-select" name="id_kurir" id="id_kurir" required>
+                                    <option selected value="">-</option>
+                                    <?php foreach ($kurir as $item): ?>
+                                        <option value="<?= $item->id_kurir ?>"><?= "$item->nama_kurir"  ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="id_pmi" class="form-label">Informasi Penerima</label>
+                                <select class="form-select" name="id_penerima" id="id_penerima" required>
+                                    <option selected value="">-</option>
+                                    <?php foreach ($penerima as $item): ?>
+                                        <option value="<?= $item->id_penerima ?>"><?= "$item->nama_penerima"  ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
                             <div class="form-group col-4">
                                 <label for="kode_penerimaan" class="form-label">Kode Penerimaan</label>
                                 <input type="text" name="kode_penerimaan" id="kode_penerimaan" class="form-control" value="<?= $kode_penerimaan ?>" readonly>
@@ -97,10 +133,6 @@
                             <div class="form-group col-4">
                                 <label for="no_kantong" class="form-label">No Kantong</label>
                                 <input type="text" name="no_kantong" id="no_kantong" class="form-control" required>
-                            </div>
-                            <div class="form-group col-4">
-                                <label for="jumlah_kantong" class="form-label">Jumlah Kantong</label>
-                                <input type="number" name="jumlah_kantong" id="jumlah_kantong" class="form-control" required>
                             </div>
                             <div class="form-group col-4">
                                 <label for="tanggal_terima" class="form-label">Tanggal Terima</label>
@@ -113,22 +145,6 @@
                             <div class="form-group col-4">
                                 <label for="tanggal_kadaluarsa" class="form-label">Tanggal Kadaluarsa</label>
                                 <input type="date" name="tanggal_kadaluarsa" id="tanggal_kadaluarsa" class="form-control" required>
-                            </div>
-                            <div class="form-group col-3">
-                                <label for="kode_darah" class="form-label">Kode Darah</label>
-                                <input type="text" name="kode_darah" id="kode_darah" class="form-control" required>
-                            </div>
-                            <div class="form-group col-3">
-                                <label for="kode_pmi" class="form-label">Kode PMI</label>
-                                <input type="text" name="kode_pmi" id="kode_pmi" class="form-control" required>
-                            </div>
-                            <div class="form-group col-3">
-                                <label for="kode_kurir" class="form-label">Kode Kurir</label>
-                                <input type="text" name="kode_kurir" id="kode_kurir" class="form-control" required>
-                            </div>
-                            <div class="form-group col-3">
-                                <label for="kode_penerima" class="form-label">Kode Penerima</label>
-                                <input type="text" name="kode_penerima" id="kode_penerima" class="form-control" required>
                             </div>
                         </div>
                     </div>
@@ -154,16 +170,12 @@
                     <div class="row g-3">
                         <h5 class="h5 text-center">Informasi Penerimaan</h5>
                         <div class="form-group col-4">
-                            <label for="kode_penerimaan" class="form-label">Pode Penerimaan</label>
+                            <label for="kode_penerimaan" class="form-label">Kode Penerimaan</label>
                             <input type="text" name="kode_penerimaan" id="kode_penerimaan" class="form-control" disabled>
                         </div>
                         <div class="form-group col-4">
                             <label for="no_kantong" class="form-label">No Kantong</label>
                             <input type="text" name="no_kantong" id="no_kantong" class="form-control" disabled>
-                        </div>
-                        <div class="form-group col-4">
-                            <label for="jumlah_kantong" class="form-label">Jumlah Kantong</label>
-                            <input type="text" name="jumlah_kantong" id="jumlah_kantong" class="form-control" disabled>
                         </div>
                         <div class="form-group col-4">
                             <label for="tanggal_terima" class="form-label">Tanggal Terima</label>
@@ -246,7 +258,7 @@
         const modal_form_detail = document.querySelector('#modal_form_detail');
 
         const setFormDetail = (data) => {
-            const fields = ['kode_penerimaan', 'no_kantong', 'jumlah_kantong', 'tanggal_terima', 'tanggal_aftap', 'tanggal_kadaluarsa', 'kode_darah', 'jenis_darah_golda', 'kode_pmi', 'nama_pmi', 'kode_kurir', 'nama_kurir', 'kode_penerima', 'nama_penerima']
+            const fields = ['kode_penerimaan', 'no_kantong', 'tanggal_terima', 'tanggal_aftap', 'tanggal_kadaluarsa', 'kode_darah', 'jenis_darah_golda', 'kode_pmi', 'nama_pmi', 'kode_kurir', 'nama_kurir', 'kode_penerima', 'nama_penerima']
 
             fields.forEach((e, i) => {
                 const element = modal_form_detail.querySelector(`#${fields[i]}`);

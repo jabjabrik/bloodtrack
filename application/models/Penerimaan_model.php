@@ -7,7 +7,7 @@ class Penerimaan_model extends CI_Model
         $this->db->trans_begin();
 
         $query = "SELECT penerimaan.*, 
-        darah.id_darah, darah.kode_darah, darah.jenis_darah, darah.golongan_darah, darah.rhesus, 
+        darah.id_darah, darah.kode_darah, darah.jenis_darah, darah.golongan_darah,
         pmi.id_pmi, pmi.kode_pmi, pmi.nama_pmi, 
         kurir.id_kurir, kurir.kode_kurir, kurir.nama_kurir, 
         penerima.id_penerima, penerima.kode_penerima, penerima.nama_penerima 
@@ -16,7 +16,7 @@ class Penerimaan_model extends CI_Model
         JOIN pmi ON penerimaan.id_pmi = pmi.id_pmi
         JOIN kurir ON penerimaan.id_kurir = kurir.id_kurir
         JOIN penerima ON penerimaan.id_penerima = penerima.id_penerima
-        ORDER BY penerimaan.id_penerimaan";
+        ORDER BY penerimaan.id_penerimaan DESC";
 
         $result = $this->db->query($query);
 
@@ -31,20 +31,20 @@ class Penerimaan_model extends CI_Model
         }
     }
 
-    public function insert(string $table_name, array $data, string $jumlah_kantong): void
+    public function insert(string $table_name, array $data): void
     {
         $this->db->trans_begin();
 
         $this->db->insert($table_name, $data);
         $id = $this->db->insert_id();
 
-        $data = [
-            'kode_bank_darah' => mt_rand(100000, 999999) . '-KDBKDH',
-            'id_penerimaan' => $id,
-            'stok' => $jumlah_kantong,
-        ];
+        // $data = [
+        //     'kode_bank_darah' => mt_rand(100000, 999999) . '-KDBKDH',
+        //     'id_penerimaan' => $id,
+        //     'stok' => $jumlah_kantong,
+        // ];
 
-        $this->db->insert('bank_darah', $data);
+        // $this->db->insert('bank_darah', $data);
 
 
         if ($this->db->trans_status() === FALSE) {

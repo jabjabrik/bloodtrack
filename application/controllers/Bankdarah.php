@@ -36,12 +36,13 @@ class Bankdarah extends CI_Controller
 		$this->load->view("bank_darah/index", $data);
 	}
 
-	public function kadaluarsa()
+	public function detail()
 	{
 		$data['title']        	= "Informasi Bank Darah";
-		$data['page_title']   	= "halaman informai Bank Darah";
-		$data['data_result']    = $this->bank_darah_model->get_kadaluarsa($this->service_name);
-		$this->load->view("bank_darah/kadaluarsa", $data);
+		$data['page_title']   	= "halaman informai Detail Bank Darah";
+		$data['data_result']    = $this->bank_darah_model->get_detail_stok($this->service_name);
+		$data['total_darah']    = $this->bank_darah_model->get_total_darah($this->service_name);
+		$this->load->view("bank_darah/detail", $data);
 	}
 
 

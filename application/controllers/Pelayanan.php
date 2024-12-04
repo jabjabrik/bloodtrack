@@ -3,7 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Pelayanan extends CI_Controller
 {
-
 	private $service_name;
 
 	public function __construct()
@@ -16,98 +15,187 @@ class Pelayanan extends CI_Controller
 		authorize();
 	}
 
-
-
 	public function index()
 	{
-		redirect('pelayanan/reg', 'refresh');
-	}
-
-	public function reg()
-	{
 		$data['title']        	= 'Pelayanan';
-		$data['page_title']   	= 'halaman pelayanan pasien';
-		$data['kode_pelayanan']    = mt_rand(100000, 999999) . '-KDPYN';
-		$data['data_result']    = $this->pelayanan_model->get_all('pelayanan');
-		$data['pasien']    = $this->base_model->get_all('pasien', TRUE);
-		$data['dokter']    = $this->base_model->get_all('dokter', TRUE);
-		$data['ruangan']    = $this->base_model->get_all('ruangan', TRUE);
-
+		$data['data_result']    = $this->base_model->get_all('pasien', TRUE);
 		$this->load->view("pelayanan/index", $data);
 	}
 
-	public function permintaan($id_pelayanan = null)
+	public function pelayanan($id_pasien = null)
+	{
+		if (is_null($id_pasien)) show_404();
+
+		$pasien = $this->base_model->get_data_by('pasien', 'id_pasien', $id_pasien);
+
+		if (empty($pasien)) show_404();
+
+		$data['title']        	= 'Pelayanan';
+		$data['pasien']         = $pasien[0];
+		$data['rekam_medis']    = mt_rand(100000, 999999) . '-RM';
+		$data['data_result']    = $this->pelayanan_model->get_pelayanan($id_pasien);
+		$data['dokter']           = $this->base_model->get_all('dokter', true);
+		$data['ruangan']           = $this->base_model->get_all('ruangan', true);
+
+
+		$this->load->view("pelayanan/pelayanan", $data);
+	}
+
+
+	public function pelayanan_insert()
+	{
+		if ($this->input->server('REQUEST_METHOD') !== 'POST') {
+			redirect($this->service_name, 'refresh');
+		}
+		$id_pasien = trim($this->input->post('id_pasien', true));
+
+		$data = [
+			'rekam_medis' => trim($this->input->post('rekam_medis', true)),
+			'id_pasien' => $id_pasien,
+			'id_ruangan' => trim($this->input->post('id_ruangan', true)),
+			'id_dokter' => trim($this->input->post('id_dokter', true)),
+			'diagnosa' => trim($this->input->post('diagnosa', true)),
+			'tanggal_pelayanan' => trim($this->input->post('tanggal_pelayanan', true)),
+		];
+
+		$this->base_model->insert($this->service_name, $data);
+		set_toasts("Data $this->service_name berhasil disimpan.", 'success');
+
+		redirect("$this->service_name/pelayanan/$id_pasien", 'refresh');
+	}
+
+	public function pelayanan_delete($id_pelayanan = null)
 	{
 		if (is_null($id_pelayanan)) {
 			show_404();
 		}
 
-		$data['title']        	= 'Pelayanan';
-		$data['page_title']   	= 'halaman permintaan darah';
-		$data['kode_pelayanan']    = mt_rand(100000, 999999) . '-KDPYN';
-		$data['data_result']    = $this->pelayanan_model->get_permintaan('permintaan');
-		$data['id_pelayanan'] = $id_pelayanan;
+		$id_pasien = $this->base_model->get_data_by($this->service_name, 'id_pelayanan', $id_pelayanan)[0]->id_pasien;
 
-		$this->load->view("pelayanan/permintaan", $data);
-	}
+		$is_exist_crossmatch = !empty($this->base_model->get_data_by('crossmatch', 'id_pelayanan', $id_pelayanan));
 
-	public function crossmatch($id_permintaan = null)
-	{
-		if (is_null($id_permintaan)) {
-			show_404();
+		$msg = "";
+		$color = "";
+		if ($is_exist_crossmatch) {
+			$msg = "Data tidak dapat dihapus karna proses crossmatch telah dilakukan";
+			$color = "danger";
+		} else {
+			$this->base_model->action_remove($this->service_name, 'delete', $id_pelayanan);
+			$msg = "Data $this->service_name berhasil di hapus";
+			$color = "success";
 		}
 
+		set_toasts($msg, $color);
+
+		redirect("$this->service_name/pelayanan/$id_pasien", 'refresh');
+	}
+
+	public function crossmatch($id_pelayanan = null)
+	{
+		if (is_null($id_pelayanan)) show_404();
+
+		$pelayanan = $this->base_model->get_data_by('pelayanan', 'id_pelayanan', $id_pelayanan);
+
+		if (empty($pelayanan)) show_404();
+
+		$pasien = $this->base_model->get_data_by('pasien', 'id_pasien', $pelayanan[0]->id_pasien);
+
 		$data['title']        	= 'Pelayanan';
-		$data['page_title']   	= 'halaman crossmatch darah';
-		$data['kode_pelayanan']    = mt_rand(100000, 999999) . '-KDCRMC';
-		$data['data_result']    = $this->pelayanan_model->get_crossmatch($id_permintaan);
-		$data['id_permintaan'] = $id_permintaan;
+		$data['pasien']         = $pasien[0];
+		$data['id_pasien']   	= $pasien[0]->id_pasien;
+		$data['data_result']    = $this->pelayanan_model->get_crossmatch($id_pelayanan);
+		$data['last_data'] = !empty($data['data_result']) ? $data['data_result'][array_key_last($data['data_result'])] : [];
+		$data['darah_tersedia'] = $this->pelayanan_model->get_darah_tersedia($pasien[0]->golongan_darah);
+		$data['stok_darah'] = $this->pelayanan_model->get_stok_darah($pasien[0]->golongan_darah);
+		$data['total_stok_darah'] = $this->pelayanan_model->get_total_stok_darah($pasien[0]->golongan_darah);
+		$data['id_pelayanan'] = $id_pelayanan;
+
+		$total_biaya = 0;
+
+		foreach ($data['data_result'] as $item) {
+			$total_biaya = $total_biaya + $item->tarif;
+		}
+
+		$data['total_biaya'] = $total_biaya;
 
 		$this->load->view("pelayanan/crossmatch", $data);
 	}
 
-	private function _show(bool $is_active, array $result_model)
-	{
-		$data['title']        	= "Kelola " . ucfirst($this->service_name);
-		$data['page_title']   	= $is_active ? "halaman manajemen $this->service_name Aktif" : "halaman $this->service_name tidak aktif";
-		$data['service_name'] 	= $this->service_name;
-		$data['is_active_page'] = $is_active;
-		$data['rekam_medis']    = mt_rand(100000, 999999) . '-RM';
-		$data['data_result']    = $result_model;
-
-		$this->load->view("pelayanan/index", $data);
-	}
-
-	public function insert()
+	public function crossmatch_insert()
 	{
 		if ($this->input->server('REQUEST_METHOD') !== 'POST') {
 			redirect($this->service_name, 'refresh');
 		}
 
-		$nik = trim($this->input->post('nik'));
+		$id_pasien = trim($this->input->post('id_pasien', true));
+
+		$id_pelayanan = trim($this->input->post('id_pelayanan', true));
+		$id_penerimaan = trim($this->input->post('id_penerimaan', true));
+		$mayor = trim($this->input->post('mayor', true));
+		$minor = trim($this->input->post('minor', true));
+		$autocontrol = trim($this->input->post('autocontrol', true));
+
+		$hasil = $mayor == '-' && $minor == '-' && $autocontrol == '-' ? 'compatible' : 'incompatible';
 
 		$data = [
-			'rekam_medis' => trim($this->input->post('rekam_medis')),
-			'nik' => $nik,
-			'nama_pelayanan' => trim($this->input->post('nama_pelayanan')),
-			'jenis_kelamin' => trim($this->input->post('jenis_kelamin')),
-			'tanggal_lahir' => trim($this->input->post('tanggal_lahir')),
-			'no_telepon' => trim($this->input->post('no_telepon')),
-			'alamat' => str_replace("\n", "\\n", trim($this->input->post('alamat'))),
+			'id_pelayanan' => $id_pelayanan,
+			'id_penerimaan' => $id_penerimaan,
+			'mayor' => $mayor,
+			'minor' => $minor,
+			'autocontrol' => $autocontrol,
+			'hasil' => $hasil,
 		];
 
-		$is_exist_nik = count($this->base_model->get_data_by($this->service_name, 'nik', $nik)) > 0;
+		$this->base_model->insert('crossmatch', $data);
 
-		if ($is_exist_nik) {
-			set_toasts("NIK dengan nilai ($nik) telah digunakan.", 'danger');
-			redirect($this->service_name, 'refresh');
+		set_toasts("Data crossmatch berhasil disimpan.", 'success');
+
+		redirect("$this->service_name/crossmatch/$id_pelayanan", 'refresh');
+	}
+
+	public function crossmatch_transfusi_retur($type, $id_crossmatch, $id_pelayanan, $id_penerimaan)
+	{
+
+		if (is_null($type) || is_null($id_crossmatch) || is_null($id_pelayanan)) show_404();
+
+		$status;
+
+		if ($type == 'transfusi') {
+			$this->db->where("id_penerimaan", $id_penerimaan);
+			$this->db->update('penerimaan', ['status' => '0']);
+			$status = "transfusi";
+		} else {
+			$status = "retur";
 		}
 
-		$this->base_model->insert($this->service_name, $data);
-		set_toasts("Data $this->service_name berhasil disimpan.", 'success');
+		$this->db->where("id_crossmatch", $id_crossmatch);
+		$this->db->update('crossmatch', ['status' => $status]);
 
-		redirect($this->service_name, 'refresh');
+		set_toasts("Data crossmatch berhasil di $type.", 'success');
+
+		redirect("$this->service_name/crossmatch/$id_pelayanan", 'refresh');
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	public function edit()
 	{
@@ -139,19 +227,5 @@ class Pelayanan extends CI_Controller
 		$this->base_model->update($this->service_name, $data, $id);
 		set_toasts("Data $this->service_name berhasil diedit.", 'success');
 		redirect($this->service_name, 'refresh');
-	}
-
-	public function action_remove($type = null, $id = null)
-	{
-		if (is_null($type) || is_null($id)) {
-			show_404();
-		}
-
-		$this->base_model->action_remove($this->service_name, $type, $id);
-
-		$msg = "Data $this->service_name berhasil di " . ($type == 'delete' ? 'hapus' : ($type == 'active' ? 'Aktifkan' : 'nonaktifkan'));
-		set_toasts($msg, 'success');
-
-		redirect("$this->service_name/" . ($type == 'active' ? 'nonactive' : ''), 'refresh');
 	}
 }

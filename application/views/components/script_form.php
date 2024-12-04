@@ -24,8 +24,8 @@
             }
 
             if (service_name == 'pasien') {
-                if (e == 'rekam_medis') {
-                    element.value = title === 'tambah' ? '<?= $rekam_medis ?? '' ?>' : data[i];
+                if (e == 'kode_pasien') {
+                    element.value = title === 'tambah' ? '<?= $kode_pasien ?? '' ?>' : data[i];
                 }
             }
 

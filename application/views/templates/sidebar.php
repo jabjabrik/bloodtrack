@@ -71,11 +71,11 @@
                     <i class="bi bi-person-badge"></i> <span class="align-middle">Pelayanan</span>
                 </a>
             </li>
-            <li class="sidebar-item <?= $title == 'Histori Aktivitas' ? 'active' : '' ?>">
+            <!-- <li class="sidebar-item <?= $title == 'Histori Aktivitas' ? 'active' : '' ?>">
                 <a class="sidebar-link" href="<?= base_url('histori'); ?>">
                     <i class="bi bi-diagram-3"></i> <span class="align-middle">Histori Aktivitas</span>
                 </a>
-            </li>
+            </li> -->
             <li class="sidebar-header">
                 Akun
             </li>

@@ -32,13 +32,13 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Rekam Medis</th>
+                                                <th>Kode Pasien</th>
                                                 <th class="no-sort">NIK</th>
                                                 <th>Nama Pasien</th>
+                                                <th>Golda</th>
                                                 <th>Jenis Kelamin</th>
                                                 <th>Tanggal Lahir</th>
                                                 <th>Umur</th>
-                                                <!-- <th class="no-sort">Telepon</th> -->
                                                 <th class="no-sort">Aksi</th>
                                             </tr>
                                         </thead>
@@ -47,14 +47,15 @@
                                             <?php foreach ($data_result as $item) : ?>
                                                 <tr>
                                                     <td><?= $no ?></td>
-                                                    <td><?= $item->rekam_medis ?></td>
+                                                    <td><?= $item->kode_pasien ?></td>
                                                     <td><?= $item->nik ?></td>
                                                     <td><?= $item->nama_pasien ?></td>
+                                                    <td><?= $item->golongan_darah ?></td>
                                                     <td><?= $item->jenis_kelamin ?></td>
                                                     <td><?= date('d-m-Y', strtotime($item->tanggal_lahir)) ?></td>
                                                     <td><?= calculateAge($item->tanggal_lahir) ?> Tahun</td>
                                                     <td>
-                                                        <?php $params = "[`$item->id_pasien`, `$item->rekam_medis`, `$item->nik`, `$item->nama_pasien`, `$item->jenis_kelamin`, `$item->tanggal_lahir`, `$item->no_telepon`, `$item->alamat`]"; ?>
+                                                        <?php $params = "[`$item->id_pasien`, `$item->kode_pasien`, `$item->nik`, `$item->nama_pasien`, `$item->golongan_darah`, `$item->jenis_kelamin`, `$item->tanggal_lahir`, `$item->no_telepon`, `$item->alamat`]"; ?>
                                                         <!-- BTN GROUP TABLE -->
                                                         <?php $this->view('components/btn_group_table', ['id' => $item->id_pasien, 'params' => $params]); ?>
                                                         <!-- End BTN GROUP TABLE -->
@@ -90,8 +91,8 @@
                         <div class="row g-3">
                             <input name="id_pasien" id="id_pasien" hidden>
                             <div class="form-group col-6">
-                                <label for="rekam_medis" class="form-label">Rekam Medis</label>
-                                <input type="text" name="rekam_medis" id="rekam_medis" class="form-control" readonly>
+                                <label for="kode_pasien" class="form-label">Kode Pasien</label>
+                                <input type="text" name="kode_pasien" id="kode_pasien" class="form-control" readonly>
                             </div>
                             <div class="form-group col-6">
                                 <label for="nik" class="form-label">NIK</label>
@@ -102,9 +103,20 @@
                                 <input type="text" name="nama_pasien" id="nama_pasien" class="form-control" required>
                             </div>
                             <div class="form-group col-6">
+                                <label for="golongan_darah" class="form-label">Golongan Darah</label>
+                                <select class="form-select" name="golongan_darah" id="golongan_darah" required>
+                                    <option selected value="">-</option>
+                                    <option value="A">A</option>
+
+                                    <option value="B">B</option>
+                                    <option value="O">O</option>
+                                    <option value="AB">AB</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-6">
                                 <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
                                 <select class="form-select" name="jenis_kelamin" id="jenis_kelamin" required>
-                                    <option selected>-</option>
+                                    <option selected value="">-</option>
                                     <option value="laki-laki">Laki-Laki</option>
                                     <option value="perempuan">Perempuan</option>
                                 </select>
@@ -134,7 +146,7 @@
     <!-- End Modal Form -->
 
     <!-- Script Form -->
-    <?php $fields = ['id_pasien', 'rekam_medis', 'nik', 'nama_pasien', 'jenis_kelamin', 'tanggal_lahir', 'no_telepon', 'alamat']; ?>
+    <?php $fields = ['id_pasien', 'kode_pasien', 'nik', 'nama_pasien', 'golongan_darah', 'jenis_kelamin', 'tanggal_lahir', 'no_telepon', 'alamat']; ?>
     <?php $this->view('components/script_form', ['fields' => $fields, 'service_name' => $service_name]); ?>
     <!-- End Script Form -->
 

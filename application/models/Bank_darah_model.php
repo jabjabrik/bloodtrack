@@ -7,55 +7,13 @@ class Bank_darah_model extends CI_Model
         $this->db->trans_begin();
 
         $query = "SELECT 
-            darah.kode_darah,
-            darah.jenis_darah,
-            darah.golongan_darah,
-            darah.rhesus,
-            darah.stok_minimal,
-            darah.stok_maksimal,
-            darah.harga_beli,
-            darah.harga_jual,
-            SUM(penerimaan.jumlah_kantong) AS total_stok_awal,
-            SUM(bank_darah.stok) AS total_stok_sisa
-        FROM 
-            bank_darah
-        JOIN penerimaan 
-            ON bank_darah.id_penerimaan = penerimaan.id_penerimaan
-        JOIN darah 
-            ON penerimaan.id_darah = darah.id_darah
-        WHERE 
-            CURDATE() < penerimaan.tanggal_kadaluarsa
-        GROUP BY 
-            darah.jenis_darah, darah.golongan_darah, darah.rhesus, darah.stok_minimal, darah.stok_maksimal, darah.harga_beli, darah.harga_jual
-        ORDER BY total_stok_sisa DESC";
-        // $query = "SELECT 
-        //     darah.jenis_darah,
-        //     darah.golongan_darah,
-        //     darah.rhesus,
-        //     darah.stok_minimal,
-        //     darah.stok_maksimal,
-        //     darah.harga_beli,
-        //     darah.harga_jual,
-        //     SUM(bank_darah.stok) AS total_stok_sisa,
-        //     SUM(penerimaan.jumlah_kantong) AS total_stok_awal,
-        //     IF(penerimaan.tanggal_kadaluarsa >= CURDATE(), '1', '0') AS status_kadaluarsa
-        // FROM 
-        //     bank_darah
-        // JOIN penerimaan 
-        //     ON bank_darah.id_penerimaan = penerimaan.id_penerimaan
-        // JOIN darah 
-        //     ON penerimaan.id_darah = darah.id_darah
-        // GROUP BY 
-        //     darah.jenis_darah, darah.golongan_darah, darah.rhesus, status_kadaluarsa, darah.stok_minimal, darah.stok_maksimal, darah.harga_beli, darah.harga_jual
-        // ORDER BY status_kadaluarsa, total_stok_sisa DESC
-        // ";
-        // $query = "SELECT bank_darah.kode_bank_darah, bank_darah.stok AS stok_tersisa,
-        // penerimaan.no_kantong, penerimaan.jumlah_kantong AS stok_awal, penerimaan.tanggal_terima, penerimaan.tanggal_aftap, penerimaan.tanggal_kadaluarsa, 
-        // darah.kode_darah, darah.jenis_darah, darah.golongan_darah, darah.rhesus
-        // FROM bank_darah
-        // JOIN penerimaan ON bank_darah.id_penerimaan = penerimaan.id_penerimaan
-        // JOIN darah ON penerimaan.id_darah = darah.id_darah
-        // ORDER BY bank_darah.stok";
+        darah.kode_darah, darah.jenis_darah, darah.golongan_darah, darah.stok_maksimal, darah.stok_minimal, darah.harga_beli, darah.harga_jual,
+        COUNT(darah.golongan_darah) AS stok
+        FROM penerimaan
+        JOIN darah ON penerimaan.id_darah = darah.id_darah
+        WHERE penerimaan.status = '1' AND CURDATE() < penerimaan.tanggal_kadaluarsa
+        GROUP BY darah.kode_darah, darah.jenis_darah, darah.golongan_darah, darah.stok_maksimal, darah.stok_maksimal, darah.harga_beli, darah.harga_jual
+        ORDER BY stok DESC";
 
         $result = $this->db->query($query);
 
@@ -70,26 +28,16 @@ class Bank_darah_model extends CI_Model
         }
     }
 
-    public function get_kadaluarsa(string $table_name): array
+    public function get_detail_stok(string $table_name): array
     {
         $this->db->trans_begin();
 
-        $query = "SELECT 
-        darah.kode_darah, darah.jenis_darah, darah.golongan_darah, darah.rhesus, darah.stok_minimal, 
-        darah.stok_maksimal, darah.harga_beli, darah.harga_jual, penerimaan.tanggal_kadaluarsa,
-        SUM(bank_darah.stok) AS total_stok_sisa
-        FROM 
-            bank_darah
-        JOIN penerimaan 
-            ON bank_darah.id_penerimaan = penerimaan.id_penerimaan
-        JOIN darah 
-            ON penerimaan.id_darah = darah.id_darah
-        WHERE 
-            CURDATE() >= penerimaan.tanggal_kadaluarsa
-        GROUP BY 
-            darah.jenis_darah, darah.golongan_darah, darah.rhesus, darah.stok_minimal, darah.stok_maksimal,
-            darah.harga_beli, darah.harga_jual, penerimaan.tanggal_kadaluarsa
-        ORDER BY total_stok_sisa DESC";
+        $query = "SELECT darah.kode_darah, darah.jenis_darah, darah.golongan_darah, 
+        darah.stok_maksimal, darah.stok_minimal, darah.harga_beli, darah.harga_jual,
+        penerimaan.no_kantong, penerimaan.tanggal_kadaluarsa, penerimaan.status, penerimaan.tanggal_terima
+        FROM penerimaan
+        JOIN darah ON penerimaan.id_darah = darah.id_darah
+        ORDER BY penerimaan.status DESC, penerimaan.tanggal_kadaluarsa DESC";
 
         $result = $this->db->query($query);
 
@@ -102,6 +50,13 @@ class Bank_darah_model extends CI_Model
             $this->db->trans_commit();
             return $result->result();
         }
+    }
+
+    public function get_total_darah(string $table_name): string
+    {
+        $query = "SELECT COUNT(*) AS total FROM penerimaan";
+        $result = $this->db->query($query)->row('total');
+        return $result;
     }
 
     public function insert(string $table_name, array $data): void
