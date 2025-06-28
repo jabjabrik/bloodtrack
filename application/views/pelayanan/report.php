@@ -56,6 +56,7 @@
                 <th>Jumlah_darah</th>
                 <th>Golda</th>
                 <th>Tanggal</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
@@ -71,6 +72,7 @@
                         <td><?= $item->jumlah_darah ?></td>
                         <td><?= $item->golongan_darah ?></td>
                         <td><?= $item->tanggal_pelayanan ?></td>
+                        <td>Verifikasi</td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
