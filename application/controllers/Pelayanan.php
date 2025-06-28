@@ -11,8 +11,8 @@ class Pelayanan extends CI_Controller
 		$this->service_name = 'pelayanan';
 		$this->load->model('base_model');
 		$this->load->model('pelayanan_model');
-		is_logged_in();
-		authorize();
+		$this->load->library('Dompdf_lib');
+		authorize_user(['admin', 'perawat', 'viewer']);
 	}
 
 	public function index()
@@ -32,15 +32,16 @@ class Pelayanan extends CI_Controller
 
 		$data['title']        	= 'Pelayanan';
 		$data['pasien']         = $pasien[0];
-		$data['rekam_medis']    = mt_rand(100000, 999999) . '-RM';
+		$data['rekam_medis']    = 'RM-' . $this->base_model->generate_rm();
 		$data['data_result']    = $this->pelayanan_model->get_pelayanan($id_pasien);
 		$data['dokter']           = $this->base_model->get_all('dokter', true);
 		$data['ruangan']           = $this->base_model->get_all('ruangan', true);
+		$data['id_pasien']   	= $id_pasien;
+		$data['jabatan'] = $this->session->userdata('jabatan');
 
 
 		$this->load->view("pelayanan/pelayanan", $data);
 	}
-
 
 	public function pelayanan_insert()
 	{
@@ -55,6 +56,7 @@ class Pelayanan extends CI_Controller
 			'id_ruangan' => trim($this->input->post('id_ruangan', true)),
 			'id_dokter' => trim($this->input->post('id_dokter', true)),
 			'diagnosa' => trim($this->input->post('diagnosa', true)),
+			'jumlah_darah' => trim($this->input->post('jumlah_darah', true)),
 			'tanggal_pelayanan' => trim($this->input->post('tanggal_pelayanan', true)),
 		];
 
@@ -176,27 +178,6 @@ class Pelayanan extends CI_Controller
 		redirect("$this->service_name/crossmatch/$id_pelayanan", 'refresh');
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	public function edit()
 	{
 		if ($this->input->server('REQUEST_METHOD') !== 'POST') {
@@ -227,5 +208,21 @@ class Pelayanan extends CI_Controller
 		$this->base_model->update($this->service_name, $data, $id);
 		set_toasts("Data $this->service_name berhasil diedit.", 'success');
 		redirect($this->service_name, 'refresh');
+	}
+
+	public function report($id_pasien = null)
+	{
+		if (is_null($id_pasien)) {
+			show_404();
+		}
+
+		$data['data_result']    = $this->pelayanan_model->get_pelayanan($id_pasien);
+
+		$html = $this->load->view('pelayanan/report', $data, TRUE);
+
+		$this->dompdf_lib->loadHtml($html);
+		$this->dompdf_lib->setPaper('A4', 'landscape');
+		$this->dompdf_lib->render();
+		$this->dompdf_lib->stream("laporan-permintaan.pdf", array("Attachment" => 0));
 	}
 }

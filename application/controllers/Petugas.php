@@ -11,8 +11,7 @@ class Petugas extends CI_Controller
 		parent::__construct();
 		$this->service_name = "petugas";
 		$this->load->model('base_model');
-		is_logged_in();
-		authorize();
+		authorize_user(['admin']);
 	}
 
 	public function index()
@@ -33,7 +32,7 @@ class Petugas extends CI_Controller
 		$data['page_title']   	= $is_active ? "halaman manajemen $this->service_name Aktif" : "halaman $this->service_name tidak aktif";
 		$data['service_name'] 	= $this->service_name;
 		$data['is_active_page'] = $is_active;
-		$data['kode_petugas']    = mt_rand(100000, 999999) . '-KDPTGS';
+		$data['kode_petugas']    = 'KDPTGS-' . $this->base_model->generate_kode('petugas');
 		$data['data_result']    = $result_model;
 
 		$this->load->view("petugas/index", $data);
@@ -49,7 +48,7 @@ class Petugas extends CI_Controller
 		$password = $this->input->post('password');
 
 		if (strlen($username) < 5) {
-			set_toasts('Username harus minimal 8 karakter.', 'danger');
+			set_toasts('Username harus minimal 5 karakter.', 'danger');
 			redirect($this->service_name, 'refresh');
 		}
 

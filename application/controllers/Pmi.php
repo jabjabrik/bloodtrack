@@ -11,8 +11,7 @@ class Pmi extends CI_Controller
 		parent::__construct();
 		$this->service_name = "pmi";
 		$this->load->model('base_model');
-		is_logged_in();
-		authorize();
+		authorize_user(['admin']);
 	}
 
 	public function index()
@@ -33,7 +32,7 @@ class Pmi extends CI_Controller
 		$data['page_title']   	= $is_active ? "halaman manajemen " . strtoupper($this->service_name) . " Aktif" : "halaman " . strtoupper($this->service_name) . " tidak aktif";
 		$data['service_name'] 	= $this->service_name;
 		$data['is_active_page'] = $is_active;
-		$data['kode_pmi']       = mt_rand(100000, 999999) . '-KDPMI';
+		$data['kode_pmi']       = 'KDPMI-' . $this->base_model->generate_kode('pmi');
 		$data['data_result']    = $result_model;
 
 		$this->load->view("pmi/index", $data);

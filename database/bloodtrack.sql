@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 03, 2024 at 02:23 PM
+-- Generation Time: Jun 28, 2025 at 08:17 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.3.33
 
@@ -45,12 +45,8 @@ CREATE TABLE `crossmatch` (
 --
 
 INSERT INTO `crossmatch` (`id_crossmatch`, `id_pelayanan`, `id_penerimaan`, `mayor`, `minor`, `autocontrol`, `hasil`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, '+', '+', '+', 'incompatible', NULL, '2024-12-03 12:45:11', '2024-12-03 12:45:11'),
-(2, 1, 2, '-', '-', '-', 'compatible', 'retur', '2024-12-03 12:45:25', '2024-12-03 12:46:06'),
-(3, 2, 1, '-', '-', '-', 'compatible', 'transfusi', '2024-12-03 12:47:27', '2024-12-03 12:47:39'),
-(4, 3, 2, '-', '-', '+', 'incompatible', NULL, '2024-12-03 13:07:45', '2024-12-03 13:07:45'),
-(5, 3, 4, '-', '-', '-', 'compatible', 'transfusi', '2024-12-03 13:08:13', '2024-12-03 13:09:42'),
-(6, 4, 2, '-', '-', '-', 'compatible', 'retur', '2024-12-03 13:12:11', '2024-12-03 13:12:16');
+(1, 1, 1, '-', '+', '-', 'incompatible', NULL, '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(2, 1, 2, '-', '-', '-', 'compatible', 'transfusi', '2025-06-28 06:16:28', '2025-06-28 06:16:28');
 
 -- --------------------------------------------------------
 
@@ -77,26 +73,26 @@ CREATE TABLE `darah` (
 --
 
 INSERT INTO `darah` (`id_darah`, `kode_darah`, `jenis_darah`, `golongan_darah`, `stok_maksimal`, `stok_minimal`, `harga_beli`, `harga_jual`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, '678315-KDDRH', 'Darah Biasa (Whole blood)', 'A', 10, 2, 435000, 435000, '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(2, '765913-KDDRH', 'Darah Biasa (Whole blood)', 'B', 5, 2, 440000, 440000, '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(3, '955542-KDDRH', 'Darah Biasa (Whole blood)', 'O', 8, 2, 440000, 440000, '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(4, '215928-KDDRH', 'Darah Biasa (Whole blood)', 'AB', 5, 2, 430000, 430000, '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(5, '328983-KDDRH', 'Packed Red Cell (PRC)', 'A', 7, 2, 450000, 450000, '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(6, '687689-KDDRH', 'Packed Red Cell (PRC)', 'B', 6, 2, 450000, 450000, '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(7, '439704-KDDRH', 'Packed Red Cell (PRC)', 'O', 9, 2, 450000, 450000, '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(8, '408078-KDDRH', 'Packed Red Cell (PRC)', 'AB', 4, 2, 450000, 450000, '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(9, '336680-KDDRH', 'Plasma', 'A', 6, 2, 400000, 400000, '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(10, '530653-KDDRH', 'Plasma', 'B', 5, 2, 400000, 400000, '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(11, '120299-KDDRH', 'Plasma', 'O', 7, 2, 400000, 400000, '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(12, '649248-KDDRH', 'Plasma', 'AB', 4, 2, 400000, 400000, '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(13, '531711-KDDRH', 'Thrombocyte', 'A', 3, 1, 470000, 470000, '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(14, '312860-KDDRH', 'Thrombocyte', 'B', 4, 1, 470000, 470000, '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(15, '232229-KDDRH', 'Thrombocyte', 'O', 5, 1, 470000, 470000, '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(16, '363763-KDDRH', 'Thrombocyte', 'AB', 3, 1, 470000, 470000, '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(17, '432460-KDDRH', 'Fresh Frozen Plasma', 'A', 8, 3, 500000, 500000, '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(18, '603078-KDDRH', 'Fresh Frozen Plasma', 'B', 7, 3, 500000, 500000, '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(19, '370661-KDDRH', 'Fresh Frozen Plasma', 'O', 9, 3, 500000, 500000, '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(20, '937896-KDDRH', 'Fresh Frozen Plasma', 'AB', 6, 3, 500000, 500000, '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01');
+(1, 'KDDRH-001', 'Darah Biasa (Whole blood)', 'A', 10, 2, 435000, 435000, '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(2, 'KDDRH-002', 'Darah Biasa (Whole blood)', 'B', 5, 2, 440000, 440000, '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(3, 'KDDRH-003', 'Darah Biasa (Whole blood)', 'O', 8, 2, 440000, 440000, '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(4, 'KDDRH-004', 'Darah Biasa (Whole blood)', 'AB', 5, 2, 430000, 430000, '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(5, 'KDDRH-005', 'Packed Red Cell (PRC)', 'A', 7, 2, 450000, 450000, '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(6, 'KDDRH-006', 'Packed Red Cell (PRC)', 'B', 6, 2, 450000, 450000, '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(7, 'KDDRH-007', 'Packed Red Cell (PRC)', 'O', 9, 2, 450000, 450000, '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(8, 'KDDRH-008', 'Packed Red Cell (PRC)', 'AB', 4, 2, 450000, 450000, '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(9, 'KDDRH-009', 'Plasma', 'A', 6, 2, 400000, 400000, '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(10, 'KDDRH-010', 'Plasma', 'B', 5, 2, 400000, 400000, '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(11, 'KDDRH-011', 'Plasma', 'O', 7, 2, 400000, 400000, '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(12, 'KDDRH-012', 'Plasma', 'AB', 4, 2, 400000, 400000, '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(13, 'KDDRH-013', 'Thrombocyte', 'A', 3, 1, 470000, 470000, '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(14, 'KDDRH-014', 'Thrombocyte', 'B', 4, 1, 470000, 470000, '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(15, 'KDDRH-015', 'Thrombocyte', 'O', 5, 1, 470000, 470000, '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(16, 'KDDRH-016', 'Thrombocyte', 'AB', 3, 1, 470000, 470000, '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(17, 'KDDRH-017', 'Fresh Frozen Plasma', 'A', 8, 3, 500000, 500000, '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(18, 'KDDRH-018', 'Fresh Frozen Plasma', 'B', 7, 3, 500000, 500000, '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(19, 'KDDRH-019', 'Fresh Frozen Plasma', 'O', 9, 3, 500000, 500000, '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(20, 'KDDRH-020', 'Fresh Frozen Plasma', 'AB', 6, 3, 500000, 500000, '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28');
 
 -- --------------------------------------------------------
 
@@ -120,16 +116,11 @@ CREATE TABLE `dokter` (
 --
 
 INSERT INTO `dokter` (`id_dokter`, `kode_dokter`, `nama_dokter`, `no_telepon`, `alamat`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, '648902-KDDKTR', 'Dr. Andi Pratama', '081234567890', 'Jl. Merdeka No. 12, Jakarta', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(2, '478224-KDDKTR', 'Dr. Budi Santoso', '082345678901', 'Jl. Mawar No. 5, Surabaya', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(3, '259182-KDDKTR', 'Dr. Citra Wulandari', '083456789012', 'Jl. Kenanga No. 20, Bandung', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(4, '498504-KDDKTR', 'Dr. Dian Permata', '084567890123', 'Jl. Melati No. 14, Yogyakarta', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(5, '620920-KDDKTR', 'Dr. Endah Sari', '085678901234', 'Jl. Anggrek No. 7, Semarang', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(6, '900738-KDDKTR', 'Dr. Fajar Ramadhan', '086789012345', 'Jl. Cemara No. 10, Medan', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(7, '321802-KDDKTR', 'Dr. Gita Larasati', '087890123456', 'Jl. Flamboyan No. 2, Malang', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(8, '951845-KDDKTR', 'Dr. Hadi Pranoto', '088901234567', 'Jl. Cendana No. 8, Palembang', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(9, '179892-KDDKTR', 'Dr. Indra Wijaya', '089012345678', 'Jl. Bambu No. 15, Denpasar', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(10, '151958-KDDKTR', 'Dr. Joko Sulistyo', '081098765432', 'Jl. Sawo No. 11, Makassar', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01');
+(1, 'KDDKTR-001', 'Dr. Andi Pratama', '081234567890', 'Jl. Merdeka No. 12, Jakarta', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(2, 'KDDKTR-002', 'Dr. Budi Santoso', '082345678901', 'Jl. Mawar No. 5, Surabaya', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(3, 'KDDKTR-003', 'Dr. Citra Wulandari', '083456789012', 'Jl. Kenanga No. 20, Bandung', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(4, 'KDDKTR-004', 'Dr. Dian Permata', '084567890123', 'Jl. Melati No. 14, Yogyakarta', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(5, 'KDDKTR-005', 'Dr. Endah Sari', '085678901234', 'Jl. Anggrek No. 7, Semarang', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28');
 
 -- --------------------------------------------------------
 
@@ -151,30 +142,11 @@ CREATE TABLE `kurir` (
 --
 
 INSERT INTO `kurir` (`id_kurir`, `kode_kurir`, `nama_kurir`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, '353114-KDKRR', 'Andi Setiawan', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(2, '824177-KDKRR', 'Budi Hartono', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(3, '824550-KDKRR', 'Siti Nurhaliza', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(4, '605334-KDKRR', 'Rini Pratiwi', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(5, '253500-KDKRR', 'Agus Santoso', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `migrations`
---
-
-CREATE TABLE `migrations` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `migrations`
---
-
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, 'bloodtrack', 1);
+(1, 'KDKRR-001', 'Andi Setiawan', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(2, 'KDKRR-002', 'Budi Hartono', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(3, 'KDKRR-003', 'Siti Nurhaliza', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(4, 'KDKRR-004', 'Rini Pratiwi', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(5, 'KDKRR-005', 'Agus Santoso', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28');
 
 -- --------------------------------------------------------
 
@@ -202,16 +174,16 @@ CREATE TABLE `pasien` (
 --
 
 INSERT INTO `pasien` (`id_pasien`, `kode_pasien`, `nik`, `nama_pasien`, `golongan_darah`, `jenis_kelamin`, `tanggal_lahir`, `no_telepon`, `alamat`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, '837283-KDPSN', '357901230001', 'Ahmad Subekti', 'A', 'laki-laki', '1985-04-12', '081234567890', 'Jl. Merpati No. 45, Wonoasih', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(2, '728743-KDPSN', '357902340002', 'Fitri Handayani', 'B', 'perempuan', '1990-09-25', '081334567891', 'Jl. Kenanga No. 12, Bantaran', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(3, '960971-KDPSN', '357903450003', 'Siti Nur Azizah', 'O', 'perempuan', '1978-02-17', '081234578901', 'Jl. Melati No. 30, Leces', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(4, '704353-KDPSN', '357904560004', 'Budi Santoso', 'B', 'laki-laki', '1982-11-11', '081244578902', 'Jl. Mawar No. 8, Dringu', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(5, '115863-KDPSN', '357905670005', 'Lilis Kurniasari', 'O', 'perempuan', '1995-06-07', '081254578903', 'Jl. Dahlia No. 15, Sumber', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(6, '976745-KDPSN', '357906780006', 'Arif Setiawan', 'O', 'laki-laki', '1989-03-14', '081264578904', 'Jl. Anggrek No. 22, Krejengan', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(7, '614302-KDPSN', '357907890007', 'Dewi Anggraini', 'B', 'perempuan', '1975-12-05', '081274578905', 'Jl. Flamboyan No. 10, Kraksaan', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(8, '664469-KDPSN', '357908910008', 'Hasan Prasetyo', 'O', 'laki-laki', '1992-07-19', '081284578906', 'Jl. Cempaka No. 5, Maron', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(9, '412676-KDPSN', '357909120009', 'Ratna Sari Dewi', 'A', 'perempuan', '1980-10-30', '081294578907', 'Jl. Kemuning No. 18, Besuk', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(10, '127200-KDPSN', '357910330010', 'Dedi Firmansyah', 'A', 'laki-laki', '1998-01-22', '081304578908', 'Jl. Sukun No. 27, Gending', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01');
+(1, 'KDPSN-001', '357901230001', 'Ahmad Subekti', 'A', 'laki-laki', '1985-04-12', '081234567890', 'Jl. Merpati No. 45, Wonoasih', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(2, 'KDPSN-002', '357902340002', 'Fitri Handayani', 'B', 'perempuan', '1990-09-25', '081334567891', 'Jl. Kenanga No. 12, Bantaran', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(3, 'KDPSN-003', '357903450003', 'Siti Nur Azizah', 'O', 'perempuan', '1978-02-17', '081234578901', 'Jl. Melati No. 30, Leces', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(4, 'KDPSN-004', '357904560004', 'Budi Santoso', 'B', 'laki-laki', '1982-11-11', '081244578902', 'Jl. Mawar No. 8, Dringu', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(5, 'KDPSN-005', '357905670005', 'Lilis Kurniasari', 'O', 'perempuan', '1995-06-07', '081254578903', 'Jl. Dahlia No. 15, Sumber', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(6, 'KDPSN-006', '357906780006', 'Arif Setiawan', 'O', 'laki-laki', '1989-03-14', '081264578904', 'Jl. Anggrek No. 22, Krejengan', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(7, 'KDPSN-007', '357907890007', 'Dewi Anggraini', 'B', 'perempuan', '1975-12-05', '081274578905', 'Jl. Flamboyan No. 10, Kraksaan', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(8, 'KDPSN-008', '357908910008', 'Hasan Prasetyo', 'O', 'laki-laki', '1992-07-19', '081284578906', 'Jl. Cempaka No. 5, Maron', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(9, 'KDPSN-009', '357909120009', 'Ratna Sari Dewi', 'A', 'perempuan', '1980-10-30', '081294578907', 'Jl. Kemuning No. 18, Besuk', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(10, 'KDPSN-010', '357910330010', 'Dedi Firmansyah', 'A', 'laki-laki', '1998-01-22', '081304578908', 'Jl. Sukun No. 27, Gending', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28');
 
 -- --------------------------------------------------------
 
@@ -226,6 +198,7 @@ CREATE TABLE `pelayanan` (
   `id_ruangan` bigint(20) UNSIGNED NOT NULL,
   `id_dokter` bigint(20) UNSIGNED NOT NULL,
   `diagnosa` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `jumlah_darah` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `tanggal_pelayanan` date NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -235,11 +208,8 @@ CREATE TABLE `pelayanan` (
 -- Dumping data for table `pelayanan`
 --
 
-INSERT INTO `pelayanan` (`id_pelayanan`, `rekam_medis`, `id_pasien`, `id_ruangan`, `id_dokter`, `diagnosa`, `tanggal_pelayanan`, `created_at`, `updated_at`) VALUES
-(1, '759889-RM', 1, 2, 3, 'anemia', '2024-12-03', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(2, '701845-RM', 1, 1, 1, 'anemia', '2024-12-03', '2024-12-03 12:46:48', '2024-12-03 12:46:48'),
-(3, '951571-RM', 9, 1, 2, 'anemia', '2024-12-03', '2024-12-03 13:06:47', '2024-12-03 13:06:47'),
-(4, '634464-RM', 9, 1, 1, 'anemia', '2024-12-04', '2024-12-03 13:11:49', '2024-12-03 13:11:49');
+INSERT INTO `pelayanan` (`id_pelayanan`, `rekam_medis`, `id_pasien`, `id_ruangan`, `id_dokter`, `diagnosa`, `jumlah_darah`, `tanggal_pelayanan`, `created_at`, `updated_at`) VALUES
+(1, 'RM-001', 1, 1, 1, 'anemia', '2', '2025-06-27', '2025-06-28 06:16:28', '2025-06-28 06:16:28');
 
 -- --------------------------------------------------------
 
@@ -261,11 +231,11 @@ CREATE TABLE `penerima` (
 --
 
 INSERT INTO `penerima` (`id_penerima`, `kode_penerima`, `nama_penerima`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, '942088-KDPNRM', 'Andika Pratama', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(2, '137016-KDPNRM', 'Eko Wibowo', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(3, '201688-KDPNRM', 'Budi Santoso', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(4, '750895-KDPNRM', 'Maya Sari', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(5, '819179-KDPNRM', 'Dian Kusuma', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01');
+(1, 'KDPNR-001', 'Andika Pratama', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(2, 'KDPNR-002', 'Eko Wibowo', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(3, 'KDPNR-003', 'Budi Santoso', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(4, 'KDPNR-004', 'Maya Sari', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(5, 'KDPNR-005', 'Dian Kusuma', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28');
 
 -- --------------------------------------------------------
 
@@ -294,17 +264,15 @@ CREATE TABLE `penerimaan` (
 --
 
 INSERT INTO `penerimaan` (`id_penerimaan`, `kode_penerimaan`, `id_darah`, `id_pmi`, `id_kurir`, `id_penerima`, `no_kantong`, `tanggal_terima`, `tanggal_aftap`, `tanggal_kadaluarsa`, `status`, `created_at`, `updated_at`) VALUES
-(1, '833537-KDPNRM', 1, 1, 1, 1, 'A369372', '2024-11-13', '2024-11-12', '2024-12-12', '0', '2024-12-03 12:45:01', '2024-12-03 12:47:39'),
-(2, '150213-KDPNRM', 1, 2, 2, 2, 'A201646', '2024-11-13', '2024-11-12', '2024-12-12', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(3, '467034-KDPNRM', 5, 3, 3, 3, 'A324727', '2024-11-13', '2024-11-12', '2024-12-12', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(4, '112276-KDPNRM', 5, 4, 4, 4, 'A108912', '2024-11-13', '2024-11-12', '2024-12-12', '0', '2024-12-03 12:45:01', '2024-12-03 13:09:42'),
-(5, '281158-KDPNRM', 5, 5, 5, 5, 'A202897', '2024-11-13', '2024-11-12', '2024-12-12', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(6, '207270-KDPNRM', 5, 6, 1, 1, 'A850739', '2024-11-13', '2024-11-12', '2024-12-12', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(7, '484701-KDPNRM', 5, 7, 2, 2, 'A442482', '2024-11-13', '2024-11-12', '2024-12-12', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(8, '786264-KDPNRM', 2, 7, 2, 2, 'A155348', '2024-11-13', '2024-11-12', '2024-12-12', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(9, '550471-KDPNRM', 2, 7, 2, 2, 'A383382', '2024-11-13', '2024-11-12', '2024-12-02', '1', '2024-12-03 12:45:01', '2024-12-03 13:04:22'),
-(10, '573765-KDPNRM', 1, 1, 1, 1, 'A123123', '2024-12-03', '2024-11-03', '2025-01-03', '1', '2024-12-03 13:01:36', '2024-12-03 13:01:36'),
-(11, '820484-KDPNRM', 1, 1, 1, 1, 'Aqweqwe', '2024-12-03', '2024-12-01', '2025-01-03', '1', '2024-12-03 13:02:42', '2024-12-03 13:02:42');
+(1, 'KDPNRM-001', 1, 1, 1, 1, 'A664952', '2025-06-25', '2025-06-24', '2025-07-25', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(2, 'KDPNRM-002', 1, 1, 1, 1, 'A884809', '2025-06-25', '2025-06-24', '2025-07-25', '0', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(3, 'KDPNRM-003', 1, 1, 1, 1, 'A559931', '2025-06-25', '2025-06-24', '2025-07-25', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(4, 'KDPNRM-004', 2, 2, 2, 2, 'B135888', '2025-06-26', '2025-06-25', '2025-07-26', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(5, 'KDPNRM-005', 2, 2, 2, 2, 'B723432', '2025-06-26', '2025-06-25', '2025-07-26', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(6, 'KDPNRM-006', 2, 2, 2, 2, 'B864667', '2025-06-26', '2025-06-25', '2025-07-26', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(7, 'KDPNRM-007', 3, 3, 3, 3, 'O884497', '2025-06-27', '2025-06-26', '2025-07-27', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(8, 'KDPNRM-008', 3, 3, 3, 3, 'O694143', '2025-06-27', '2025-06-26', '2025-07-27', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(9, 'KDPNRM-009', 3, 3, 3, 3, 'O531348', '2025-06-27', '2025-06-26', '2025-07-27', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28');
 
 -- --------------------------------------------------------
 
@@ -318,7 +286,7 @@ CREATE TABLE `petugas` (
   `nama_petugas` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `jabatan` enum('admin','analis','bidan') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `jabatan` enum('admin','perawat','viewer') COLLATE utf8mb4_unicode_ci NOT NULL,
   `is_active` enum('1','0') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -329,7 +297,10 @@ CREATE TABLE `petugas` (
 --
 
 INSERT INTO `petugas` (`id_petugas`, `kode_petugas`, `nama_petugas`, `username`, `password`, `jabatan`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, '734677-KDPTGS', 'Lailatul Choiriyah', 'laila', '$2y$10$XkmElBLSPOktM3rYaezcx.JQBRsizjdCw7PLlNFAqIi3Q49ApVhV.', 'admin', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01');
+(1, 'KDPTGS-001', 'administator', 'admin', '$2y$12$alj0GQZJ68a26UURJkQUDuurhj1hJP9NEMF9OvZ.GeQoMCKSkG9Rq', 'admin', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(2, 'KDPTGS-002', 'perawat', 'perawat', '$2y$12$cyjmJdgqcBddAUnUtJWcteYz2EYbABhQolQ3/6FgDM4CvOxRpRFk.', 'perawat', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(3, 'KDPTGS-003', 'koordinator', 'koordinator', '$2y$12$P5wMkQpQWHbumus3bHe6s..RBJpAaSxGJfuz6h2Rv/NykPF2gwoiO', 'viewer', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(4, 'KDPTGS-004', 'direktur', 'direktur', '$2y$12$sfTWU9HagjMcXIbUapF/OOBfw746ulsCCv9H2wBGALu0Kt7vsL2S2', 'viewer', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28');
 
 -- --------------------------------------------------------
 
@@ -353,16 +324,16 @@ CREATE TABLE `pmi` (
 --
 
 INSERT INTO `pmi` (`id_pmi`, `kode_pmi`, `nama_pmi`, `contact_person`, `alamat`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, '988859-KDPMI', 'PMI Kota Surabaya', '081334278663', 'Jl. Embong Malang No.7-17, Surabaya', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(2, '234645-KDPMI', 'PMI Kabupaten Malang', '081334278663', 'Jl. Ahmad Yani No.32, Malang', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(3, '998349-KDPMI', 'PMI Kota Bandung', '081334278663', 'Jl. Aceh No.79, Bandung', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(4, '525003-KDPMI', 'PMI Kota Jakarta', '081334278663', 'Jl. Kramat Raya No.47, Jakarta Pusat', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(5, '647402-KDPMI', 'PMI Kabupaten Sleman', '081334278663', 'Jl. Magelang No.10, Sleman, Yogyakarta', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(6, '331149-KDPMI', 'PMI Kota Denpasar', '081334278663', 'Jl. Hayam Wuruk No.123, Denpasar', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(7, '440614-KDPMI', 'PMI Kabupaten Bogor', '081334278663', 'Jl. Pemuda No.25, Bogor', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(8, '306290-KDPMI', 'PMI Kota Semarang', '081334278663', 'Jl. Pandanaran No.15, Semarang', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(9, '219604-KDPMI', 'PMI Kabupaten Banyuwangi', '081334278663', 'Jl. Dr. Sutomo No.12, Banyuwangi', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(10, '814123-KDPMI', 'PMI Kota Makassar', '081334278663', 'Jl. AP Pettarani No.48, Makassar', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01');
+(1, 'KDPMI-001', 'PMI Kota Surabaya', '081334278663', 'Jl. Embong Malang No.7-17, Surabaya', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(2, 'KDPMI-002', 'PMI Kabupaten Malang', '081334278663', 'Jl. Ahmad Yani No.32, Malang', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(3, 'KDPMI-003', 'PMI Kota Bandung', '081334278663', 'Jl. Aceh No.79, Bandung', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(4, 'KDPMI-004', 'PMI Kota Jakarta', '081334278663', 'Jl. Kramat Raya No.47, Jakarta Pusat', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(5, 'KDPMI-005', 'PMI Kabupaten Sleman', '081334278663', 'Jl. Magelang No.10, Sleman, Yogyakarta', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(6, 'KDPMI-006', 'PMI Kota Denpasar', '081334278663', 'Jl. Hayam Wuruk No.123, Denpasar', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(7, 'KDPMI-007', 'PMI Kabupaten Bogor', '081334278663', 'Jl. Pemuda No.25, Bogor', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(8, 'KDPMI-008', 'PMI Kota Semarang', '081334278663', 'Jl. Pandanaran No.15, Semarang', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(9, 'KDPMI-009', 'PMI Kabupaten Banyuwangi', '081334278663', 'Jl. Dr. Sutomo No.12, Banyuwangi', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(10, 'KDPMI-010', 'PMI Kota Makassar', '081334278663', 'Jl. AP Pettarani No.48, Makassar', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28');
 
 -- --------------------------------------------------------
 
@@ -384,9 +355,9 @@ CREATE TABLE `ruangan` (
 --
 
 INSERT INTO `ruangan` (`id_ruangan`, `kode_ruangan`, `nama_ruangan`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, '444514-KDRNGN', 'Ruang Flamboyan', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(2, '599643-KDRNGN', 'Ruang Isolasi Khusus', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01'),
-(3, '726656-KDRNGN', 'Ruang Dahlia', '1', '2024-12-03 12:45:01', '2024-12-03 12:45:01');
+(1, 'KDRNGN-001', 'Ruang Flamboyan', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(2, 'KDRNGN-002', 'Ruang Isolasi Khusus', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(3, 'KDRNGN-003', 'Ruang Dahlia', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28');
 
 --
 -- Indexes for dumped tables
@@ -420,12 +391,6 @@ ALTER TABLE `dokter`
 ALTER TABLE `kurir`
   ADD PRIMARY KEY (`id_kurir`),
   ADD UNIQUE KEY `kurir_kode_kurir_unique` (`kode_kurir`);
-
---
--- Indexes for table `migrations`
---
-ALTER TABLE `migrations`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `pasien`
@@ -493,7 +458,7 @@ ALTER TABLE `ruangan`
 -- AUTO_INCREMENT for table `crossmatch`
 --
 ALTER TABLE `crossmatch`
-  MODIFY `id_crossmatch` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_crossmatch` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `darah`
@@ -505,19 +470,13 @@ ALTER TABLE `darah`
 -- AUTO_INCREMENT for table `dokter`
 --
 ALTER TABLE `dokter`
-  MODIFY `id_dokter` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_dokter` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `kurir`
 --
 ALTER TABLE `kurir`
   MODIFY `id_kurir` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `migrations`
---
-ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `pasien`
@@ -529,7 +488,7 @@ ALTER TABLE `pasien`
 -- AUTO_INCREMENT for table `pelayanan`
 --
 ALTER TABLE `pelayanan`
-  MODIFY `id_pelayanan` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_pelayanan` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `penerima`
@@ -541,13 +500,13 @@ ALTER TABLE `penerima`
 -- AUTO_INCREMENT for table `penerimaan`
 --
 ALTER TABLE `penerimaan`
-  MODIFY `id_penerimaan` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_penerimaan` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `petugas`
 --
 ALTER TABLE `petugas`
-  MODIFY `id_petugas` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_petugas` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `pmi`

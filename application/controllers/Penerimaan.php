@@ -12,8 +12,8 @@ class Penerimaan extends CI_Controller
 		$this->service_name = "penerimaan";
 		$this->load->model('base_model');
 		$this->load->model('penerimaan_model');
-		is_logged_in();
-		authorize();
+		$this->load->library('Dompdf_lib');
+		authorize_user(['admin', 'perawat', 'viewer']);
 	}
 
 	public function index()
@@ -27,12 +27,13 @@ class Penerimaan extends CI_Controller
 		$data['title']        	 = "Penerimaan Darah";
 		$data['page_title']   	 = "Transaksi Data Penerimaan Darah";
 		$data['service_name'] 	 = $this->service_name;
-		$data['kode_penerimaan'] = mt_rand(100000, 999999) . '-KDPNRM';
+		$data['kode_penerimaan'] = 'KDPNRM-' . $this->base_model->generate_kode('penerimaan');
 		$data['data_result']     = $result_model;
 		$data['darah']           = $this->base_model->get_all('darah', true);
 		$data['pmi']             = $this->base_model->get_all('pmi', true);
 		$data['penerima']        = $this->base_model->get_all('penerima', true);
 		$data['kurir']           = $this->base_model->get_all('kurir', true);
+		$data['jabatan']         = $this->session->userdata('jabatan');
 
 		$this->load->view("penerimaan/index", $data);
 	}
@@ -98,11 +99,35 @@ class Penerimaan extends CI_Controller
 			show_404();
 		}
 
+		$crossmatch = $this->base_model->get_data_by('crossmatch', 'id_penerimaan', $id);
+		if ($crossmatch) {
+			set_toasts('data tidak dapat dihapus karena terhubung ke transaksi permintaan', 'danger');
+			redirect($this->service_name, 'refresh');
+		}
+
 		$this->base_model->action_remove($this->service_name, $type, $id);
+		set_toasts('data berhasil dihapus', 'success');
+		redirect($this->service_name);
+	}
 
-		$msg = "Data $this->service_name berhasil di " . ($type == 'delete' ? 'hapus' : ($type == 'active' ? 'Aktifkan' : 'nonaktifkan'));
-		set_toasts($msg, 'success');
+	public function report()
+	{
+		$tanggal = $this->input->get('tanggal');
+		if (!$tanggal) {
+			redirect('penerimaan', 'refresh');
+		}
+		$this->load->model('penerimaan_model');
+		$data_result = $this->penerimaan_model->get_by_date($tanggal);
+		$data = [
+			'tanggal' => $tanggal,
+			'data_result' => $data_result
+		];
 
-		redirect("$this->service_name/" . ($type == 'active' ? 'nonactive' : ''), 'refresh');
+		$html = $this->load->view('penerimaan/report', $data, TRUE);
+
+		$this->dompdf_lib->loadHtml($html);
+		$this->dompdf_lib->setPaper('A4', 'landscape');
+		$this->dompdf_lib->render();
+		$this->dompdf_lib->stream("laporan-penerimaan-$tanggal-.pdf", array("Attachment" => 0));
 	}
 }

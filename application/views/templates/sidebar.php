@@ -10,49 +10,52 @@
                     <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
                 </a>
             </li>
-            <li class="sidebar-header">
-                Master
-            </li>
-            <li class="sidebar-item <?= $title == 'Kelola Petugas' ? 'active' : '' ?>">
-                <a class="sidebar-link" href="<?= base_url('petugas'); ?>">
-                    <i class="align-middle" data-feather="users"></i> <span class="align-middle">Kelola Petugas</span>
-                </a>
-            </li>
-            <li class="sidebar-item <?= $title == 'Kelola Dokter' ? 'active' : '' ?>">
-                <a class="sidebar-link" href="<?= base_url('dokter'); ?>">
-                    <i class="bi bi-person-badge"></i> <span class="align-middle">Kelola Dokter</span>
-                </a>
-            </li>
-            <li class="sidebar-item <?= $title == 'Kelola Pasien' ? 'active' : '' ?>">
-                <a class="sidebar-link" href="<?= base_url('pasien'); ?>">
-                    <i class="bi bi-person-vcard"></i> <span class="align-middle">Kelola Pasien</span>
-                </a>
-            </li>
-            <li class="sidebar-item <?= $title == 'Kelola Penerima' ? 'active' : '' ?>">
-                <a class="sidebar-link" href="<?= base_url('penerima'); ?>">
-                    <i class="bi bi-person-workspace"></i> <span class="align-middle">Kelola Penerima</span>
-                </a>
-            </li>
-            <li class="sidebar-item <?= $title == 'Kelola Darah' ? 'active' : '' ?>">
-                <a class="sidebar-link" href="<?= base_url('darah'); ?>">
-                    <i class="bi bi-capsule"></i> <span class="align-middle">Kelola Darah</span>
-                </a>
-            </li>
-            <li class="sidebar-item <?= $title == 'Kelola PMI' ? 'active' : '' ?>">
-                <a class="sidebar-link" href="<?= base_url('pmi'); ?>">
-                    <i class="bi bi-patch-plus"></i> <span class="align-middle">Kelola PMI</span>
-                </a>
-            </li>
-            <li class="sidebar-item <?= $title == 'Kelola Kurir' ? 'active' : '' ?>">
-                <a class="sidebar-link" href="<?= base_url('kurir'); ?>">
-                    <i class="bi bi-car-front-fill"></i> <span class="align-middle">Kelola Kurir</span>
-                </a>
-            </li>
-            <li class="sidebar-item <?= $title == 'Kelola Ruangan' ? 'active' : '' ?>">
-                <a class="sidebar-link" href="<?= base_url('ruangan'); ?>">
-                    <i class="bi bi-door-open"></i> <span class="align-middle">Kelola Ruangan</span>
-                </a>
-            </li>
+            <?php $jabatan = $this->session->userdata('jabatan'); ?>
+            <?php if ($jabatan == 'admin'): ?>
+                <li class="sidebar-header">
+                    Master
+                </li>
+                <li class="sidebar-item <?= $title == 'Kelola Petugas' ? 'active' : '' ?>">
+                    <a class="sidebar-link" href="<?= base_url('petugas'); ?>">
+                        <i class="align-middle" data-feather="users"></i> <span class="align-middle">Kelola Petugas</span>
+                    </a>
+                </li>
+                <li class="sidebar-item <?= $title == 'Kelola Dokter' ? 'active' : '' ?>">
+                    <a class="sidebar-link" href="<?= base_url('dokter'); ?>">
+                        <i class="bi bi-person-badge"></i> <span class="align-middle">Kelola Dokter</span>
+                    </a>
+                </li>
+                <li class="sidebar-item <?= $title == 'Kelola Pasien' ? 'active' : '' ?>">
+                    <a class="sidebar-link" href="<?= base_url('pasien'); ?>">
+                        <i class="bi bi-person-vcard"></i> <span class="align-middle">Kelola Pasien</span>
+                    </a>
+                </li>
+                <li class="sidebar-item <?= $title == 'Kelola Penerima' ? 'active' : '' ?>">
+                    <a class="sidebar-link" href="<?= base_url('penerima'); ?>">
+                        <i class="bi bi-person-workspace"></i> <span class="align-middle">Kelola Penerima</span>
+                    </a>
+                </li>
+                <li class="sidebar-item <?= $title == 'Kelola Darah' ? 'active' : '' ?>">
+                    <a class="sidebar-link" href="<?= base_url('darah'); ?>">
+                        <i class="bi bi-capsule"></i> <span class="align-middle">Kelola Darah</span>
+                    </a>
+                </li>
+                <li class="sidebar-item <?= $title == 'Kelola PMI' ? 'active' : '' ?>">
+                    <a class="sidebar-link" href="<?= base_url('pmi'); ?>">
+                        <i class="bi bi-patch-plus"></i> <span class="align-middle">Kelola PMI</span>
+                    </a>
+                </li>
+                <li class="sidebar-item <?= $title == 'Kelola Kurir' ? 'active' : '' ?>">
+                    <a class="sidebar-link" href="<?= base_url('kurir'); ?>">
+                        <i class="bi bi-car-front-fill"></i> <span class="align-middle">Kelola Kurir</span>
+                    </a>
+                </li>
+                <li class="sidebar-item <?= $title == 'Kelola Ruangan' ? 'active' : '' ?>">
+                    <a class="sidebar-link" href="<?= base_url('ruangan'); ?>">
+                        <i class="bi bi-door-open"></i> <span class="align-middle">Kelola Ruangan</span>
+                    </a>
+                </li>
+            <?php endif; ?>
             <li class="sidebar-header">
                 Transaksi
             </li>
@@ -68,14 +71,9 @@
             </li>
             <li class="sidebar-item <?= $title == 'Pelayanan' ? 'active' : '' ?>">
                 <a class="sidebar-link" href="<?= base_url('pelayanan'); ?>">
-                    <i class="bi bi-person-badge"></i> <span class="align-middle">Pelayanan</span>
+                    <i class="bi bi-person-badge"></i> <span class="align-middle">Permintaan</span>
                 </a>
             </li>
-            <!-- <li class="sidebar-item <?= $title == 'Histori Aktivitas' ? 'active' : '' ?>">
-                <a class="sidebar-link" href="<?= base_url('histori'); ?>">
-                    <i class="bi bi-diagram-3"></i> <span class="align-middle">Histori Aktivitas</span>
-                </a>
-            </li> -->
             <li class="sidebar-header">
                 Akun
             </li>

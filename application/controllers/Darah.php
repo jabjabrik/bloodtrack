@@ -11,8 +11,7 @@ class Darah extends CI_Controller
 		parent::__construct();
 		$this->service_name = "darah";
 		$this->load->model('base_model');
-		is_logged_in();
-		authorize();
+		authorize_user(['admin']);
 	}
 
 	public function index()

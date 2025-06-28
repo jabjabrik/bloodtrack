@@ -34,7 +34,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1 mb-3">12</h1>
+                                    <h1 class="mt-1 mb-3"><?= $total_petugas ?></h1>
                                     <div class="mb-0">
                                         <span class="text-primary"> <i class="mdi bi bi-stickies-fill"></i></span>
                                         <span class="text-muted"> Total Data Petugas</span>
@@ -56,7 +56,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1 mb-3">25</h1>
+                                    <h1 class="mt-1 mb-3"><?= $total_dokter ?></h1>
                                     <div class="mb-0">
                                         <span class="text-warning"> <i class="mdi bi bi-stickies-fill"></i></span>
                                         <span class="text-muted"> Total Data Dokter</span>
@@ -78,7 +78,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1 mb-3">25</h1>
+                                    <h1 class="mt-1 mb-3"><?= $total_pasien ?></h1>
                                     <div class="mb-0">
                                         <span class="text-success"> <i class="mdi bi bi-stickies-fill"></i></span>
                                         <span class="text-muted"> Total Data Pasien</span>
@@ -100,7 +100,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1 mb-3">25</h1>
+                                    <h1 class="mt-1 mb-3"><?= $total_penerima ?></h1>
                                     <div class="mb-0">
                                         <span class="text-primary"> <i class="mdi bi bi-stickies-fill"></i></span>
                                         <span class="text-muted"> Total Data Penerima</span>
@@ -122,7 +122,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1 mb-3">40</h1>
+                                    <h1 class="mt-1 mb-3"><?= $total_darah ?></h1>
                                     <div class="mb-0">
                                         <span class="text-warning"> <i class="mdi bi bi-stickies-fill"></i></span>
                                         <span class="text-muted"> Total Data Darah</span>
@@ -143,7 +143,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1 mb-3">40</h1>
+                                    <h1 class="mt-1 mb-3"><?= $total_pmi ?></h1>
                                     <div class="mb-0">
                                         <span class="text-success"> <i class="mdi bi bi-stickies-fill"></i></span>
                                         <span class="text-muted"> Total Data PMI</span>

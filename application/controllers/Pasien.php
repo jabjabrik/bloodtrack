@@ -11,9 +11,7 @@ class Pasien extends CI_Controller
 		parent::__construct();
 		$this->service_name = "pasien";
 		$this->load->model('base_model');
-		// $this->load->model('pasien_model');
-		is_logged_in();
-		authorize();
+		authorize_user(['admin']);
 	}
 
 	public function index()
@@ -34,7 +32,7 @@ class Pasien extends CI_Controller
 		$data['page_title']   	= $is_active ? "halaman manajemen $this->service_name Aktif" : "halaman $this->service_name tidak aktif";
 		$data['service_name'] 	= $this->service_name;
 		$data['is_active_page'] = $is_active;
-		$data['kode_pasien']    = mt_rand(100000, 999999) . '-KDPSN';
+		$data['kode_pasien']    = 'KDPSN' . $this->base_model->generate_kode('pasien');;
 		$data['data_result']    = $result_model;
 
 		$this->load->view("pasien/index", $data);

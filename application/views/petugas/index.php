@@ -113,8 +113,8 @@
                                 <select class="form-select" name="jabatan" id="jabatan" required>
                                     <option selected>-</option>
                                     <option value="admin">Admin</option>
-                                    <option value="analis">Analis</option>
-                                    <option value="bidan">Bidan</option>
+                                    <option value="perawat">Perawat</option>
+                                    <option value="viewer">Viewer</option>
                                 </select>
                             </div>
                         </div>

@@ -12,8 +12,7 @@ class Bank_darah_model extends CI_Model
         FROM penerimaan
         JOIN darah ON penerimaan.id_darah = darah.id_darah
         WHERE penerimaan.status = '1' AND CURDATE() < penerimaan.tanggal_kadaluarsa
-        GROUP BY darah.kode_darah, darah.jenis_darah, darah.golongan_darah, darah.stok_maksimal, darah.stok_maksimal, darah.harga_beli, darah.harga_jual
-        ORDER BY stok DESC";
+        GROUP BY darah.kode_darah, darah.jenis_darah, darah.golongan_darah, darah.stok_maksimal, darah.stok_maksimal, darah.harga_beli, darah.harga_jual";
 
         $result = $this->db->query($query);
 

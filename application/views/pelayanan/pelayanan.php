@@ -99,9 +99,14 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_form" onclick="setForm('tambah')">
-                                        <i class="bi bi-plus-circle"></i> Tambah
-                                    </button>
+                                    <?php if ($jabatan == 'perawat'): ?>
+                                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_form" onclick="setForm('tambah')">
+                                            <i class="bi bi-plus-circle"></i> Tambah
+                                        </button>
+                                    <?php endif; ?>
+                                    <a target="_blank" href="<?= base_url("pelayanan/report/$id_pasien"); ?>" class="btn btn-sm btn-success">
+                                        <i class="bi bi-file-earmark-bar-graph"></i> Cetak Laporan
+                                    </a>
                                 </div>
                                 <div class="card-body">
                                     <table id="datatables" class="table table-striped table-bordered text-capitalize" style="white-space: nowrap; font-size: 1em;">
@@ -112,6 +117,7 @@
                                                 <th>Dokter</th>
                                                 <th>Ruangan</th>
                                                 <th>Diagnosa</th>
+                                                <th>Jumlah Darah</th>
                                                 <th>Tanggal</th>
                                                 <th>Aksi</th>
                                             </tr>
@@ -125,12 +131,15 @@
                                                     <td><?= $item->nama_dokter ?></td>
                                                     <td><?= $item->nama_ruangan ?></td>
                                                     <td><?= $item->diagnosa ?></td>
+                                                    <td><?= $item->jumlah_darah ?></td>
                                                     <td><?= $item->tanggal_pelayanan ?></td>
                                                     <td>
                                                         <a href="<?= base_url("pelayanan/crossmatch/$item->id_pelayanan"); ?>" class="btn btn-sm btn-primary">Crossmatch <i class="bi bi-arrow-right-circle"></i></a>
-                                                        <button id="btn_delete_nonactive" type="button" class="btn btn-outline-danger btn-sm" data-id="<?= $item->id_pelayanan ?>" data-bs-toggle="modal" data-bs-target="#confirm_modal">
-                                                            <i class="bi bi-trash" data-bs-toggle="tooltip" data-bs-title="Hapus data"></i>
-                                                        </button>
+                                                        <?php if ($jabatan == 'perawat'): ?>
+                                                            <button id="btn_delete_nonactive" type="button" class="btn btn-outline-danger btn-sm" data-id="<?= $item->id_pelayanan ?>" data-bs-toggle="modal" data-bs-target="#confirm_modal">
+                                                                <i class="bi bi-trash" data-bs-toggle="tooltip" data-bs-title="Hapus data"></i>
+                                                            </button>
+                                                        <?php endif; ?>
                                                     </td>
                                                 </tr>
                                                 <?php $no++ ?>
@@ -187,6 +196,10 @@
                             <div class="form-group col-6">
                                 <label for="diagnosa" class="form-label">Diagnosa</label>
                                 <input type="text" name="diagnosa" id="diagnosa" class="form-control" required>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="jumlah_darah" class="form-label">Jumlah Darah</label>
+                                <input type="number" name="jumlah_darah" id="jumlah_darah" class="form-control" required>
                             </div>
                             <div class="form-group col-6">
                                 <label for="tanggal_pelayanan" class="form-label">Tanggal Pelayanan</label>

@@ -18,9 +18,16 @@
             <main class="content p-4 pb-0">
                 <div class="container-fluid p-0">
                     <h1 class="h3 mb-3"><i class="bi bi-person-vcard"></i> <span class="align-middle text-capitalize"><?= $page_title; ?></h1>
-                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_form_insert">
-                        <i class=" bi bi-plus-circle"></i> Tambah
-                    </button>
+                    <?php if ($jabatan == 'admin'): ?>
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_form_insert">
+                            <i class=" bi bi-plus-circle"></i> Tambah
+                        </button>
+                    <?php endif; ?>
+                    <?php if ($jabatan != 'perawat'): ?>
+                        <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#modal_cetak_laporan">
+                            <i class="bi bi-file-earmark-bar-graph"></i> Cetak Laporan
+                        </button>
+                    <?php endif; ?>
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
@@ -49,16 +56,18 @@
                                                     <td><?= $item->no_kantong ?></td>
                                                     <td><?= "$item->jenis_darah | $item->golongan_darah" ?></td>
                                                     <td><?= $item->nama_pmi ?></td>
-                                                    <td><?= $item->tanggal_terima ?></td>
+                                                    <td><?= date('d-m-Y', strtotime($item->tanggal_terima)) ?></td>
                                                     <td>
                                                         <?php $params = "[`$item->kode_penerimaan`,`$item->no_kantong`, `$item->tanggal_terima`,`$item->tanggal_aftap`,`$item->tanggal_kadaluarsa`,`$item->kode_darah`,`$item->jenis_darah | $item->golongan_darah`,`$item->kode_pmi`,`$item->nama_pmi`,`$item->kode_kurir`,`$item->nama_kurir`,`$item->kode_penerima`,`$item->nama_penerima`]"; ?>
                                                         <div class="btn-group btn-group-sm" role="group">
                                                             <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal_form_detail" onclick="setFormDetail(<?= $params ?>)">
                                                                 <i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-title="Detail data Penerimaan"></i>
                                                             </button>
-                                                            <button id="btn_delete_nonactive" type="button" class="btn btn-outline-danger btn-sm" data-id="<?= $item->id_penerimaan ?>" data-bs-toggle="modal" data-bs-target="#confirm_modal">
-                                                                <i class="bi bi-trash" data-bs-toggle="tooltip" data-bs-title="Hapus data Penerimaan"></i>
-                                                            </button>
+                                                            <?php if ($jabatan == 'admin'): ?>
+                                                                <a href="<?= base_url("penerimaan/action_remove/delete/$item->id_penerimaan"); ?>" class="btn btn-outline-danger btn-sm">
+                                                                    <i class="bi bi-trash" data-bs-toggle="tooltip" data-bs-title="Hapus data Penerimaan"></i>
+                                                                </a>
+                                                            <?php endif; ?>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -95,7 +104,7 @@
                                 <select class="form-select" name="id_darah" id="id_darah" required>
                                     <option selected value="">-</option>
                                     <?php foreach ($darah as $item): ?>
-                                        <option value="<?= $item->id_darah ?>"><?= "$item->jenis_darah | $item->golongan_darah"  ?></option>
+                                        <option value="<?= $item->id_darah ?>"><?= "$item->kode_darah | $item->jenis_darah | $item->golongan_darah"  ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -104,7 +113,7 @@
                                 <select class="form-select" name="id_pmi" id="id_pmi" required>
                                     <option selected value="">-</option>
                                     <?php foreach ($pmi as $item): ?>
-                                        <option value="<?= $item->id_pmi ?>"><?= "$item->nama_pmi"  ?></option>
+                                        <option value="<?= $item->id_pmi ?>"><?= "$item->kode_pmi | $item->nama_pmi"  ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -113,7 +122,7 @@
                                 <select class="form-select" name="id_kurir" id="id_kurir" required>
                                     <option selected value="">-</option>
                                     <?php foreach ($kurir as $item): ?>
-                                        <option value="<?= $item->id_kurir ?>"><?= "$item->nama_kurir"  ?></option>
+                                        <option value="<?= $item->id_kurir ?>"><?= "$item->kode_kurir | $item->nama_kurir"  ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -122,7 +131,7 @@
                                 <select class="form-select" name="id_penerima" id="id_penerima" required>
                                     <option selected value="">-</option>
                                     <?php foreach ($penerima as $item): ?>
-                                        <option value="<?= $item->id_penerima ?>"><?= "$item->nama_penerima"  ?></option>
+                                        <option value="<?= $item->id_penerima ?>"><?= "$item->kode_penerima | $item->nama_penerima"  ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -252,6 +261,30 @@
         </div>
     </div>
     <!-- End Modal Form Detail -->
+
+    <!-- Modal Cetak Laporan -->
+    <div class="modal fade" id="modal_cetak_laporan" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cetak Laporan Penerimaan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="GET" action="<?= base_url('penerimaan/report'); ?>" target="_blank">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="tanggal" class="form-label">Pilih Tanggal</label>
+                            <input type="date" class="form-control" id="tanggal" name="tanggal" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Cetak</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal Cetak Laporan -->
 
     <!-- Script Form -->
     <script>

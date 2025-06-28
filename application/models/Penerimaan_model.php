@@ -16,7 +16,7 @@ class Penerimaan_model extends CI_Model
         JOIN pmi ON penerimaan.id_pmi = pmi.id_pmi
         JOIN kurir ON penerimaan.id_kurir = kurir.id_kurir
         JOIN penerima ON penerimaan.id_penerima = penerima.id_penerima
-        ORDER BY penerimaan.id_penerimaan DESC";
+        ORDER BY penerimaan.id_penerimaan";
 
         $result = $this->db->query($query);
 
@@ -113,6 +113,33 @@ class Penerimaan_model extends CI_Model
         } else {
             $this->db->trans_commit();
             return ['status' => TRUE, "data" => $result];
+        }
+    }
+
+    public function get_by_date($tanggal)
+    {
+        $this->db->trans_begin();
+        $query = "SELECT penerimaan.*, 
+        darah.id_darah, darah.kode_darah, darah.jenis_darah, darah.golongan_darah,
+        pmi.id_pmi, pmi.kode_pmi, pmi.nama_pmi, 
+        kurir.id_kurir, kurir.kode_kurir, kurir.nama_kurir, 
+        penerima.id_penerima, penerima.kode_penerima, penerima.nama_penerima 
+        FROM penerimaan
+        JOIN darah ON penerimaan.id_darah = darah.id_darah
+        JOIN pmi ON penerimaan.id_pmi = pmi.id_pmi
+        JOIN kurir ON penerimaan.id_kurir = kurir.id_kurir
+        JOIN penerima ON penerimaan.id_penerima = penerima.id_penerima
+        WHERE DATE(penerimaan.tanggal_terima) = ?
+        ORDER BY penerimaan.id_penerimaan";
+        $result = $this->db->query($query, [$tanggal]);
+        if ($this->db->trans_status() === FALSE) {
+            $error = $this->db->error();
+            print_r('Database Transaction Error: ' . $error['message'] . ' | Code: ' . $error['code']);
+            $this->db->trans_rollback();
+            die();
+        } else {
+            $this->db->trans_commit();
+            return $result->result();
         }
     }
 }

@@ -7,8 +7,8 @@ class Pelayanan_model extends CI_Model
     {
         $this->db->trans_begin();
 
-        $query = "SELECT pelayanan.id_pelayanan, pelayanan.rekam_medis, pelayanan.diagnosa, pelayanan.tanggal_pelayanan, 
-        dokter.nama_dokter, ruangan.nama_ruangan
+        $query = "SELECT pelayanan.id_pelayanan, pelayanan.rekam_medis, pelayanan.diagnosa, pelayanan.tanggal_pelayanan, pelayanan.jumlah_darah,
+        dokter.nama_dokter, ruangan.nama_ruangan, pasien.golongan_darah
         FROM pelayanan
         JOIN pasien ON pelayanan.id_pasien = pasien.id_pasien
         JOIN ruangan ON pelayanan.id_ruangan = ruangan.id_ruangan
@@ -19,7 +19,6 @@ class Pelayanan_model extends CI_Model
         $result = $this->db->query($query)->result();;
         return $result;
     }
-
 
     public function get_crossmatch(string $id_pelayanan): array
     {
@@ -73,73 +72,6 @@ class Pelayanan_model extends CI_Model
         $this->db->where("id_penerimaan", $id_penerimaan);
         $this->db->update('penerimaan', ['status' => '0']);
     }
-
-
-    // public function get_all(string $table_name): array
-    // {
-    //     $this->db->trans_begin();
-
-    //     $query = "SELECT pelayanan.id_pelayanan, pelayanan.kode_pelayanan, pelayanan.tanggal_pelayanan, pasien.rekam_medis, 
-    //     pasien.nama_pasien, dokter.nama_dokter, ruangan.nama_ruangan
-    //     FROM pelayanan
-    //     JOIN pasien ON pelayanan.id_pasien = pasien.id_pasien
-    //     JOIN dokter ON pelayanan.id_dokter = dokter.id_dokter
-    //     JOIN ruangan On pelayanan.id_ruangan = ruangan.id_ruangan
-    //     ORDER BY pelayanan.id_pelayanan";
-
-    //     $result = $this->db->query($query);
-
-    //     if ($this->db->trans_status() === FALSE) {
-    //         $error = $this->db->error();
-    //         print_r('Database Transaction Error: ' . $error['message'] . ' | Code: ' . $error['code']);
-    //         $this->db->trans_rollback();
-    //         die();
-    //     } else {
-    //         $this->db->trans_commit();
-    //         return $result->result();
-    //     }
-    // }
-
-    // public function get_permintaan(string $table_name): array
-    // {
-    //     $this->db->trans_begin();
-
-    //     $query = "SELECT permintaan.id_permintaan, permintaan.kode_permintaan, pasien.rekam_medis, 
-    //     pasien.nama_pasien, pasien.jenis_kelamin, darah.jenis_darah, darah.golongan_darah, darah.rhesus
-    //     FROM permintaan
-    //     JOIN pelayanan ON permintaan.id_pelayanan = pelayanan.id_pelayanan
-    //     JOIN pasien ON pelayanan.id_pasien = pasien.id_pasien
-    //     JOIN bank_darah ON permintaan.id_bank_darah = bank_darah.id_bank_darah
-    //     JOIN penerimaan ON bank_darah.id_penerimaan = penerimaan.id_penerimaan
-    //     JOIN darah ON penerimaan.id_darah = darah.id_darah
-    //     ORDER BY permintaan.id_permintaan";
-
-    //     $result = $this->db->query($query);
-
-    //     if ($this->db->trans_status() === FALSE) {
-    //         $error = $this->db->error();
-    //         print_r('Database Transaction Error: ' . $error['message'] . ' | Code: ' . $error['code']);
-    //         $this->db->trans_rollback();
-    //         die();
-    //     } else {
-    //         $this->db->trans_commit();
-    //         return $result->result();
-    //     }
-    // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public function insert(string $table_name, array $data, string $jumlah_kantong): void
     {

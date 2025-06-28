@@ -99,4 +99,38 @@ class Base_model extends CI_Model
             return $result->result();
         }
     }
+
+    public function generate_kode($tabel): string
+    {
+        $this->db->select("RIGHT(kode_$tabel,3) as kode", FALSE);
+        $this->db->order_by("kode_$tabel", 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get($tabel);
+
+        if ($query->num_rows() > 0) {
+            $data = $query->row();
+            $kode = intval($data->kode) + 1;
+        } else {
+            $kode = 1;
+        }
+
+        return str_pad($kode, 3, "0", STR_PAD_LEFT);
+    }
+
+    public function generate_rm(): string
+    {
+        $this->db->select("RIGHT(rekam_medis,3) as rm", FALSE);
+        $this->db->order_by("rekam_medis", 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get('pelayanan');
+
+        if ($query->num_rows() > 0) {
+            $data = $query->row();
+            $rm = intval($data->rm) + 1;
+        } else {
+            $rm = 1;
+        }
+
+        return str_pad($rm, 3, "0", STR_PAD_LEFT);
+    }
 }
