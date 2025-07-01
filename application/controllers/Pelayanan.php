@@ -210,16 +210,20 @@ class Pelayanan extends CI_Controller
 		redirect($this->service_name, 'refresh');
 	}
 
-	public function report($id_pasien = null)
+	public function report()
 	{
-		if (is_null($id_pasien)) {
+		$id_pasien = $this->input->get('id_pasien');
+		$tanggal = $this->input->get('tanggal');
+
+		// Jika hanya tanggal yang diberikan (tanpa id_pasien), tampilkan semua pelayanan pada tanggal tsb
+		if ($id_pasien === null && $tanggal !== null) {
+			$data['data_result'] = $this->pelayanan_model->get_pelayanan_by_tanggal($tanggal);
+		} else if ($id_pasien !== null) {
+			$data['data_result'] = $this->pelayanan_model->get_pelayanan($id_pasien, $tanggal);
+		} else {
 			show_404();
 		}
-
-		$data['data_result']    = $this->pelayanan_model->get_pelayanan($id_pasien);
-
 		$html = $this->load->view('pelayanan/report', $data, TRUE);
-
 		$this->dompdf_lib->loadHtml($html);
 		$this->dompdf_lib->setPaper('A4', 'landscape');
 		$this->dompdf_lib->render();

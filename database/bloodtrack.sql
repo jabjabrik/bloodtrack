@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 28, 2025 at 08:17 AM
+-- Generation Time: Jul 01, 2025 at 11:12 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.3.33
 
@@ -46,7 +46,8 @@ CREATE TABLE `crossmatch` (
 
 INSERT INTO `crossmatch` (`id_crossmatch`, `id_pelayanan`, `id_penerimaan`, `mayor`, `minor`, `autocontrol`, `hasil`, `status`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, '-', '+', '-', 'incompatible', NULL, '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
-(2, 1, 2, '-', '-', '-', 'compatible', 'transfusi', '2025-06-28 06:16:28', '2025-06-28 06:16:28');
+(2, 1, 2, '-', '-', '-', 'compatible', 'transfusi', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(3, 2, 1, '-', '-', '-', 'compatible', 'transfusi', '2025-07-01 21:12:08', '2025-07-01 21:12:11');
 
 -- --------------------------------------------------------
 
@@ -209,7 +210,8 @@ CREATE TABLE `pelayanan` (
 --
 
 INSERT INTO `pelayanan` (`id_pelayanan`, `rekam_medis`, `id_pasien`, `id_ruangan`, `id_dokter`, `diagnosa`, `jumlah_darah`, `tanggal_pelayanan`, `created_at`, `updated_at`) VALUES
-(1, 'RM-001', 1, 1, 1, 'anemia', '2', '2025-06-27', '2025-06-28 06:16:28', '2025-06-28 06:16:28');
+(1, 'RM-001', 1, 1, 1, 'anemia', '2', '2025-06-27', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(2, 'RM-002', 1, 1, 1, 'anemia', '1', '2025-07-02', '2025-07-01 21:11:06', '2025-07-01 21:11:06');
 
 -- --------------------------------------------------------
 
@@ -264,7 +266,7 @@ CREATE TABLE `penerimaan` (
 --
 
 INSERT INTO `penerimaan` (`id_penerimaan`, `kode_penerimaan`, `id_darah`, `id_pmi`, `id_kurir`, `id_penerima`, `no_kantong`, `tanggal_terima`, `tanggal_aftap`, `tanggal_kadaluarsa`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'KDPNRM-001', 1, 1, 1, 1, 'A664952', '2025-06-25', '2025-06-24', '2025-07-25', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
+(1, 'KDPNRM-001', 1, 1, 1, 1, 'A664952', '2025-06-25', '2025-06-24', '2025-07-25', '0', '2025-06-28 06:16:28', '2025-07-01 21:12:11'),
 (2, 'KDPNRM-002', 1, 1, 1, 1, 'A884809', '2025-06-25', '2025-06-24', '2025-07-25', '0', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
 (3, 'KDPNRM-003', 1, 1, 1, 1, 'A559931', '2025-06-25', '2025-06-24', '2025-07-25', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
 (4, 'KDPNRM-004', 2, 2, 2, 2, 'B135888', '2025-06-26', '2025-06-25', '2025-07-26', '1', '2025-06-28 06:16:28', '2025-06-28 06:16:28'),
@@ -458,7 +460,7 @@ ALTER TABLE `ruangan`
 -- AUTO_INCREMENT for table `crossmatch`
 --
 ALTER TABLE `crossmatch`
-  MODIFY `id_crossmatch` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_crossmatch` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `darah`
@@ -488,7 +490,7 @@ ALTER TABLE `pasien`
 -- AUTO_INCREMENT for table `pelayanan`
 --
 ALTER TABLE `pelayanan`
-  MODIFY `id_pelayanan` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_pelayanan` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `penerima`

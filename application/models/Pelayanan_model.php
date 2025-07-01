@@ -3,20 +3,21 @@
 class Pelayanan_model extends CI_Model
 {
 
-    public function get_pelayanan(string $id_pasien): array
+    public function get_pelayanan(string $id_pasien, $tanggal = null): array
     {
         $this->db->trans_begin();
-
         $query = "SELECT pelayanan.id_pelayanan, pelayanan.rekam_medis, pelayanan.diagnosa, pelayanan.tanggal_pelayanan, pelayanan.jumlah_darah,
         dokter.nama_dokter, ruangan.nama_ruangan, pasien.golongan_darah
         FROM pelayanan
         JOIN pasien ON pelayanan.id_pasien = pasien.id_pasien
         JOIN ruangan ON pelayanan.id_ruangan = ruangan.id_ruangan
         JOIN dokter ON pelayanan.id_dokter = dokter.id_dokter
-        WHERE pasien.id_pasien = $id_pasien
-        ORDER BY pelayanan.id_pelayanan";
-
-        $result = $this->db->query($query)->result();;
+        WHERE pasien.id_pasien = $id_pasien";
+        if ($tanggal) {
+            $query .= " AND DATE(pelayanan.tanggal_pelayanan) = '" . $this->db->escape_str($tanggal) . "'";
+        }
+        $query .= " ORDER BY pelayanan.id_pelayanan";
+        $result = $this->db->query($query)->result();
         return $result;
     }
 
@@ -156,5 +157,19 @@ class Pelayanan_model extends CI_Model
             $this->db->trans_commit();
             return ['status' => TRUE, "data" => $result];
         }
+    }
+
+    public function get_pelayanan_by_tanggal($tanggal): array
+    {
+        $this->db->trans_begin();
+        $query = "SELECT pelayanan.id_pelayanan, pelayanan.rekam_medis, pelayanan.diagnosa, pelayanan.tanggal_pelayanan, pelayanan.jumlah_darah,
+        dokter.nama_dokter, ruangan.nama_ruangan, pasien.golongan_darah, pasien.nama_pasien
+        FROM pelayanan
+        JOIN pasien ON pelayanan.id_pasien = pasien.id_pasien
+        JOIN ruangan ON pelayanan.id_ruangan = ruangan.id_ruangan
+        JOIN dokter ON pelayanan.id_dokter = dokter.id_dokter
+        WHERE DATE(pelayanan.tanggal_pelayanan) = '" . $this->db->escape_str($tanggal) . "' ORDER BY pelayanan.id_pelayanan";
+        $result = $this->db->query($query)->result();
+        return $result;
     }
 }

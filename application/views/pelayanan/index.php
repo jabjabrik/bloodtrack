@@ -30,6 +30,11 @@
                                     <h5 class="card-title mb-0">Daftar Data Pasien</h5>
                                 </div>
                                 <div class="card-body">
+                                    <div class="mb-3">
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal_cetak_laporan">
+                                            <i class="bi bi-file-earmark-bar-graph"></i> Cetak Laporan Pelayanan
+                                        </button>
+                                    </div>
                                     <table id="datatables" class="table table-striped table-bordered text-capitalize" style="white-space: nowrap; font-size: 1em;">
                                         <thead>
                                             <tr>
@@ -136,6 +141,30 @@
         </div>
     </div>
     <!-- End Modal Form -->
+
+    <!-- Modal Cetak Laporan -->
+    <div class="modal fade" id="modal_cetak_laporan" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cetak Laporan Pelayanan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="GET" action="<?= base_url('pelayanan/report'); ?>" target="_blank">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="tanggal" class="form-label">Pilih Tanggal</label>
+                            <input type="date" class="form-control" id="tanggal" name="tanggal" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Cetak</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal Cetak Laporan -->
 
 
     <!-- Script -->

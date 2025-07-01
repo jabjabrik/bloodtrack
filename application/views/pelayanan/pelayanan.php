@@ -104,7 +104,7 @@
                                             <i class="bi bi-plus-circle"></i> Tambah
                                         </button>
                                     <?php endif; ?>
-                                    <a target="_blank" href="<?= base_url("pelayanan/report/$id_pasien"); ?>" class="btn btn-sm btn-success">
+                                    <a target="_blank" href="<?= base_url("pelayanan/report?id_pasien=$id_pasien"); ?>" class="btn btn-sm btn-success">
                                         <i class="bi bi-file-earmark-bar-graph"></i> Cetak Laporan
                                     </a>
                                 </div>
