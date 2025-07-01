@@ -11,7 +11,7 @@ class Pasien extends CI_Controller
 		parent::__construct();
 		$this->service_name = "pasien";
 		$this->load->model('base_model');
-		authorize_user(['admin']);
+		authorize_user(['perawat']);
 	}
 
 	public function index()

@@ -25,11 +25,6 @@
                         <i class="bi bi-person-badge"></i> <span class="align-middle">Kelola Dokter</span>
                     </a>
                 </li>
-                <li class="sidebar-item <?= $title == 'Kelola Pasien' ? 'active' : '' ?>">
-                    <a class="sidebar-link" href="<?= base_url('pasien'); ?>">
-                        <i class="bi bi-person-vcard"></i> <span class="align-middle">Kelola Pasien</span>
-                    </a>
-                </li>
                 <li class="sidebar-item <?= $title == 'Kelola Penerima' ? 'active' : '' ?>">
                     <a class="sidebar-link" href="<?= base_url('penerima'); ?>">
                         <i class="bi bi-person-workspace"></i> <span class="align-middle">Kelola Penerima</span>
@@ -69,6 +64,13 @@
                     <i class="bi bi-clipboard-pulse"></i> <span class="align-middle">Bank Darah</span>
                 </a>
             </li>
+            <?php if ($jabatan == 'perawat'): ?>
+                <li class="sidebar-item <?= $title == 'Kelola Pasien' ? 'active' : '' ?>">
+                    <a class="sidebar-link" href="<?= base_url('pasien'); ?>">
+                        <i class="bi bi-person-vcard"></i> <span class="align-middle">Data Pasien</span>
+                    </a>
+                </li>
+            <?php endif; ?>
             <li class="sidebar-item <?= $title == 'Pelayanan' ? 'active' : '' ?>">
                 <a class="sidebar-link" href="<?= base_url('pelayanan'); ?>">
                     <i class="bi bi-person-badge"></i> <span class="align-middle">Permintaan</span>
