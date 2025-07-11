@@ -134,7 +134,9 @@
                                                     <td><?= $item->jumlah_darah ?></td>
                                                     <td><?= $item->tanggal_pelayanan ?></td>
                                                     <td>
-                                                        <a href="<?= base_url("pelayanan/crossmatch/$item->id_pelayanan"); ?>" class="btn btn-sm btn-primary">Crossmatch <i class="bi bi-arrow-right-circle"></i></a>
+                                                        <?php if ($jabatan == 'admin'): ?>
+                                                            <a href="<?= base_url("pelayanan/crossmatch/$item->id_pelayanan"); ?>" class="btn btn-sm btn-primary">Crossmatch <i class="bi bi-arrow-right-circle"></i></a>
+                                                        <?php endif; ?>
                                                         <?php if ($jabatan == 'perawat'): ?>
                                                             <button id="btn_delete_nonactive" type="button" class="btn btn-outline-danger btn-sm" data-id="<?= $item->id_pelayanan ?>" data-bs-toggle="modal" data-bs-target="#confirm_modal">
                                                                 <i class="bi bi-trash" data-bs-toggle="tooltip" data-bs-title="Hapus data"></i>
