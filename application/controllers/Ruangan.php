@@ -3,13 +3,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Ruangan extends CI_Controller
 {
-
 	private $service_name;
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->service_name = "ruangan";
+		$this->load->model('ruangan_model');
 		$this->load->model('base_model');
 		authorize_user(['admin']);
 	}
@@ -85,5 +85,40 @@ class Ruangan extends CI_Controller
 		set_toasts($msg, 'success');
 
 		redirect("$this->service_name/" . ($type == 'active' ? 'nonactive' : ''), 'refresh');
+	}
+
+	public function ruangpetugas()
+	{
+		$data['title']        	= "Kelola " . ucfirst($this->service_name);
+		$data['ruangan'] = $this->base_model->get_all('ruangan', true);
+		$data['page_title']   	= "Ruangan Petugas";
+		$data['service_name'] 	= $this->service_name;
+		$data['data_result']    = $this->ruangan_model->get_ruangan_petugas();
+		$this->load->view("ruangan/ruang_petugas", $data);
+	}
+
+	public function edit_ruangan_petugas()
+	{
+		$id_ruangan = trim($this->input->post('id_ruangan', true));
+		$id_petugas = trim($this->input->post('id_petugas', true));
+
+		if ($id_ruangan == '-') {
+			$this->ruangan_model->delete_ruangan_petugas($id_petugas);
+			set_toasts("Data ruangan petigas berhasil diupdate", 'success');
+			redirect('ruangan/ruangpetugas');
+		}
+
+		$is_exist = (bool)$this->db->get_where('ruangan_petugas', ['id_petugas' => $id_petugas])->row();
+
+		if ($is_exist) {
+			$data = ['id_ruangan' => $id_ruangan];
+			$this->ruangan_model->update_ruangan_petugas($data, $id_petugas);
+		} else {
+			$data = ['id_petugas' => $id_petugas, 'id_ruangan' => $id_ruangan];
+			$this->base_model->insert('ruangan_petugas', $data);
+		}
+
+		set_toasts("Data ruangan petigas berhasil diupdate", 'success');
+		redirect('ruangan/ruangpetugas');
 	}
 }

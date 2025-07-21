@@ -20,16 +20,11 @@ class Bankdarah extends CI_Controller
 		$this->_show($result_model);
 	}
 
-	// public function nonactive()
-	// {
-	// 	$result_model = $this->base_model->get_all($this->service_name, FALSE);
-	// 	$this->_show(FALSE, $result_model);
-	// }
-
 	private function _show(array $result_model)
 	{
+		$nama = $this->input->get('nama');
 		$data['title']        	= "Informasi Bank Darah";
-		$data['page_title']   	= "halaman informai Bank Darah";
+		$data['page_title']   	= "halaman informasi Bank Darah $nama";
 		$data['data_result']    = $result_model;
 		$this->load->view("bank_darah/index", $data);
 	}
@@ -37,7 +32,7 @@ class Bankdarah extends CI_Controller
 	public function detail()
 	{
 		$data['title']        	= "Informasi Bank Darah";
-		$data['page_title']   	= "halaman informai Detail Bank Darah";
+		$data['page_title']   	= "halaman informasi Detail Bank Darah";
 		$data['data_result']    = $this->bank_darah_model->get_detail_stok($this->service_name);
 		$data['total_darah']    = $this->bank_darah_model->get_total_darah($this->service_name);
 		$this->load->view("bank_darah/detail", $data);

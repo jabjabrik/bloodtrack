@@ -49,8 +49,8 @@
                                                     <td><?= $no ?></td>
                                                     <td><?= $item->no_kantong ?></td>
                                                     <td><?= "$item->jenis_darah | $item->golongan_darah" ?></td>
-                                                    <td><?= $item->harga_beli ?></td>
-                                                    <td><?= $item->harga_jual ?></td>
+                                                    <td>Rp.<?= number_format($item->harga_beli, 0, ',', '.'); ?></td>
+                                                    <td>Rp.<?= number_format($item->harga_jual, 0, ',', '.'); ?></td>
                                                     <td><?= $item->tanggal_terima  ?></td>
                                                     <td><?= $item->tanggal_kadaluarsa ?></td>
                                                     <td>

@@ -18,9 +18,25 @@
             <main class="content p-4 pb-0">
                 <div class="container-fluid p-0">
                     <h1 class="h3 mb-3"><i class="bi bi-person-vcard"></i> <span class="align-middle text-capitalize"><?= $page_title; ?></h1>
-                    <!-- BTN GROUP HEADER -->
-                    <?php $this->view('components/btn_group_header'); ?>
-                    <!-- End BTN GROUP HEADER -->
+                    <div class="btn-group btn-group-sm" role="group">
+                        <div class="btn-group btn-group-sm" role="group">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                                Daftar Menu
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="<?= base_url("$service_name"); ?>">
+                                        <span class="text-capitalize"><?= $service_name ?></span>
+                                        aktif
+                                    </a>
+                                    <a class="dropdown-item" href="<?= base_url("$service_name/nonactive"); ?>">
+                                        <span class="text-capitalize"><?= $service_name ?></span>
+                                        tidak aktif
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                     <a href="<?= base_url('ruangan/ruangpetugas'); ?>" class="btn btn-success btn-sm">
                         <i class="bi bi-receipt"></i> Ruangan Petugas
                     </a>
@@ -28,15 +44,17 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h5 class="card-title mb-0">Daftar Data <?= $service_name ?></h5>
+                                    <h5 class="card-title mb-0">Data Ruangan Petugas</h5>
                                 </div>
                                 <div class="card-body">
                                     <table id="datatables" class="table table-striped table-bordered text-capitalize" style="white-space: nowrap; font-size: 1em;">
                                         <thead>
                                             <tr>
-                                                <th>No</th>
+                                                <th class="no-sort">No</th>
+                                                <th class="no-sort">Kode Perawat</th>
+                                                <th class="no-sort">Nama Perawat</th>
                                                 <th class="no-sort">Kode Ruangan</th>
-                                                <th>Nama Ruangan</th>
+                                                <th class="no-sort">Nama Ruangan</th>
                                                 <th class="no-sort">Aksi</th>
                                             </tr>
                                         </thead>
@@ -45,13 +63,17 @@
                                             <?php foreach ($data_result as $item) : ?>
                                                 <tr>
                                                     <td><?= $no ?></td>
-                                                    <td><?= $item->kode_ruangan ?></td>
-                                                    <td><?= $item->nama_ruangan ?></td>
+                                                    <td><?= $item->kode_petugas ?></td>
+                                                    <td><?= $item->nama_petugas ?></td>
+                                                    <td><?= $item->kode_ruangan ?? '-' ?></td>
+                                                    <td><?= $item->nama_ruangan ?? '-' ?></td>
                                                     <td>
-                                                        <?php $params = "[`$item->id_ruangan`,`$item->kode_ruangan`, `$item->nama_ruangan`]"; ?>
-                                                        <!-- BTN GROUP TABLE -->
-                                                        <?php $this->view('components/btn_group_table', ['id' => $item->id_ruangan, 'params' => $params]); ?>
-                                                        <!-- End BTN GROUP TABLE -->
+                                                        <?php $params = "[`$item->id_petugas`,`$item->id_ruangan`]" ?>
+                                                        <div class="btn-group btn-group-sm" role="group">
+                                                            <button type="button" class="btn btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#modal_form" onclick="setForm('edit',<?= $params ?>)">
+                                                                <i class="bi bi-person-fill-gear"></i>
+                                                            </button>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                                 <?php $no++ ?>
@@ -64,32 +86,31 @@
                     </div>
                 </div>
             </main>
-
             <!-- Footer -->
             <?php $this->view('templates/footer'); ?>
             <!-- End Footer -->
         </div>
     </div>
 
-    <!-- Modal Form -->
     <div class="modal fade" id="modal_form" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered ">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5 text-capitalize" id="title_form"></h1>
+                    <h1 class="modal-title fs-5 text-capitalize">Form Ruangan Petugas</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" autocomplete="off" enctype="multipart/form-data">
+                <form method="POST" autocomplete="off" action="<?= base_url('ruangan/edit_ruangan_petugas') ?>">
                     <div class="modal-body">
                         <div class="row g-3">
-                            <input name="id_ruangan" id="id_ruangan" hidden>
+                            <input name="id_petugas" id="id_petugas" hidden>
                             <div class="form-group col-12">
-                                <label for="kode_ruangan" class="form-label">Kode Ruangan</label>
-                                <input type="text" name="kode_ruangan" id="kode_ruangan" class="form-control" readonly>
-                            </div>
-                            <div class="form-group col-12">
-                                <label for="nama_ruangan" class="form-label">Nama Ruangan</label>
-                                <input type="text" name="nama_ruangan" id="nama_ruangan" class="form-control" required>
+                                <label for="id_ruangan" class="form-label">Pilih Ruangan</label>
+                                <select class="form-select" id="id_ruangan" name="id_ruangan">
+                                    <option value="-">-</option>
+                                    <?php foreach ($ruangan as $item): ?>
+                                        <option value="<?= $item->id_ruangan ?>"><?= $item->nama_ruangan ?></option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -101,22 +122,24 @@
             </div>
         </div>
     </div>
-    <!-- End Modal Form -->
 
     <!-- Script Form -->
-    <?php $fields = ['id_ruangan', 'kode_ruangan', 'nama_ruangan']; ?>
-    <?php $this->view('components/script_form', ['fields' => $fields, 'service_name' => $service_name]); ?>
+    <script>
+        const modal_form = document.querySelector('#modal_form');
+
+        const setForm = (title, data) => {
+            const fields = ['id_petugas', 'id_ruangan'];
+            fields.forEach((e, i) => {
+                const element = modal_form.querySelector(`#${e}`);
+                element.value = data[i] || '-';
+            })
+        }
+    </script>
     <!-- End Script Form -->
 
     <!-- Script -->
     <?php $this->view('templates/script'); ?>
     <!-- End Script -->
-
-    <!-- Confirm Modal -->
-    <?php $type = !isset($is_active_page) ? 'delete' : ($is_active_page == 'active' ?  'active' : 'nonactive'); ?>
-    <?php $url = "$service_name/action_remove/" . (!isset($is_active_page) ? "delete" : ($is_active_page == 'active' ? "nonactive" : "active")) ?>
-    <?php $this->view('components/confirm_modal', ['type' => $type, 'url' => $url]); ?>
-    <!-- End Confirm Modal -->
 
     <!-- Toast Modal  -->
     <?php $this->view('templates/toasts'); ?>

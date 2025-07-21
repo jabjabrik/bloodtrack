@@ -3,7 +3,7 @@
 class Pelayanan_model extends CI_Model
 {
 
-    public function get_pelayanan(string $id_pasien, $tanggal = null): array
+    public function get_pelayanan(string $id_pasien, $user_data, $tanggal = null): array
     {
         $this->db->trans_begin();
         $query = "SELECT pelayanan.id_pelayanan, pelayanan.rekam_medis, pelayanan.diagnosa, pelayanan.tanggal_pelayanan, pelayanan.jumlah_darah,
@@ -11,10 +11,14 @@ class Pelayanan_model extends CI_Model
         FROM pelayanan
         JOIN pasien ON pelayanan.id_pasien = pasien.id_pasien
         JOIN ruangan ON pelayanan.id_ruangan = ruangan.id_ruangan
+        JOIN ruangan_petugas ON ruangan.id_ruangan = ruangan_petugas.id_ruangan
         JOIN dokter ON pelayanan.id_dokter = dokter.id_dokter
         WHERE pasien.id_pasien = $id_pasien";
         if ($tanggal) {
             $query .= " AND DATE(pelayanan.tanggal_pelayanan) = '" . $this->db->escape_str($tanggal) . "'";
+        }
+        if ($user_data['jabatan'] == 'perawat') {
+            $query .= " AND ruangan_petugas.id_petugas =" . $user_data['id_petugas'];
         }
         $query .= " ORDER BY pelayanan.id_pelayanan";
         $result = $this->db->query($query)->result();
@@ -159,7 +163,7 @@ class Pelayanan_model extends CI_Model
         }
     }
 
-    public function get_pelayanan_by_tanggal($tanggal): array
+    public function get_pelayanan_by_tanggal($tanggal, $user_data): array
     {
         $this->db->trans_begin();
         $query = "SELECT pelayanan.id_pelayanan, pelayanan.rekam_medis, pelayanan.diagnosa, pelayanan.tanggal_pelayanan, pelayanan.jumlah_darah,
@@ -167,8 +171,14 @@ class Pelayanan_model extends CI_Model
         FROM pelayanan
         JOIN pasien ON pelayanan.id_pasien = pasien.id_pasien
         JOIN ruangan ON pelayanan.id_ruangan = ruangan.id_ruangan
+        JOIN ruangan_petugas ON ruangan.id_ruangan = ruangan_petugas.id_ruangan
         JOIN dokter ON pelayanan.id_dokter = dokter.id_dokter
-        WHERE DATE(pelayanan.tanggal_pelayanan) = '" . $this->db->escape_str($tanggal) . "' ORDER BY pelayanan.id_pelayanan";
+        WHERE DATE(pelayanan.tanggal_pelayanan) = '" . $this->db->escape_str($tanggal) . "'";
+
+        if ($user_data['jabatan'] == 'perawat') {
+            $query .= " AND ruangan_petugas.id_petugas =" . $user_data['id_petugas'];
+        }
+
         $result = $this->db->query($query)->result();
         return $result;
     }

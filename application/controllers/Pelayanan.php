@@ -33,7 +33,8 @@ class Pelayanan extends CI_Controller
 		$data['title']        	= 'Pelayanan';
 		$data['pasien']         = $pasien[0];
 		$data['rekam_medis']    = 'RM-' . $this->base_model->generate_rm();
-		$data['data_result']    = $this->pelayanan_model->get_pelayanan($id_pasien);
+		$user_data = $this->session->all_userdata();
+		$data['data_result']    = $this->pelayanan_model->get_pelayanan($id_pasien, $user_data);
 		$data['dokter']           = $this->base_model->get_all('dokter', true);
 		$data['ruangan']           = $this->base_model->get_all('ruangan', true);
 		$data['id_pasien']   	= $id_pasien;
@@ -215,11 +216,11 @@ class Pelayanan extends CI_Controller
 		$id_pasien = $this->input->get('id_pasien');
 		$tanggal = $this->input->get('tanggal');
 
-		// Jika hanya tanggal yang diberikan (tanpa id_pasien), tampilkan semua pelayanan pada tanggal tsb
+		$user_data = $this->session->all_userdata();
 		if ($id_pasien === null && $tanggal !== null) {
-			$data['data_result'] = $this->pelayanan_model->get_pelayanan_by_tanggal($tanggal);
+			$data['data_result'] = $this->pelayanan_model->get_pelayanan_by_tanggal($tanggal, $user_data);
 		} else if ($id_pasien !== null) {
-			$data['data_result'] = $this->pelayanan_model->get_pelayanan($id_pasien, $tanggal);
+			$data['data_result'] = $this->pelayanan_model->get_pelayanan($id_pasien, $user_data, $tanggal);
 		} else {
 			show_404();
 		}
