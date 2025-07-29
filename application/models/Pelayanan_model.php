@@ -2,20 +2,30 @@
 
 class Pelayanan_model extends CI_Model
 {
-
-    public function get_pelayanan(string $id_pasien, $user_data, $tanggal = null): array
+    public function get_ruangan($user_data): array
     {
-        $this->db->trans_begin();
-        $query = "SELECT pelayanan.id_pelayanan, pelayanan.rekam_medis, pelayanan.diagnosa, pelayanan.tanggal_pelayanan, pelayanan.jumlah_darah,
-        dokter.nama_dokter, ruangan.nama_ruangan, pasien.golongan_darah
+        $query = "SELECT ruangan.*
+        FROM ruangan
+        JOIN ruangan_petugas ON ruangan.id_ruangan = ruangan_petugas.id_ruangan
+        WHERE 1=1";
+        if ($user_data['jabatan'] == 'perawat') {
+            $query .= " AND ruangan_petugas.id_petugas =" . $user_data['id_petugas'];
+        }
+        return $this->db->query($query)->result();
+    }
+
+    public function get_pelayanan(string $id_ruangan, $user_data, $tanggal = null): array
+    {
+        $query = "SELECT pelayanan.*, dokter.*, ruangan.*, pasien.*
         FROM pelayanan
         JOIN pasien ON pelayanan.id_pasien = pasien.id_pasien
         JOIN ruangan ON pelayanan.id_ruangan = ruangan.id_ruangan
         JOIN ruangan_petugas ON ruangan.id_ruangan = ruangan_petugas.id_ruangan
         JOIN dokter ON pelayanan.id_dokter = dokter.id_dokter
-        WHERE pasien.id_pasien = $id_pasien";
+        WHERE ruangan.id_ruangan = $id_ruangan";
+
         if ($tanggal) {
-            $query .= " AND DATE(pelayanan.tanggal_pelayanan) = '" . $this->db->escape_str($tanggal) . "'";
+            $query .= " AND DATE(pelayanan.tanggal_pelayanan) = '$tanggal'";
         }
         if ($user_data['jabatan'] == 'perawat') {
             $query .= " AND ruangan_petugas.id_petugas =" . $user_data['id_petugas'];

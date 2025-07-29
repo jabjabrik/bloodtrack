@@ -17,48 +17,34 @@
             <!-- End TopBar -->
             <main class="content p-4 pb-0">
                 <div class="container-fluid p-0">
-                    <h1 class="h3 mb-3"><i class="bi bi-person-vcard"></i> <span class="align-middle">Halaman Pelayanan Pada <span class="fw-bold text-capitalize"><?= $ruangan->nama_ruangan ?></span></h1>
+                    <h1 class="h3 mb-3"><i class="bi bi-person-vcard"></i> <span class="align-middle">Halaman Pelayanan Pasien</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="<?= base_url('pelayanan'); ?>">Daftar Ruangan</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Pelayanan</li>
+                            <li class="breadcrumb-item active" aria-current="page">Daftar Pasien</li>
                         </ol>
                     </nav>
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <?php if ($jabatan == 'perawat'): ?>
-                                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal_form" onclick="setForm('tambah')">
-                                            <i class="bi bi-plus-circle"></i> Tambah
-                                        </button>
-                                    <?php endif; ?>
-                                    <div class="btn-group btn-group-sm" role="group">
-                                        <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="bi bi-file-earmark-bar-graph"></i>
-                                            Cetak Laporan
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" target="_blank" href="<?= base_url("pelayanan/report?id_ruangan=$id_ruangan"); ?>">Semua Data</a></li>
-                                            <li>
-                                                <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal_cetak_laporan">
-                                                    Harian
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    <h5 class="card-title mb-0">Daftar Data Pasien</h5>
                                 </div>
                                 <div class="card-body">
+                                    <div class="mb-3">
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal_cetak_laporan">
+                                            <i class="bi bi-file-earmark-bar-graph"></i> Cetak Laporan Pelayanan
+                                        </button>
+                                    </div>
                                     <table id="datatables" class="table table-striped table-bordered text-capitalize" style="white-space: nowrap; font-size: 1em;">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>RM</th>
-                                                <th>Pasien</th>
-                                                <th>Dokter</th>
-                                                <th>Diagnosa</th>
-                                                <th>Jumlah Darah</th>
-                                                <th>Tanggal</th>
+                                                <th>Kode Pasien</th>
+                                                <th class="no-sort">NIK</th>
+                                                <th>Nama Pasien</th>
+                                                <th>Jenis Kelamin</th>
+                                                <th>Tanggal Lahir</th>
+                                                <th>Umur</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
@@ -67,21 +53,17 @@
                                             <?php foreach ($data_result as $item) : ?>
                                                 <tr>
                                                     <td><?= $no ?></td>
-                                                    <td><?= $item->rekam_medis ?></td>
+                                                    <td><?= $item->kode_pasien ?></td>
+                                                    <td><?= $item->nik ?></td>
                                                     <td><?= $item->nama_pasien ?></td>
-                                                    <td><?= $item->nama_dokter ?></td>
-                                                    <td><?= $item->diagnosa ?></td>
-                                                    <td><?= $item->jumlah_darah ?></td>
-                                                    <td><?= $item->tanggal_pelayanan ?></td>
+                                                    <td><?= $item->jenis_kelamin ?></td>
+                                                    <td><?= date('d-m-Y', strtotime($item->tanggal_lahir)) ?></td>
+                                                    <td><?= calculateAge($item->tanggal_lahir) ?> Tahun</td>
                                                     <td>
-                                                        <?php if ($jabatan == 'admin'): ?>
-                                                            <a href="<?= base_url("pelayanan/crossmatch/$item->id_pelayanan"); ?>" class="btn btn-sm btn-primary">Crossmatch <i class="bi bi-arrow-right-circle"></i></a>
-                                                        <?php endif; ?>
-                                                        <?php if ($jabatan == 'perawat'): ?>
-                                                            <button id="btn_delete_nonactive" type="button" class="btn btn-outline-danger btn-sm" data-id="<?= $item->id_pelayanan ?>" data-bs-toggle="modal" data-bs-target="#confirm_modal">
-                                                                <i class="bi bi-trash" data-bs-toggle="tooltip" data-bs-title="Hapus data"></i>
-                                                            </button>
-                                                        <?php endif; ?>
+                                                        <a href="<?= base_url("pelayanan/pelayanan/$item->id_pasien"); ?>" class="btn btn-sm btn-primary">
+                                                            Lihat RM
+                                                            <i class="bi bi-arrow-right-circle"></i>
+                                                        </a>
                                                     </td>
                                                 </tr>
                                                 <?php $no++ ?>
@@ -109,39 +91,40 @@
                     <h1 class="modal-title fs-5 text-capitalize" id="title_form">Form Pelayanan</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" autocomplete="off" action="<?= base_url('pelayanan/pelayanan_insert'); ?>">
+                <form method="POST" autocomplete="off" enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="row g-3">
-                            <input name="id_ruangan" id="id_ruangan" hidden value="<?= $ruangan->id_ruangan ?>">
+                            <input name="id_pasien" id="id_pasien" hidden>
                             <div class="form-group col-6">
-                                <label for="rekam_medis" class="form-label">Rekam Medis</label>
-                                <input type="text" name="rekam_medis" id="rekam_medis" class="form-control" readonly value="<?= $rekam_medis ?>">
-                            </div>
-                            <div class="form-group col-6">
-                                <label for="id_dokter" class="form-label">Dokter</label>
-                                <select class="form-select" name="id_dokter" id="id_dokter" required>
-                                    <option selected value="">-</option>
-                                    <?php foreach ($dokter as $item): ?>
-                                        <option value="<?= $item->id_dokter ?>"><?= $item->nama_dokter ?></option>
-                                    <?php endforeach; ?>
-                                </select>
+                                <label for="kode_pelayanan" class="form-label">Kode Pelayanan</label>
+                                <input type="text" name="kode_pelayanan" id="kode_pelayanan" class="form-control" readonly value="<?= $kode_pelayanan ?>">
                             </div>
                             <div class="form-group col-6">
                                 <label for="id_pasien" class="form-label">Pasien</label>
                                 <select class="form-select" name="id_pasien" id="id_pasien" required>
-                                    <option selected value="">-</option>
+                                    <option selected>-</option>
                                     <?php foreach ($pasien as $item): ?>
-                                        <option value="<?= $item->id_pasien ?>"><?= $item->nama_pasien ?></option>
+                                        <option value="<?= $item->id_pasien ?>"><?= "$item->rekam_medis | $item->nama_pasien" ?> </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
                             <div class="form-group col-6">
-                                <label for="diagnosa" class="form-label">Diagnosa</label>
-                                <input type="text" name="diagnosa" id="diagnosa" class="form-control" required>
+                                <label for="id_dokter" class="form-label">Dokter</label>
+                                <select class="form-select" name="id_dokter" id="id_dokter" required>
+                                    <option selected>-</option>
+                                    <?php foreach ($dokter as $item): ?>
+                                        <option value="<?= $item->id_dokter ?>"><?= "$item->kode_dokter | $item->nama_dokter" ?> </option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
                             <div class="form-group col-6">
-                                <label for="jumlah_darah" class="form-label">Jumlah Darah</label>
-                                <input type="number" name="jumlah_darah" id="jumlah_darah" class="form-control" required>
+                                <label for="id_ruangan" class="form-label">Ruangan</label>
+                                <select class="form-select" name="id_ruangan" id="id_ruangan" required>
+                                    <option selected>-</option>
+                                    <?php foreach ($ruangan as $item): ?>
+                                        <option value="<?= $item->id_ruangan ?>"><?= "$item->kode_ruangan | $item->nama_ruangan" ?> </option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
                             <div class="form-group col-6">
                                 <label for="tanggal_pelayanan" class="form-label">Tanggal Pelayanan</label>
@@ -169,7 +152,6 @@
                 </div>
                 <form method="GET" action="<?= base_url('pelayanan/report'); ?>" target="_blank">
                     <div class="modal-body">
-                        <input name="id_ruangan" value="<?= $ruangan->id_ruangan ?>" hidden>
                         <div class="mb-3">
                             <label for="tanggal" class="form-label">Pilih Tanggal</label>
                             <input type="date" class="form-control" id="tanggal" name="tanggal" required>
@@ -188,10 +170,6 @@
     <!-- Script -->
     <?php $this->view('templates/script'); ?>
     <!-- End Script -->
-
-    <!-- Delete Nonactive Modal -->
-    <?php $this->view('components/confirm_modal', ['type' => 'delete', 'url' => 'pelayanan/pelayanan_delete/']); ?>
-    <!-- End Delete Nonactive Modal -->
 
 
     <!-- Toast Modal  -->

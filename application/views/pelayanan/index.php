@@ -17,34 +17,25 @@
             <!-- End TopBar -->
             <main class="content p-4 pb-0">
                 <div class="container-fluid p-0">
-                    <h1 class="h3 mb-3"><i class="bi bi-person-vcard"></i> <span class="align-middle">Halaman Pelayanan Pasien</h1>
+                    <h1 class="h3 mb-3"><i class="bi bi-person-vcard"></i> <span class="align-middle">Halaman Permintaan</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item active" aria-current="page">Daftar Pasien</li>
+                            <li class="breadcrumb-item active" aria-current="page">Daftar Ruangan</li>
                         </ol>
                     </nav>
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h5 class="card-title mb-0">Daftar Data Pasien</h5>
+                                    <h5 class="card-title mb-0">Daftar Data Ruangan</h5>
                                 </div>
                                 <div class="card-body">
-                                    <div class="mb-3">
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal_cetak_laporan">
-                                            <i class="bi bi-file-earmark-bar-graph"></i> Cetak Laporan Pelayanan
-                                        </button>
-                                    </div>
                                     <table id="datatables" class="table table-striped table-bordered text-capitalize" style="white-space: nowrap; font-size: 1em;">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Kode Pasien</th>
-                                                <th class="no-sort">NIK</th>
-                                                <th>Nama Pasien</th>
-                                                <th>Jenis Kelamin</th>
-                                                <th>Tanggal Lahir</th>
-                                                <th>Umur</th>
+                                                <th>Kode Ruangan</th>
+                                                <th>Nama Ruangan</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
@@ -53,15 +44,11 @@
                                             <?php foreach ($data_result as $item) : ?>
                                                 <tr>
                                                     <td><?= $no ?></td>
-                                                    <td><?= $item->kode_pasien ?></td>
-                                                    <td><?= $item->nik ?></td>
-                                                    <td><?= $item->nama_pasien ?></td>
-                                                    <td><?= $item->jenis_kelamin ?></td>
-                                                    <td><?= date('d-m-Y', strtotime($item->tanggal_lahir)) ?></td>
-                                                    <td><?= calculateAge($item->tanggal_lahir) ?> Tahun</td>
+                                                    <td><?= $item->kode_ruangan ?></td>
+                                                    <td><?= $item->nama_ruangan ?></td>
                                                     <td>
-                                                        <a href="<?= base_url("pelayanan/pelayanan/$item->id_pasien"); ?>" class="btn btn-sm btn-primary">
-                                                            Lihat RM
+                                                        <a href="<?= base_url("pelayanan/pelayanan/$item->id_ruangan"); ?>" class="btn btn-sm btn-primary">
+                                                            Detail
                                                             <i class="bi bi-arrow-right-circle"></i>
                                                         </a>
                                                     </td>

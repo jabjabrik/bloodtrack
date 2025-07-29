@@ -50,6 +50,7 @@
             <tr>
                 <th>No</th>
                 <th>Rekam Medis</th>
+                <th>Nama Pasien</th>
                 <th>Dokter</th>
                 <th>Ruangan</th>
                 <th>Diagnosa</th>
@@ -66,6 +67,7 @@
                     <tr>
                         <td><?= $no++; ?></td>
                         <td><?= $item->rekam_medis ?></td>
+                        <td><?= $item->nama_pasien ?></td>
                         <td><?= $item->nama_dokter ?></td>
                         <td><?= $item->nama_ruangan ?></td>
                         <td><?= $item->diagnosa ?></td>

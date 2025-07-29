@@ -17,44 +17,39 @@ class Pelayanan extends CI_Controller
 
 	public function index()
 	{
-		$data['title']        	= 'Pelayanan';
-		$data['data_result']    = $this->base_model->get_all('pasien', TRUE);
+		$data['title'] = 'Pelayanan';
+		$user_data = $this->session->all_userdata();
+		$data['data_result']    = $this->pelayanan_model->get_ruangan($user_data);
 		$this->load->view("pelayanan/index", $data);
 	}
 
-	public function pelayanan($id_pasien = null)
+	public function pelayanan($id_ruangan = null)
 	{
-		if (is_null($id_pasien)) show_404();
+		if (is_null($id_ruangan)) show_404();
+		$ruangan = $this->db->get_where('ruangan', ['id_ruangan' => $id_ruangan])->row();
+		if (empty($ruangan)) show_404();
 
-		$pasien = $this->base_model->get_data_by('pasien', 'id_pasien', $id_pasien);
-
-		if (empty($pasien)) show_404();
-
-		$data['title']        	= 'Pelayanan';
-		$data['pasien']         = $pasien[0];
-		$data['rekam_medis']    = 'RM-' . $this->base_model->generate_rm();
+		$data['title'] = 'Pelayanan';
+		$data['ruangan'] = $ruangan;
+		$data['rekam_medis'] = 'RM-' . $this->base_model->generate_rm();
 		$user_data = $this->session->all_userdata();
-		$data['data_result']    = $this->pelayanan_model->get_pelayanan($id_pasien, $user_data);
-		$data['dokter']           = $this->base_model->get_all('dokter', true);
-		$data['ruangan']           = $this->base_model->get_all('ruangan', true);
-		$data['id_pasien']   	= $id_pasien;
+		$data['data_result'] = $this->pelayanan_model->get_pelayanan($id_ruangan, $user_data);
+		$data['dokter'] = $this->base_model->get_all('dokter', true);
+		$data['pasien'] = $this->base_model->get_all('pasien', true);
+		$data['id_ruangan'] = $id_ruangan;
 		$data['jabatan'] = $this->session->userdata('jabatan');
-
-
 		$this->load->view("pelayanan/pelayanan", $data);
 	}
 
 	public function pelayanan_insert()
 	{
-		if ($this->input->server('REQUEST_METHOD') !== 'POST') {
-			redirect($this->service_name, 'refresh');
-		}
-		$id_pasien = trim($this->input->post('id_pasien', true));
+		if ($this->input->server('REQUEST_METHOD') !== 'POST') redirect($this->service_name);
 
+		$id_ruangan = trim($this->input->post('id_ruangan', true));
 		$data = [
 			'rekam_medis' => trim($this->input->post('rekam_medis', true)),
-			'id_pasien' => $id_pasien,
-			'id_ruangan' => trim($this->input->post('id_ruangan', true)),
+			'id_ruangan' => $id_ruangan,
+			'id_pasien' => trim($this->input->post('id_pasien', true)),
 			'id_dokter' => trim($this->input->post('id_dokter', true)),
 			'diagnosa' => trim($this->input->post('diagnosa', true)),
 			'jumlah_darah' => trim($this->input->post('jumlah_darah', true)),
@@ -63,8 +58,7 @@ class Pelayanan extends CI_Controller
 
 		$this->base_model->insert($this->service_name, $data);
 		set_toasts("Data $this->service_name berhasil disimpan.", 'success');
-
-		redirect("$this->service_name/pelayanan/$id_pasien", 'refresh');
+		redirect("$this->service_name/pelayanan/$id_ruangan", 'refresh');
 	}
 
 	public function pelayanan_delete($id_pelayanan = null)
@@ -73,7 +67,7 @@ class Pelayanan extends CI_Controller
 			show_404();
 		}
 
-		$id_pasien = $this->base_model->get_data_by($this->service_name, 'id_pelayanan', $id_pelayanan)[0]->id_pasien;
+		$id_ruangan = $this->base_model->get_data_by($this->service_name, 'id_pelayanan', $id_pelayanan)[0]->id_ruangan;
 
 		$is_exist_crossmatch = !empty($this->base_model->get_data_by('crossmatch', 'id_pelayanan', $id_pelayanan));
 
@@ -89,8 +83,7 @@ class Pelayanan extends CI_Controller
 		}
 
 		set_toasts($msg, $color);
-
-		redirect("$this->service_name/pelayanan/$id_pasien", 'refresh');
+		redirect("$this->service_name/pelayanan/$id_ruangan", 'refresh');
 	}
 
 	public function crossmatch($id_pelayanan = null)
@@ -179,51 +172,13 @@ class Pelayanan extends CI_Controller
 		redirect("$this->service_name/crossmatch/$id_pelayanan", 'refresh');
 	}
 
-	public function edit()
-	{
-		if ($this->input->server('REQUEST_METHOD') !== 'POST') {
-			redirect($this->service_name, 'refresh');
-		}
-
-		$id = $this->input->post('id_pelayanan');
-		$nik = trim($this->input->post('nik'));
-
-		$data = [
-			'rekam_medis' => trim($this->input->post('rekam_medis')),
-			'nik' => $nik,
-			'nama_pelayanan' => trim($this->input->post('nama_pelayanan')),
-			'jenis_kelamin' => $this->input->post('jenis_kelamin'),
-			'tanggal_lahir' => $this->input->post('tanggal_lahir'),
-			'no_telepon' => trim($this->input->post('no_telepon')),
-			'alamat' => str_replace("\n", "\\n", trim($this->input->post('alamat'))),
-		];
-
-		$is_exist_nik = count($this->base_model->get_data_by($this->service_name, 'nik', $nik)) > 0;
-		$is_current_nik = $this->base_model->get_data_by($this->service_name, "id_$this->service_name", $id)[0]->nik == $nik;
-
-		if ($is_exist_nik && !$is_current_nik) {
-			set_toasts("NIK dengan nilai ($nik) telah digunakan.", 'danger');
-			redirect($this->service_name, 'refresh');
-		}
-
-		$this->base_model->update($this->service_name, $data, $id);
-		set_toasts("Data $this->service_name berhasil diedit.", 'success');
-		redirect($this->service_name, 'refresh');
-	}
-
 	public function report()
 	{
-		$id_pasien = $this->input->get('id_pasien');
-		$tanggal = $this->input->get('tanggal');
-
+		$id_ruangan = $this->input->get('id_ruangan');
+		$tanggal = $this->input->get('tanggal') ?? NULL;
 		$user_data = $this->session->all_userdata();
-		if ($id_pasien === null && $tanggal !== null) {
-			$data['data_result'] = $this->pelayanan_model->get_pelayanan_by_tanggal($tanggal, $user_data);
-		} else if ($id_pasien !== null) {
-			$data['data_result'] = $this->pelayanan_model->get_pelayanan($id_pasien, $user_data, $tanggal);
-		} else {
-			show_404();
-		}
+		$data['data_result'] = $this->pelayanan_model->get_pelayanan($id_ruangan, $user_data, $tanggal);
+
 		$html = $this->load->view('pelayanan/report', $data, TRUE);
 		$this->dompdf_lib->loadHtml($html);
 		$this->dompdf_lib->setPaper('A4', 'landscape');
